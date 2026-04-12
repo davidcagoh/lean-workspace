@@ -1,0 +1,12 @@
+# Lean proof projects — each has its own git repo
+jepa-learning-order/
+simplicial-latent-geometry/
+stochastic-search-bounds/
+
+# Shared Mathlib/Lake package cache — large, not tracked
+.lean-packages/
+
+# macOS
+.DS_Store
+**/.DS_Store
+__pycache__/
