@@ -28,15 +28,15 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | 2 (`bootstrap_consistency` + `frozen_encoder_convergence`) | Aristotle job `315fff00` queued for `frozen_encoder_convergence`. `bootstrap_consistency` is long-term open. |
-| `stochastic-search-bounds` | **0** ✅ | All 4 AND-OR hypertree theorems proved. Renamed from `theorem-agents`. |
-| `simplicial-latent-geometry` | 13 | matchRadius definition fixed. New sorries = asymptotic chain with PROVIDED SOLUTIONs. Aristotle submission pending (OQ-3). |
+| `jepa-learning-order` | 2 (`bootstrap_consistency` + `frozen_encoder_convergence`) | Aristotle job `f9906716` queued (non-existential reformulation). Check status next session. |
+| `stochastic-search-bounds` | **0** ✅ | Focus project. Two submission blockers: .bib file + LaTeX conversion. |
+| `simplicial-latent-geometry` | 13 | Option A chosen. OQ-6 (forward-ref) NOT yet fixed. Aristotle NOT yet submitted. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **jepa:** Wait for Aristotle job `315fff00` (`frozen_encoder_convergence`) — then cherry-pick, resolve temporal re-indexing gap, wire into `JEPA_rho_ordering` (OQ-5)
-2. **jepa:** Update paper abstract once `frozen_encoder_convergence` lands — then submit
-3. **simplicial:** Decide Option A (fix `matchRadius` → full result) vs Option B (ship variance-bound result now) — see OQ-3
-4. **simplicial:** Fix forward-ref for `volumeFill_div_le_one'` (move proof block earlier in file) — see OQ-6
-5. **stochastic-search-bounds:** Update GitHub description to reflect meta-narrative
+1. **simplicial OQ-6:** Fix forward-ref — move `incBeta_*` + `volumeFill_div_volumeEmpty_le_one_ge2` block before line 2296 in `SimplicialDetection.lean`, then `lake build`
+2. **simplicial:** Submit Aristotle job for matchRadius chain (OQ-3) — use `my_theorems/proof_strategy.md` and prompt from OQ-3
+3. **stochastic:** Create `references.bib` from 23 prose citations in `paper_draft.md` lines 430–467
+4. **stochastic:** Convert `paper_draft.md` → `paper_draft.tex` with preamble + `\bibliography{references}`
+5. **jepa:** Check `f9906716` status — if complete, cherry-pick + wire into `JEPA_rho_ordering` (OQ-5)

@@ -4,6 +4,49 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-12 (session 2) — workspace cleanup, naming conventions, stochastic submission audit
+
+### What was done
+
+**Workspace reorganisation:**
+- `papers/` directory removed. All manuscript content migrated into each lean project's `my_theorems/`:
+  - JEPA: `papers/stage2/JEPA_Manuscript_v2.md` → `jepa-learning-order/my_theorems/paper_draft.md` (767L, "Conditional" title — this version was AHEAD of the old project copy)
+  - Stochastic: `Manuscript_v6.md` + Citation-Role-Matrix, Literature-Framing-Memo, Residual-Risk-Note → `stochastic-search-bounds/my_theorems/`
+  - Simplicial papers dir was empty — deleted
+- **Naming convention standardised** across all three projects: canonical paper = `my_theorems/paper_draft.md`; simplicial also has `my_theorems/proof_strategy.md` (the active proof strategy doc, 481L)
+- `lean-workspace` meta-repo created: `git init lean-projects/`, pushed to `davidcagoh/lean-workspace` (private). Tracks `wiki/`, `scripts/`, `stochastic-proofs-handbook/`, `CLAUDE.md`. The three proof project subdirs are .gitignored.
+
+**Simplicial — Option A chosen:**
+- Decision: Option A (fix `matchRadius` → full result, not ship-early with variance bound)
+- OQ-6 fix (forward-ref for `volumeFill_div_le_one'`) attempted via subagent — agent hit token limit. **OQ-6 NOT yet fixed.** Must be first task next session.
+- Aristotle submission for matchRadius chain (OQ-3) **NOT yet submitted** — blocked on OQ-6 fix first.
+
+**Stochastic — submission readiness audit completed:**
+- README matches actual layout ✅
+- `lean-toolchain` pinned to v4.28.0 ✅
+- `lakefile.toml` pins Mathlib v4.28.0 ✅
+- Aristotle arXiv ID `2510.01346` present (3×) ✅
+- **MISSING — .bib file:** 23 prose citations in `paper_draft.md` lines 430–467 need BibTeX conversion (submission blocker)
+- **MISSING — LaTeX:** no .tex file exists; full Markdown→LaTeX conversion needed (submission blocker)
+- Stage 4 items still in draft: "complexity theory" framing (line 21, decide soften vs retain); §5.1 ceiling/monotonicity ambiguity (line 353, clarify); Theorem 4 novelty claim (defensible as-is)
+
+### State at end of session
+
+**jepa-learning-order:** 2 sorries. Aristotle job `f9906716` (frozen_encoder_convergence, non-existential reformulation) was QUEUED as of last session — status unknown, check next session.
+
+**simplicial-latent-geometry:** 13 sorries. OQ-6 NOT fixed. Aristotle job NOT submitted. Next session: fix OQ-6 first, then submit Aristotle job for matchRadius chain.
+
+**stochastic-search-bounds:** 0 sorries. Focus project. Two submission blockers: .bib file + LaTeX conversion.
+
+### What to do next session (priority order)
+1. **simplicial OQ-6:** Move `incBeta_*` + `volumeFill_div_volumeEmpty_le_one_ge2` block to before line 2296 in `SimplicialDetection.lean` so `volumeFill_div_le_one'` can reference it. Then `lake build` to verify.
+2. **simplicial Aristotle submit:** After OQ-6 fixed, submit matchRadius chain. Run `python scripts/submit.py my_theorems/proof_strategy.md "<prompt>" --dry-run` then for real. Prompt from OQ-3.
+3. **stochastic .bib:** Convert 23 citations in `my_theorems/paper_draft.md` lines 430–467 to `references.bib` using author-year keys.
+4. **stochastic LaTeX:** Convert `paper_draft.md` to `paper_draft.tex` with proper preamble + `\bibliography{references}`.
+5. **jepa:** Check Aristotle job `f9906716` status. If complete, cherry-pick and wire (OQ-5).
+
+---
+
 ## 2026-04-12 (session 1) — vacuous-proof fix, matchRadius definition fix, wiki knowledge absorption
 
 ### What was done
