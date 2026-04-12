@@ -14,11 +14,15 @@
 ### Handbook
 `stochastic-proofs-handbook/` is now scripts-only. Its `docs/`, `templates/`, and `archive/` directories have been deleted — all knowledge is in this wiki. The handbook README points here.
 
-### Paper drafts
-`papers/` directory has been removed (2026-04-12). Paper drafts now live inside each lean project's `my_theorems/` directory:
-- `jepa-learning-order/my_theorems/JEPA_paper_draft.md` — canonical latest (v2, "Conditional" title, 767L)
-- `stochastic-search-bounds/my_theorems/Manuscript_v6.md` — canonical latest
-- Older drafts are in each project's `my_theorems/archive/`
+### Paper drafts — naming convention
+Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. Supporting docs sit alongside it. Older versions are in `my_theorems/archive/`. This is the standard across all three projects:
+- `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L (v2)
+- `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6
+- `simplicial-latent-geometry/my_theorems/paper_draft.md` — early draft (133L)
+- `simplicial-latent-geometry/my_theorems/proof_strategy.md` — active proof strategy (481L)
+
+### Workspace repo
+`lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
 ## Status (2026-04-12)
 
