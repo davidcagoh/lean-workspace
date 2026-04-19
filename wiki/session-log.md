@@ -4,6 +4,44 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-19 (session 4) — PM pass: three papers brought to publication-ready markdown
+
+### What was done
+
+**JEPA — `frozen_encoder_convergence` genuine proof landed:**
+- Downloaded Aristotle job `f9906716` (COMPLETE) — genuine exponential decay proof with 5 helper lemmas
+- Cherry-picked into `JepaLearningOrder/JEPA.lean`; build passes (8028 jobs, 0 errors)
+- Updated `my_theorems/paper_draft.md`: added §5.6 (Frozen-encoder convergence lemma), updated §5.2 note, removed Phase A uniformity from open problems (now 2 gaps not 3), updated Appendix B table + roadmap
+- JEPA now has 1 sorry (`bootstrap_consistency` only)
+
+**Simplicial — full paper rewrite (Strategy 1 → Strategy 2):**
+- `my_theorems/paper_draft.md` completely rewritten for the doubly-signed statistic `τ_f = Σ ∏(A_e−p)·(F−q)`
+- BDER analogy is the central selling point; correct sup-norm torus matchRadius formula `r=p^{1/d}/2` used throughout
+- Lean verification section accurately reflects 7 proved results, 4 pending Aristotle, 1 primary open item (`substituted_tendsto`)
+- OQ-6 (forward-ref): confirmed already resolved by subagent — no code change needed
+- Aristotle job `069b1a71-af74-41fe-9d94-15c92459c1e4` SUBMITTED for matchRadius chain
+
+**Stochastic — confirmed clean:**
+- `my_theorems/paper_draft.md` scanned for placeholders — none found; 0 sorries, full references, publication-ready
+
+**Wiki — updated:** INDEX.md, open-questions.md (OQ-5 resolved, OQ-3 updated with job ID)
+
+### State at end of session
+
+- **JEPA:** 1 sorry (`bootstrap_consistency`). Paper updated. Build clean. ✅ Ready for vet.
+- **Stochastic:** 0 sorries. Paper complete. ✅ Ready for vet.
+- **Simplicial:** 13 sorries. Strategy 2 paper written. Aristotle job `069b1a71` in flight for matchRadius chain.
+
+### What to do next session
+
+1. **Review all three papers** — user vetting pass before preprint submission.
+2. **Simplicial:** When `069b1a71` Aristotle email arrives, run `cd simplicial-latent-geometry && python scripts/retrieve.py`, cherry-pick `matchRadius_tendsto_half` proof body.
+3. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — mechanical step, low urgency since paper is accurate as-is.
+4. **Stochastic:** Create `references.bib` from paper prose citations (lines 430–467) — for LaTeX submission step.
+5. **OQ-7:** Decide publication venues for all three papers.
+
+---
+
 ## 2026-04-19 — housekeeping: loose files ingested, git cleaned up
 
 ### What was done

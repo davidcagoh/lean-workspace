@@ -24,19 +24,19 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-19)
+## Status (2026-04-19 — session 3)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | 2 (`bootstrap_consistency` + `frozen_encoder_convergence`) | Aristotle job `f9906716` queued (non-existential reformulation). Check status next session. |
-| `stochastic-search-bounds` | **0** ✅ | Focus project. Two submission blockers: .bib file + LaTeX conversion. |
-| `simplicial-latent-geometry` | 13 | Option A chosen. OQ-6 (forward-ref) NOT yet fixed. Aristotle NOT yet submitted. |
+| `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | `frozen_encoder_convergence` proved genuinely (Aristotle `f9906716`, 5 helpers, cherry-picked). Paper updated. |
+| `stochastic-search-bounds` | **0** ✅ | Paper complete. `.bib` and LaTeX conversion pending (post-vet). |
+| `simplicial-latent-geometry` | 13 | Paper rewritten (Strategy 2). OQ-6 resolved (already fixed). Aristotle job `069b1a71` submitted (matchRadius chain). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **simplicial OQ-6:** Fix forward-ref — move `incBeta_*` + `volumeFill_div_volumeEmpty_le_one_ge2` block before line 2296 in `SimplicialDetection.lean`, then `lake build`
-2. **simplicial:** Submit Aristotle job for matchRadius chain (OQ-3) — use `my_theorems/proof_strategy.md` and prompt from OQ-3
-3. **stochastic:** Create `references.bib` from 23 prose citations in `paper_draft.md` lines 430–467
-4. **stochastic:** Convert `paper_draft.md` → `paper_draft.tex` with preamble + `\bibliography{references}`
-5. **jepa:** Check `f9906716` status — if complete, cherry-pick + wire into `JEPA_rho_ordering` (OQ-5)
+1. **Vet all three papers** — user review of three markdowns before preprint submission.
+2. **simplicial:** When `069b1a71` Aristotle email arrives, cherry-pick `matchRadius_tendsto_half` into `SimplicialDetection.lean`.
+3. **jepa:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — mechanical, low urgency.
+4. **stochastic:** Create `references.bib` from paper lines 430–467 (for LaTeX step, after vet).
+5. **OQ-7:** Decide venue targets for all three papers.

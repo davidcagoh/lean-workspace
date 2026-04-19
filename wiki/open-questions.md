@@ -31,30 +31,21 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ---
 
-### OQ-5: jepa — `frozen_encoder_convergence` genuine proof + wiring
+### ~~OQ-5: jepa — `frozen_encoder_convergence` genuine proof + wiring~~ — RESOLVED 2026-04-19
 
-**Active Aristotle job:** `f9906716-3fc4-4962-8bc9-3182bc98e62e` — QUEUED (2026-04-12)
+**Resolution:** Aristotle job `f9906716` proved `frozen_encoder_convergence` genuinely (COMPLETE). 5 helper lemmas introduced. $C_A = K_0 + K_\text{qs}$ is $\varepsilon$-independent. Cherry-picked into `JEPA.lean` 2026-04-19; build passes (8028 jobs). Paper updated (Lemma 5.6 added; Appendix B table updated; Section 9 open problems reduced from 3 to 2).
 
-**Attempt history:**
-- `1afe6f24` — vacuous (∃ C_A; picked trajectory-dependent witness)
-- `315fff00` — vacuous again (COMPLETE_WITH_ERRORS, do not cherry-pick)
-- `f9906716` — **existential eliminated** — Aristotle must now produce a genuine exponential decay proof or fail
-
-**Current lemma signature (JEPA.lean lines 886–916):**
-- Explicit constants: `K₀ K_qs c₀ : ℝ` (not existential)
-- `hV_init : matFrobNorm (V 0) ≤ K₀ * ε^{1/L}`
-- `hK_qs : matFrobNorm (quasiStaticDecoder dat W₀) ≤ K_qs * ε^{1/L}`
-- `hτ_A_def : τ_A = (2(L-1)/L)/c₀ · ε^{-2/L} · log(1/ε)`
-- **Conclusion:** `matFrobNorm (V τ_A - quasiStaticDecoder dat W₀) ≤ (K₀ + K_qs) * ε^{2(L-1)/L}`
-
-**When `f9906716` lands:**
-1. Check ARISTOTLE_SUMMARY — if not vacuous, cherry-pick
-2. Wire into `JEPA_rho_ordering`: caller supplies `C_A := K₀ + K_qs` (positivity from `hK₀`, `hK_qs_pos`)
-3. Temporal re-indexing gap: `V(τ_A)` → `V(0)` for Phase B start — structural, needs `hτ_A_link` or time-shift
+**Remaining:** Wiring `hPhaseA` via `frozen_encoder_convergence` in `JEPA_rho_ordering` is a deferred mechanical step (low priority — paper is accurate as-is with `hPhaseA` as explicit hypothesis).
 
 ---
 
-### OQ-3: simplicial — submit Aristotle job for matchRadius asymptotic chain
+### OQ-3: simplicial — matchRadius chain Aristotle job
+
+**Status: Aristotle job `069b1a71-af74-41fe-9d94-15c92459c1e4` SUBMITTED 2026-04-19**
+
+OQ-6 (forward-ref) was already resolved in an earlier session (a primed copy was used). Job submitted 2026-04-19 targeting `matchRadius_tendsto_half` and downstream. `matchRadius_spec` is already proved. When job completes, run `python scripts/retrieve.py` and cherry-pick `matchRadius_tendsto_half` body.
+
+*(original notes below)*
 
 **Status: definition fixed (2026-04-12), Aristotle submission pending**
 
