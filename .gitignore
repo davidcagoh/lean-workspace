@@ -6,6 +6,12 @@ stochastic-search-bounds/
 # Shared Mathlib/Lake package cache — large, not tracked
 .lean-packages/
 
+# Claude Code local permission overrides — not shared
+.claude/settings.local.json
+
+# One-time reorganization backups from 2026-04-01
+.reorg-backups/
+
 # macOS
 .DS_Store
 **/.DS_Store

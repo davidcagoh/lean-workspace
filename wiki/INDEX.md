@@ -24,7 +24,7 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-12)
+## Status (2026-04-19)
 
 | Project | Sorries | Status |
 |---|---|---|

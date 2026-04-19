@@ -4,6 +4,36 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-19 — housekeeping: loose files ingested, git cleaned up
+
+### What was done
+
+- Ingested two loose project memory files left in the workspace root:
+  - `project_lean_workspace_structure.md` — content already fully covered in `wiki/INDEX.md`; file deleted
+  - `project_simplicial.md` — key type decisions block absorbed into `wiki/decisions.md` under "simplicial-latent-geometry — key type decisions"; file deleted
+- Updated `.gitignore` to exclude `.claude/settings.local.json` (local permission overrides) and `.reorg-backups/` (one-time April 2026 backup artefacts)
+- Committed `.claude/commands/new-theorem.md` (shared project skill, now tracked)
+
+### State at end of session
+
+No proof work this session — admin/housekeeping only. Project state unchanged from 2026-04-12 session 2.
+
+**jepa-learning-order:** 2 sorries. Aristotle job `f9906716` status still unknown — check first thing next session.
+
+**simplicial-latent-geometry:** 13 sorries. OQ-6 (forward-ref) still unresolved. Aristotle job for matchRadius chain (OQ-3) still not submitted.
+
+**stochastic-search-bounds:** 0 sorries. .bib and LaTeX conversion still pending.
+
+### What to do next session (priority order unchanged from 2026-04-12)
+
+1. **jepa:** Check Aristotle job `f9906716` status (it's been a week).
+2. **simplicial OQ-6:** Move `incBeta_*` + `volumeFill_div_volumeEmpty_le_one_ge2` block to before line 2296 in `SimplicialDetection.lean`, then `lake build`.
+3. **simplicial:** After OQ-6 fixed, submit matchRadius chain to Aristotle (see OQ-3 for prompt).
+4. **stochastic:** Create `references.bib` from 23 citations in `paper_draft.md` lines 430–467.
+5. **stochastic:** Convert `paper_draft.md` → `paper_draft.tex`.
+
+---
+
 ## 2026-04-12 (session 2) — workspace cleanup, naming conventions, stochastic submission audit
 
 ### What was done

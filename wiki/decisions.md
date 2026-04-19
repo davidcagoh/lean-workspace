@@ -95,6 +95,23 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## simplicial-latent-geometry — key type decisions (do not change without discussion)
+
+**Decision:** The following type choices are locked for `SimplicialDetection.lean`:
+- `volumeEmpty` beta parameter: `x = 1 - (s / (2 * (2 * r))) ^ 2`
+- `volumeFill` beta parameter: `x = 1 - (s / (2 * r)) ^ 2`
+- `matchRadius_spec` requires `hd : 1 ≤ d`
+- `MeasurableSpace (CechSample n d)` = `MeasurableSpace.comap CechSample.points inferInstance`
+- Edge indicators: `Fin n → Fin n → Bool`; Torus type: `Fin d → AddCircle (1 : ℝ)`
+- `DisjointTriangles.lean` uses `Torus'` (prime) — same type as `Torus`, definitionally equal
+- `matchRadius` formula: `p^(1/d)/2` for the **sup-norm** torus (not Euclidean ball) — corrected 2026-04-12
+
+**Why:** These types were reached after multiple failed Aristotle rounds. Changing them invalidates existing proved lemmas and requires re-submitting substantial portions of the proof.
+
+**Consequence:** Before any refactor of definitions in `SimplicialDetection.lean`, confirm each change against this list and assess downstream impact.
+
+---
+
 ## `stochastic-proofs-handbook` retained for scripts only
 
 **Decision:** The handbook's `docs/` and `templates/` have been absorbed into the wiki. The handbook is retained solely as the canonical home for the shared `scripts/` (status.py, submit.py, retrieve.py, watch.py, init.py).
