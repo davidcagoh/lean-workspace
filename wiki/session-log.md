@@ -4,6 +4,46 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-20 (session 9) — fillingProb refactor cherry-picked; fillingProb_tendsto_one + geometricCov_tendsto_zero now sorry-free
+
+### What was done
+
+**Aristotle jobs b1c3a2c5 + aa0cf669 retrieved (both COMPLETE 100%):**
+- Both jobs redefined `fillingProb` as the torus fill indicator integral and proved `fillingProb_tendsto_one` via `fill_eventually_always'`
+- Chose b1c3a2c5 as the primary source (cleaner `geometricCov_eq_when_fill_always'` helpers)
+
+**Cherry-pick applied to `SimplicialDetection.lean`:**
+- Replaced `fillingProb` definition (Euclidean integral → torus fill indicator integral with `open Classical in`)
+- Replaced `fillingProb_tendsto_one` proof body: now uses `fill_eventually_always'` + `tendsto_nhds_of_eventually_eq`, no DCT/substitution machinery
+- Moved `addCircle_three_balls_intersect'` + `matchRadius_eventually_gt_third'` + `fill_eventually_always'` to BEFORE `fillingProb_tendsto_one` (fixing forward-reference error)
+- Replaced `fillingProb_nonneg'` and `fillingProb_le_one'` proofs (4-line each using `integral_nonneg`/`integral_mono_of_nonneg`)
+- Added `torus_pi_measure_real_univ'` helper
+- Replaced public `fillingProb_nonneg` and `fillingProb_le_one` proofs
+- Added `open MeasureTheory in` before `geometricCov_eq_when_fill_always'` (was missing)
+- Marked `fillingProb_eq_substituted` as sorry (dead code — now false with new definition)
+
+**Build result:** 3 sorry warnings (down from 2 active mathematical + chain breakage):
+1. `moments_cech` (line 427) — legacy Strategy 1, deprecated
+2. `fillingProb_eq_substituted` (line 1375) — explicitly dead code
+3. `substituted_tendsto` (line 1504) — documented as false, kept for reference
+
+**Key proofs now sorry-free:** `fillingProb_tendsto_one`, `geometricCov_tendsto_zero`, `fillingProb_nonneg`, `fillingProb_le_one`, `fillingProb_nonneg'`, `fillingProb_le_one'`
+
+### State at end of session
+
+- **JEPA:** 1 sorry (`bootstrap_consistency`). ✅ Build clean.
+- **Stochastic:** 0 sorries. ✅
+- **Simplicial:** All active Strategy 2 sorries closed. Only 2 dead-code sorries remain (`fillingProb_eq_substituted`, `substituted_tendsto`). Build has pre-existing errors (forward refs to `choose3_g_sq_tendsto_atTop`, `chebyshev_single_bound`, `moments_twoParam_var`) unrelated to our proof chain.
+
+### What to do next session
+
+1. **OQ-7:** Decide publication venues for all three papers (arXiv preprint first for simplicial?)
+2. **Vet papers:** User review of `paper_draft.md` (JEPA, stochastic, simplicial) before preprint submission
+3. **Simplicial paper.tex:** Update §5 to reflect `fillingProb_tendsto_one` + `geometricCov_tendsto_zero` now formally proved; remove the §6.2 "gap" note about `substituted_tendsto`
+4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency
+
+---
+
 ## 2026-04-20 (session 7) — cff9a2dd cherry-picked, paper BDER-style refactor
 
 ### What was done

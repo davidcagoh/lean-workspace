@@ -25,18 +25,18 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-20 — session 8 addendum)
+## Status (2026-04-20 — session 9)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **2 active** | `substituted_tendsto` confirmed FALSE (Euclidean formula wrong for sup-norm torus). Two refactor jobs in flight: b1c3a2c5 + aa0cf669 targeting fillingProb definition change. |
+| `simplicial-latent-geometry` | **0 active** ✅ | `fillingProb_tendsto_one` + `geometricCov_tendsto_zero` now sorry-free via torus fill indicator refactor. Two dead-code sorries remain (`fillingProb_eq_substituted`, `substituted_tendsto`). Build has pre-existing unrelated errors. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial:** Retrieve b1c3a2c5 + aa0cf669 when emails arrive; cherry-pick cleanest fillingProb refactor.
-2. **OQ-7:** Decide venue targets for all three papers (arXiv first?).
-3. **Vet papers:** User review of paper_draft.md (JEPA, stochastic) before preprint submission.
+1. **OQ-7:** Decide venue targets for all three papers (arXiv preprint first?).
+2. **Vet papers:** User review of paper_draft.md (JEPA, stochastic, simplicial) before preprint submission.
+3. **Simplicial paper.tex:** Update §5 (add proved results) and §6.2 (remove gap note for `substituted_tendsto`).
 4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
