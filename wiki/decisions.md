@@ -4,6 +4,36 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## simplicial paper: flat torus is a fixed assumption; sphere is a limitation
+
+**Decision date:** 2026-04-20
+
+**Why:** Extending to the sphere (𝕊^{d-1}, BDER's geometry) would require redeveloping the volume matching, filling probability asymptotics, and dominated convergence argument in a different geometry — effectively redoing the whole paper. The flat torus with sup-norm gives the clean formula (2r)^d and explicit matchRadius = p^{1/d}/2, which makes the Lean formalization tractable.
+
+**Implication:** §6.2 Limitations acknowledges sphere geometry as an open extension. Do not add sphere analysis to the current paper.
+
+---
+
+## simplicial paper: LMSY low-degree polynomial analysis is future work, not this paper
+
+**Decision date:** 2026-04-20
+
+**Why:** Extending LMSY (Liu–Mohanty–Schramm–Yang) degree-2 polynomial test to the simplicial setting would require new analysis of the degree-2 SOS relaxation in the simplicial setting — a separate paper's worth of work. Including it as a remark or conjecture without proof would be incomplete.
+
+**Implication:** §6.3 Future Work mentions the LMSY-style polynomial program as a natural next direction. No conjecture or new result is added to this paper.
+
+---
+
+## simplicial `fillingProb_tendsto_one`: DCT route via substituted_tendsto is wrong
+
+**Decision date:** 2026-04-20
+
+**Why:** `substituted_tendsto` (the pointwise convergence claim for the Euclidean volume-integral DCT) is likely false. For t > p, the beta-integral upper limit x_f = 1-(t/p)^{2/d} < 0, making volumeFill = 0 and the ratio exactly 0 (not → 1). The set {t > p} ⊂ (0,1) has positive measure, so the ∀ᵐ t claim fails. The Euclidean ball formulas in volumeFill/volumeEmpty do not correctly model the torus sup-norm geometry.
+
+**Implication:** The correct proof of `fillingProb_tendsto_one` should bypass `substituted_tendsto` entirely and use the geometric argument: for large d (matchRadius > 1/3), `fill_eventually_always'` implies fillingProb = 1 eventually. See `wiki/substituted-tendsto-prompt.md` for the full Aristotle submission prompt (Task A preferred).
+
+---
+
 ## simplicial paper draft canonically uses Strategy 2 (doubly-signed statistic)
 
 **Decision date:** 2026-04-19

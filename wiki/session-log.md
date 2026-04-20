@@ -4,6 +4,55 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-20 (session 7) — cff9a2dd cherry-picked, paper BDER-style refactor
+
+### What was done
+
+**Simplicial — cff9a2dd retrieved and cherry-picked:**
+- Job `cff9a2dd` status: COMPLETE 100%
+- `geometricCov_tendsto_zero` cherry-picked with 5 helper lemmas (addCircle_three_balls_intersect', matchRadius_eventually_gt_third', fill_eventually_always', geometricCov_eq_when_fill_always', edgeProduct_integral_bounded')
+- `fillingProb_nonneg` cherry-picked (setIntegral_nonneg + incBeta nonnegativity)
+- Active sorry count now: 2 (geometricCov_eq_large_r dead/unreachable; substituted_tendsto primary open item)
+
+**Simplicial paper.tex — BDER-style refactor:**
+- §1.2: added "Core idea" paragraph + Informal Theorem 1.1 (phase transition, accessible statement)
+- §3.2, §4.1, §4.2: proof bodies moved to new Appendix A ("Deferred Proofs")
+- §5.1: added geometricCov_tendsto_zero + fillingProb_nonneg (cff9a2dd) to proved list; consolidated all Aristotle job attributions; removed stale §5.2
+- §6 restructured: §6.1 BDER comparison, §6.2 Limitations (flat torus, heuristic threshold, substituted_tendsto gap), §6.3 Future Work (indistinguishability, sharp threshold + LMSY-style polynomial program, higher simplices, sphere, 4-cycles)
+- Compiles clean: 11 pages, 0 LaTeX errors
+
+**User decisions (recorded from feedback):**
+- Sphere vs flat torus: acknowledged as limitation in §6.2, not pursued
+- LMSY low-degree polynomial analysis: future work in §6.3 (not a separate paper add-on this version)
+- substituted_tendsto: no proof sketch available from user; open item stays in §5.3 / §6.2
+
+### State at end of session
+
+- **JEPA:** 1 sorry (bootstrap_consistency). ✅
+- **Stochastic:** 0 sorries. ✅
+- **Simplicial:** 2 active sorries. Paper at 11pp, compiles clean.
+  - `geometricCov_eq_large_r` (~line 642): dead (hypothesis never satisfied)
+  - `substituted_tendsto` (~line 1524): primary open item; see below
+
+### substituted_tendsto — mathematical summary
+
+The sorry asserts: for a.e. t ∈ (0,1),
+`volumeFill d (p^{1/d}/2) (t^{1/d}) / volumeEmpty d (p^{1/d}/2) (t^{1/d}) → 1 as d → ∞`
+
+This is the DCT pointwise convergence step in `fillingProb_tendsto_one`. Both volumes are of the form `euclidBallVol * I_x((d+1)/2, 1/2) / B(...)` with:
+- x_f = 1 - (t/p)^{2/d} → 0 as d → ∞ (for any fixed t, p ∈ (0,1))
+- x_e = 1 - (t/p)^{2/d}/4 → 3/4 as d → ∞
+
+So both the numerator x argument → 0 and the denominator x argument → 3/4, while a = (d+1)/2 → ∞. The claim is the ratio still → 1. This requires understanding the cancellation between the (1/2)^d factor from euclidBallVol d r / euclidBallVol d (2r) and the I_{x_f}/I_{x_e} ratio as both d → ∞ and x_f → 0. This is nontrivial incomplete-beta asymptotics; to close it we need either a reference or a calculation showing the joint limit.
+
+### What to do next session
+
+1. **Simplicial:** Decide what to do with `substituted_tendsto` — either get a proof sketch from David or axiomatize it and add a note
+2. **OQ-7:** Decide venue targets for all three papers (arXiv preprint first?)
+3. **Vet papers:** User review of paper_draft.md (JEPA, stochastic) before preprint submission
+
+---
+
 ## 2026-04-19 (session 6) — matchRadius proofs cherry-picked, two sorries submitted to Aristotle
 
 ### What was done

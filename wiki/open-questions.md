@@ -6,6 +6,16 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ## OPEN
 
+### OQ-8: simplicial — close `fillingProb_tendsto_one` via geometric bypass
+
+**Context:** `substituted_tendsto` (the DCT pointwise convergence step) is likely false — see decisions.md. The correct fix is Task A in `wiki/substituted-tendsto-prompt.md`: prove `fillingProb_tendsto_one` directly using `fill_eventually_always'` (geometric: when matchRadius > 1/3, all triples fill → fillingProb = 1 eventually). This bypasses `substituted_tendsto` entirely.
+
+**Blocking:** Need to connect the measure-theoretic integral definition of `fillingProb` with the geometric statement that fill is universal. Probably an Aristotle job targeting `fillingProb_tendsto_one` with the Task A provided solution.
+
+**Status:** Prompt ready at `wiki/substituted-tendsto-prompt.md`. Not yet submitted to Aristotle.
+
+---
+
 ### OQ-7: Publication strategy — finalize venue targets
 
 **Decision needed:** Three-paper structure proposed:
