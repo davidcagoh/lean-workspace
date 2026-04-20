@@ -4,6 +4,43 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-19 (session 6) — matchRadius proofs cherry-picked, two sorries submitted to Aristotle
+
+### What was done
+
+**Simplicial — matchRadius_spec cherry-picked (069b1a71):**
+- Old proof used `Nat.not_eq_zero_of_lt` (unknown constant — pre-existing build error at line 511)
+- Replaced with Aristotle's cleaner version using `Nat.cast_ne_zero.mpr (by omega)` + `inv_mul_cancel₀`
+
+**Simplicial — matchRadius_tendsto_half cherry-picked (069b1a71):**
+- Sorry at line 1277 replaced with full proof: `Filter.Tendsto.rpow` + `Filter.Tendsto.div_atTop` + `tendsto_natCast_atTop_atTop`
+- Closes `matchRadius_tendsto_half` without touching downstream sorries
+
+**Simplicial — new Aristotle job submitted:**
+- Job `cff9a2dd-1b10-48e5-845a-430472665bb1` targeting:
+  - `geometricCov_tendsto_zero` (line 1659) — DCT via `fillingProb_tendsto_one` + `matchRadius_tendsto_half`
+  - `fillingProb_nonneg` (line 3381) — `setIntegral_nonneg` with pointwise nonnegativity
+- Meta file at `results/cff9a2dd-…meta.json`; justification at `help_from_aristotle/46_cff9a2dd_request.md`
+
+### State at end of session
+
+- **JEPA:** 1 sorry (`bootstrap_consistency`). ✅
+- **Stochastic:** 0 sorries. ✅
+- **Simplicial:** 3 active mathematical sorries remain:
+  - `geometricCov_eq_large_r` (line 1312) — dead (hypothesis never satisfied; low priority)
+  - `substituted_tendsto` (line 1532) — primary open mathematical item (paper §5.3)
+  - `geometricCov_tendsto_zero` (line 1659) — **in flight** job `cff9a2dd`
+  - `fillingProb_nonneg` (line 3381) — **in flight** job `cff9a2dd`
+
+### What to do next session
+
+1. **Simplicial:** When `cff9a2dd` Aristotle email arrives, run `python scripts/retrieve.py`, cherry-pick `geometricCov_tendsto_zero` + `fillingProb_nonneg` proofs
+2. **Simplicial:** Update paper §5 to reflect `matchRadius_spec` + `matchRadius_tendsto_half` now confirmed in Lean (not just in paper.tex)
+3. **OQ-7:** Decide venue targets for all three papers
+4. **Vet papers:** User review of paper_draft.md (JEPA, stochastic) before preprint submission
+
+---
+
 ## 2026-04-19 (session 5) — simplicial cherry-picks confirmed, paper.tex to LaTeX, §5 updated
 
 ### What was done

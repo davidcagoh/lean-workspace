@@ -41,7 +41,7 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ### ~~OQ-3: simplicial — matchRadius chain Aristotle job~~ — RESOLVED 2026-04-19
 
-**Resolution:** Aristotle job `069b1a71-af74-41fe-9d94-15c92459c1e4` COMPLETE. Results extracted to `results/069b1a71_extracted/`. `matchRadius_spec` + `matchRadius_tendsto_half` proved and reflected in `paper.tex` §5. **Cherry-pick into `SimplicialDetection.lean` line 1277 is the next immediate action** (deferred to next session).
+**Resolution:** Aristotle job `069b1a71-af74-41fe-9d94-15c92459c1e4` COMPLETE. `matchRadius_spec` (line 505) + `matchRadius_tendsto_half` (line 1277) cherry-picked into `SimplicialDetection.lean` 2026-04-19 (session 6). Both proofs use `Nat.cast_ne_zero.mpr (by omega)` — avoids the pre-existing `Nat.not_eq_zero_of_lt` build error. Downstream Aristotle job `cff9a2dd` now in flight.
 
 ---
 

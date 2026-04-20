@@ -25,19 +25,19 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-19 — session 5)
+## Status (2026-04-19 — session 6)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **5 active** | paper.tex compiles clean (11pp). `069b1a71` results extracted — cherry-pick `matchRadius_tendsto_half` next session. |
+| `simplicial-latent-geometry` | **4 active** | `matchRadius_spec` + `matchRadius_tendsto_half` cherry-picked (069b1a71). `cff9a2dd` in flight (geometricCov_tendsto_zero + fillingProb_nonneg). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial:** Cherry-pick `matchRadius_tendsto_half` from `069b1a71_extracted/` into `SimplicialDetection.lean` (line 1277 sorry).
-2. **Simplicial:** Submit `geometricCov_tendsto_zero` (line 1650) + `fillingProb_nonneg` (line 3371) to Aristotle as one job.
+1. **Simplicial:** Cherry-pick `cff9a2dd` when email arrives (`geometricCov_tendsto_zero` + `fillingProb_nonneg`).
+2. **Simplicial:** Update paper §5 to reflect `matchRadius_spec` + `matchRadius_tendsto_half` confirmed in Lean.
 3. **OQ-7:** Decide venue targets for all three papers.
 4. **Vet papers:** User review of paper_draft.md (JEPA, stochastic) before preprint submission.
-5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — mechanical, low urgency.
+5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
