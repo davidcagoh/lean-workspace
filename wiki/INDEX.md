@@ -10,7 +10,6 @@
 | `open-questions.md` | When something seems ambiguous or undocumented; add new questions here |
 | `lean4-reference.md` | Before writing any Lean — type conventions, Mathlib API, pitfalls, termination patterns |
 | `aristotle-strategy.md` | Before submitting to Aristotle — sizing, statement quality, merging, domain patterns |
-| `substituted-tendsto-prompt.md` | Full LLM/Aristotle prompt for closing `fillingProb_tendsto_one` — includes analysis showing DCT route is wrong, Task A (geometric bypass) is preferred |
 
 ### Handbook
 `stochastic-proofs-handbook/` is now scripts-only. Its `docs/`, `templates/`, and `archive/` directories have been deleted — all knowledge is in this wiki. The handbook README points here.
@@ -26,18 +25,18 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-20 — session 7)
+## Status (2026-04-20 — session 8 addendum)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **2 active** | `geometricCov_tendsto_zero` + `fillingProb_nonneg` cherry-picked (cff9a2dd). Paper BDER-refactored: 11pp, appendix, §6 restructured. Only `substituted_tendsto` + dead `geometricCov_eq_large_r` remain. |
+| `simplicial-latent-geometry` | **2 active** | `substituted_tendsto` confirmed FALSE (Euclidean formula wrong for sup-norm torus). Two refactor jobs in flight: b1c3a2c5 + aa0cf669 targeting fillingProb definition change. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial:** Resolve `substituted_tendsto` — get proof sketch from David or axiomatize with note
+1. **Simplicial:** Retrieve b1c3a2c5 + aa0cf669 when emails arrive; cherry-pick cleanest fillingProb refactor.
 2. **OQ-7:** Decide venue targets for all three papers (arXiv first?).
 3. **Vet papers:** User review of paper_draft.md (JEPA, stochastic) before preprint submission.
 4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.

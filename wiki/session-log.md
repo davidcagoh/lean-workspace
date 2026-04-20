@@ -53,6 +53,39 @@ So both the numerator x argument → 0 and the denominator x argument → 3/4, w
 
 ---
 
+## 2026-04-20 (session 8 addendum) — fillingProb refactor submitted to Aristotle (2 jobs)
+
+### What was done
+
+**Opus analysis of substituted_tendsto (ingested from wiki/substituted-tendsto-prompt.md):**
+- `substituted_tendsto` is **false as stated**: for t > p, x_f = 1-(t/p)^{2/d} < 0, so ratio = 0 on measure 1-p > 0
+- Root cause: the Euclidean integral formula for `fillingProb` is geometrically wrong for the sup-norm torus — it converges to 0 as d→∞, not 1
+- `fillingProb_tendsto_one` is therefore **false under the current definition**
+- The whole proof chain (fillingProb_tendsto_one → geometricCov_tendsto_zero) is broken at the definition level
+
+**Two Aristotle jobs submitted (both target fillingProb_tendsto_one via definition refactor):**
+- `b1c3a2c5` — Job 1: Redefine `fillingProb` as ∫_{Fin 3 → Torus d} fill_indicator dμ (probabilistic). Prove fillingProb_nonneg / fillingProb_le_one / fillingProb_tendsto_one from fill_eventually_always'.
+- `aa0cf669` — Job 2: Alternative framing — same fix, but framed as "replace the Euclidean integrand with the correct torus indicator". Gives Aristotle flexibility in implementation.
+
+**Prompt files:**
+- `my_theorems/fillingProb-refactor-probabilistic.md` — Job 1 context + proof sketch
+- `my_theorems/fillingProb-refactor-integral.md` — Job 2 context
+- `wiki/substituted-tendsto-prompt.md` — **deleted** (superseded; analysis incorporated above)
+
+### State at end of session
+
+- `substituted_tendsto` at line ~1524: leave as `sorry` (false, dead code)
+- `fillingProb_tendsto_one` at line ~1610: currently depends on wrong sorry; needs refactor result
+- Two Aristotle jobs in flight
+
+### What to do next session
+
+1. **Retrieve b1c3a2c5 / aa0cf669** when emails arrive
+2. **Cherry-pick**: take whichever job gives cleanest `fillingProb_tendsto_one` proof; ensure `fillingProb_nonneg` + `fillingProb_le_one` still hold; verify `geometricCov_tendsto_zero` closes
+3. If both fail: axiomatize `fillingProb_tendsto_one` with `sorry` + note; the paper already documents this gap in §6.2
+
+---
+
 ## 2026-04-19 (session 6) — matchRadius proofs cherry-picked, two sorries submitted to Aristotle
 
 ### What was done
