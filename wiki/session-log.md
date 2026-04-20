@@ -4,6 +4,57 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-19 (session 5) — simplicial cherry-picks confirmed, paper.tex to LaTeX, §5 updated
+
+### What was done
+
+**Simplicial — b91c8747 + 60e73ec0 cherry-picks verified:**
+- Confirmed both Aristotle results were already merged in a prior session:
+  - `volumeFill_div_volumeEmpty_le_one_ge2` + helpers `incBeta_nonneg`/`incBeta_mono` (b91c8747) — fully proved at lines 3439–3510
+  - `DisjointTriangles.lean` + `triangleIndicator'_measurable` + `disjoint_triangles_indepFun` (60e73ec0) — fully proved at lines 2639–2680
+- `lake build SimplicialLatentGeometry.SimplicialDetection` exits with pre-existing errors only — no new failures from these proofs
+
+**Simplicial — paper_draft.md §5 updated:**
+- Moved `volumeFill_div_volumeEmpty_le_one` and `disjoint_triangles_indepFun` from §5.2 into §5.1 with Aristotle job attribution
+- §5.1 now lists 9 proved results; §5.2 retains only `matchRadius_spec` + `matchRadius_tendsto_half`
+
+**Simplicial — paper.tex + references.bib confirmed (user-reported):**
+- Files exist at `simplicial-latent-geometry/my_theorems/paper.tex` and `references.bib`
+- PDF compiles clean: 11 pages, no errors, no undefined citations
+- Format: `\documentclass[reqno,12pt]{amsart}` — arXiv/RSA-compatible
+- 12 BibTeX entries: BDER, LMSY, Bobrowski–Kahle, Lean/Mathlib, Feller, Bangachev–Bresler, Temčinas–Nanda–Reinert, Goh 2023, Aristotle API, Claude Code, Jang–Ryu
+- §1.5 "AI-Assisted Formal Verification" — Jang–Ryu style disclosure (Claude Code for architecture ~45 rounds; Aristotle for automated completion; verification not discovery)
+- §5 in paper.tex: 9 confirmed proved results (includes `matchRadius_spec` + `matchRadius_tendsto_half` from job `069b1a71`), 2 pending cherry-pick (b91c8747 + 60e73ec0 — now confirmed applied to Lean), `substituted_tendsto` as named open item
+
+**Simplicial — 069b1a71 results extracted** (matchRadius chain — `matchRadius_tendsto_half` + potentially downstream lemmas):
+- Results at `simplicial-latent-geometry/results/069b1a71_extracted/` — ready to cherry-pick
+
+### State at end of session
+
+- **JEPA:** 1 sorry (`bootstrap_consistency`). Paper updated. Build clean. ✅
+- **Stochastic:** 0 sorries. Paper complete. ✅
+- **Simplicial:** 5 active sorries remain (see below). paper.tex compiles clean. Next session: cherry-pick 069b1a71.
+
+**Simplicial active sorries (5):**
+
+| Line | Lemma | Status |
+|------|-------|--------|
+| 1277 | `matchRadius_tendsto_half` | 069b1a71 complete — cherry-pick next session |
+| 1312 | `geometricCov_eq_large_r` | Dead/unreachable (hypothesis `matchRadius p d > 1/2` never holds) |
+| 1526 | `substituted_tendsto` | Primary open mathematical item (paper §5.3) |
+| 1650 | `geometricCov_tendsto_zero` | Pending Aristotle |
+| 3371 | `fillingProb_nonneg` | Pending Aristotle |
+
+### What to do next session
+
+1. **Simplicial:** Cherry-pick `matchRadius_tendsto_half` (and any downstream lemmas) from `069b1a71_extracted/` into `SimplicialDetection.lean` line 1277
+2. **Simplicial:** After cherry-pick, update paper_draft.md §5.2 → empty (or remove section) and paper.tex §5 to reflect confirmed-proved status; update §5.2 to list only `substituted_tendsto` + any remaining pending
+3. **Simplicial:** Submit `geometricCov_tendsto_zero` (line 1650) and `fillingProb_nonneg` (line 3371) to Aristotle — bundle as one job
+4. **OQ-7:** Decide venue targets for all three papers (AoAP/Bernoulli for simplicial; COLT/TMLR for JEPA; methodology paper TBD)
+5. **Stochastic/JEPA:** Vet paper drafts before preprint submission
+
+---
+
 ## 2026-04-19 (session 4) — PM pass: three papers brought to publication-ready markdown
 
 ### What was done

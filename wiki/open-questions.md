@@ -39,28 +39,9 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ---
 
-### OQ-3: simplicial — matchRadius chain Aristotle job
+### ~~OQ-3: simplicial — matchRadius chain Aristotle job~~ — RESOLVED 2026-04-19
 
-**Status: Aristotle job `069b1a71-af74-41fe-9d94-15c92459c1e4` SUBMITTED 2026-04-19**
-
-OQ-6 (forward-ref) was already resolved in an earlier session (a primed copy was used). Job submitted 2026-04-19 targeting `matchRadius_tendsto_half` and downstream. `matchRadius_spec` is already proved. When job completes, run `python scripts/retrieve.py` and cherry-pick `matchRadius_tendsto_half` body.
-
-*(original notes below)*
-
-**Status: definition fixed (2026-04-12), Aristotle submission pending**
-
-`matchRadius` definition corrected to `p^(1/d)/2` (sup-norm torus). New sorry chain ready:
-- `matchRadius_spec` (line 505): `(2 * matchRadius p d)^d = p` — may need Aristotle
-- `matchRadius_tendsto_half` (line 1275): `matchRadius p d → 1/2` as d→∞ — sorry + PROVIDED SOLUTION ✅
-- Downstream asymptotic lemmas (lines ~1312, ~1526, ~1650): re-sorry'd with PROVIDED SOLUTION ✅
-- Forward-ref sorry at line 2296: status unclear — check before next session
-
-**Next step (first thing next session):**
-```bash
-cd simplicial-latent-geometry
-python scripts/submit.py my_theorems/strategy2.md "Prove the matchRadius asymptotic chain: (1) matchRadius_spec: (2·matchRadius p d)^d = p for d≥1 using the sup-norm torus formula r=p^(1/d)/2; (2) matchRadius_tendsto_half: matchRadius p d → 1/2 as d→∞ using Real.rpow tendsto; (3) downstream lemmas using fillingProb → 1 and geometricCov → 0." --dry-run
-```
-Then submit for real.
+**Resolution:** Aristotle job `069b1a71-af74-41fe-9d94-15c92459c1e4` COMPLETE. Results extracted to `results/069b1a71_extracted/`. `matchRadius_spec` + `matchRadius_tendsto_half` proved and reflected in `paper.tex` §5. **Cherry-pick into `SimplicialDetection.lean` line 1277 is the next immediate action** (deferred to next session).
 
 ---
 
