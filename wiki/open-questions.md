@@ -6,6 +6,41 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ## OPEN
 
+### OQ-9: simplicial — prove geomCov(p,d) = Θ(|log p|/d) to complete the BDER analogy
+
+**Why this matters:** Without the decay rate, d*(n,p) ~ n^{3/2}|log p| is a heuristic (§4.4). We know geomCov→0 but not how fast. BDER proved both the phase transition AND the explicit threshold; we've only done the former. The paper should not be submitted until this is resolved.
+
+**Mathematical content needed:**
+
+The matched radius satisfies r(p,d) = p^{1/d}/2 = 1/2 · e^{(log p)/d}, so:
+```
+ε(d) := 1/2 - r(p,d) ≈ |log p| / (2d)   as d → ∞
+```
+
+Need to show geomCov(p,d) = Θ(ε(d)) = Θ(|log p|/d). This requires:
+
+**Step 0 (prerequisite):** Read `SimplicialDetection.lean` around the current `fillingProb` definition (post-session-9 refactor). Understand exactly what the "torus fill indicator integral" computes — the precise integrand and measure. This is the foundation; don't proceed without it.
+
+**Step 1 — Upper bound:** Show 1 - fillingProb(p,d) = O(|log p|/d).
+- Argument: when r = 1/2 - ε, the fill fails only when three points are arranged so their r-balls don't share a point. The measure of such configurations shrinks at rate O(ε) = O(|log p|/d).
+- Write a clear PROVIDED SOLUTION with the volume estimate; submit to Aristotle.
+
+**Step 2 — Lower bound:** Show 1 - fillingProb(p,d) = Ω(|log p|/d).
+- Harder: need a family of configurations where fill fails, with total measure Ω(ε).
+- This is the genuine mathematical bottleneck. Identify an explicit bad region (e.g., points near opposite faces of the torus cube) and bound its measure from below.
+
+**Step 3 — geomCov rate:** Translate the fillingProb rate into geomCov(p,d) = Θ(|log p|/d). The relationship is via the definition of geomCov as an expectation over Čech triples; the fill factor (F_t - q) = (F_t - fillingProb) dominates the decay.
+
+**Step 4 — Threshold theorem:** With the rate, prove d*(n,p) = Θ(n^{3/2}|log p|) rigorously and replace §4.4's heuristic remark with a theorem.
+
+**Step 5 — Paper update:** Upgrade §4.4 from heuristic to Theorem. The rest of the paper (intro, models, statistic, moments, detection theorem, Lean section) is fine as-is — do NOT scratch it.
+
+**Caution:** Before doing any of the above, clarify the model. With the sup-norm Čech complex and Definition 2.3's fill criterion (balls of radius r, same as edge radius), a vertex x_i is always a common point of all three balls when all edges are present — meaning fillingProb = 1 always. If that's what the current Lean code computes, the model needs to be corrected first (standard Čech uses ball radius r/2, edge threshold 2r — or equivalently ball radius r, edge threshold r but fill balls of radius r/2). Resolve this before any Aristotle submission.
+
+**Status:** OPEN — starting point for next session.
+
+---
+
 ### OQ-8: simplicial — close `fillingProb_tendsto_one` via geometric bypass
 
 **Context:** `substituted_tendsto` (the DCT pointwise convergence step) is likely false — see decisions.md. The correct fix is Task A in `wiki/substituted-tendsto-prompt.md`: prove `fillingProb_tendsto_one` directly using `fill_eventually_always'` (geometric: when matchRadius > 1/3, all triples fill → fillingProb = 1 eventually). This bypasses `substituted_tendsto` entirely.

@@ -4,6 +4,49 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-20 (session 10) — paper intro rewritten; BDER gap identified; decay rate plan (OQ-9)
+
+### What was done
+
+**paper.tex — intro rewrite (self-contained, BDER as precedent not premise):**
+- Abstract: rewritten to open from random simplicial complexes + geometry detection question; BDER cited as parallel result, not framing device
+- §1.1: full rewrite — networks → simplicial complexes → 2PC null model → Čech geometric model → detection question → BDER as prior art
+- §1.2 "Core idea": rewritten to explain two-layer centering from scratch, no BDER assumed
+- Abstract: corrected "precise asymptotics" → "precise decay rate"; corrected "remaining open item in formalization" → "open mathematical question" (formalization IS complete)
+- §1.2 contribution (4): same correction
+- §5.1: removed duplicate `geometricCov_tendsto_zero` entry
+
+**CLAUDE.md (simplicial-latent-geometry):**
+- Stripped to stable-only content (type table, commands, architecture)
+- Removed stale sorry state / conundrum sections
+- Added redirect to wiki at top
+- Source of truth for state is now wiki only
+
+**Wiki:**
+- INDEX.md: updated to session 10; simplicial status now ⚠️ (paper not submittable until OQ-9 resolved)
+- OQ-9 added: full plan for proving geomCov(p,d) = Θ(|log p|/d)
+
+### Key decision: BDER analogy is incomplete
+
+The paper proves the phase transition EXISTS (and geomCov → 0) but does NOT prove the explicit threshold d*(n,p) ~ n^{3/2}|log p|. BDER proved both. §4.4 is currently a heuristic remark, not a theorem. The paper should not be submitted until OQ-9 is resolved.
+
+**Do NOT scratch the paper** — intro, models, statistic, moments, detection theorem, Lean section are all solid. Only §4.4 needs upgrading from heuristic to theorem.
+
+### State at end of session
+
+- **JEPA:** 1 sorry (`bootstrap_consistency`). ✅
+- **Stochastic:** 0 sorries. ✅
+- **Simplicial:** 0 active Lean sorries. Paper intro cleaned up. §4.4 heuristic — BLOCKED on OQ-9.
+
+### What to do next session
+
+1. **OQ-9 Step 0:** Read `SimplicialDetection.lean` around the current `fillingProb` definition to understand exactly what the torus fill indicator integral computes. Clarify whether fillingProb < 1 is possible for all r (the model may have an inconsistency with the sup-norm fill criterion — see OQ-9 caution note).
+2. Once model is clear: derive upper and lower bounds on (1 - fillingProb(p,d)) as d→∞.
+3. Formalize in Lean with Aristotle.
+4. Upgrade §4.4 to a theorem.
+
+---
+
 ## 2026-04-20 (session 9) — fillingProb refactor cherry-picked; fillingProb_tendsto_one + geometricCov_tendsto_zero now sorry-free
 
 ### What was done
