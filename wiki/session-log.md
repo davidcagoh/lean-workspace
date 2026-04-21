@@ -4,6 +4,45 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-20 (session 12) — paper.tex authorship + AI disclosure updated; root CLAUDE.md slimmed; wiki completed
+
+### What was done
+
+**paper.tex — authorship and AI disclosure:**
+- Added Nicholas A. Cook (Dept. of Mathematics, Duke University) as co-author
+- David Goh affiliation: Dept. of Computer Science, University of Toronto; email → `daveed@cs.toronto.edu`
+- AI section renamed "AI-Assisted Mathematical Development"; now states Claude Code + Aristotle API assisted both mathematical discovery AND formal verification, following Jang–Ryu (2026) precedent
+- Acknowledgements updated: Cook is co-author not thanked; "author" → "authors"; PRUV at Duke University
+- Paper compiles clean (pdflatex, no errors)
+
+**references.bib:**
+- `Goh2023`: author → `David Goh and Nicholas~A. Cook`; institution → Duke University (was Princeton)
+
+**Venue decision:** RSA (Random Structures and Algorithms) chosen as top-choice target for simplicial paper — same community as BDER, "follow-up" framing is natural. AoAP as prestige fallback if proof techniques are deemed dense enough.
+
+**Root CLAUDE.md slimmed:**
+- Cut from ~300 lines to ~30; everything project-specific now lives in project CLAUDEMDs and wiki
+- Orphaned content (Lean env options, Python setup, aristotlelib API, result file structure) moved into wiki where it belongs
+
+**Wiki completed:**
+- `wiki/lean4-reference.md`: added "Environment" section (toolchain, Mathlib version, standard Lean options)
+- `wiki/aristotle-strategy.md`: added Setup, Python API, CLI, and Result File Structure sections
+
+### State at end of session
+
+- **Simplicial:** paper.tex 12pp, compiles clean, two authors with affiliations. Ready for arXiv upload + RSA round-1 submission. One minor TODO: add `\author[Goh and Cook]{...}` running-head fix for amsart two-author display.
+- **Lean:** unchanged from session 11 — 0 active sorries.
+- **JEPA:** unchanged. **Stochastic:** unchanged.
+
+### What to do next session
+
+1. **Fix running head:** add `\author[Goh and Cook]` to paper.tex author block.
+2. **arXiv upload:** `paper.tex` + `references.bib` (no figures).
+3. **RSA submission:** PDF via Wiley ScholarOne; no house style needed for round 1.
+4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+
+---
+
 ## 2026-04-20 (session 11) — OQ-9 resolved: exact zero phase transition proved + full paper.tex update
 
 ### What was done

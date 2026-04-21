@@ -4,6 +4,16 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## simplicial paper: venue target is RSA; AoAP is prestige fallback
+
+**Decision date:** 2026-04-20
+
+**Why:** RSA (Random Structures and Algorithms, Wiley) is the venue that published BDER. The simplicial paper is explicitly a "follow-up" to BDER — same community, same language, natural audience. The "follow-up" framing makes it an easy sell to the same editors and reviewers. AoAP is the fallback if the phase transition proof techniques are judged to be mathematically dense enough to warrant a probability-theory flagship venue. Bernoulli/EJP is a third option if framing as a breakthrough in high-dimensional statistics.
+
+**Implication:** Submit to RSA first. Use amsart PDF for round 1 (Wiley ScholarOne accepts PDF; house style only needed after acceptance). If desk-rejected, escalate to AoAP.
+
+---
+
 ## simplicial paper: flat torus is a fixed assumption; sphere is a limitation
 
 **Decision date:** 2026-04-20

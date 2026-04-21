@@ -25,17 +25,18 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-20 — session 11)
+## Status (2026-04-20 — session 12)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper complete (12pp, compiles clean). OQ-9 resolved: d*(p) = \|log p\|/log(3/2) proved as `geometricCov_eventually_zero`. **Paper is submittable.** |
+| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper complete (12pp, two authors, compiles clean). Venue: **RSA** (round 1). Ready for arXiv + RSA submission. Minor TODO: running-head `\author[Goh and Cook]`. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial submission:** Proofread paper.tex (§4.3, §4.4, appendix), pick venue (AoAP / Bernoulli / EJP), submit.
-2. **OQ-7:** Venue targets — simplicial now unblocked.
-3. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+1. **Simplicial — fix running head:** `\author[Goh and Cook]` in paper.tex author block.
+2. **Simplicial — submit:** arXiv upload (`paper.tex` + `references.bib`), then RSA via Wiley ScholarOne.
+3. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.

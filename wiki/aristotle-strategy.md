@@ -73,3 +73,76 @@ Submit sub-lemmas as one job; assembly as a separate follow-up.
 - **Vacuous proofs are a trap** — Aristotle proved `frozen_encoder_convergence` with a witness `C_A = (‖V(τ_A)‖+1)/ε^{2(L-1)/L}`, making C_A depend on ε and the trajectory. Physically meaningless. If the existential allows a trivial witness, tighten the conclusion to force a genuine proof.
 - **Don't re-run already-proved lemmas** — once a lemma is genuine, never let Aristotle's snapshot overwrite it. Cherry-pick; never replace.
 - **`bootstrap_consistency` convention (JEPA)** — ODE continuation for a joint gradient-flow system requires Picard-Lindelöf infrastructure not in Mathlib. Keep it as an explicit named `sorry` (CompCert convention). Name it in the paper as the single explicit open assumption.
+
+---
+
+## Setup
+
+**Install once** (Python 3.10+ required):
+```bash
+pip install aristotlelib pathspec python-dotenv
+# or: uv pip install aristotlelib pathspec python-dotenv
+```
+
+**`.env` in each project root** (gitignored — never commit):
+```
+ARISTOTLE_API_KEY=arstl_...
+```
+
+---
+
+## Python API
+
+```python
+from aristotlelib import Project, ProjectStatus, AristotleAPIError
+
+# Submit
+project = await Project.create(prompt="Fill in the sorries", tar_file_path="./project.tar.gz")
+project = await Project.create_from_directory(prompt="Fill in the sorries", project_dir=".")
+
+# Monitor
+await project.refresh()
+print(project.status, project.percent_complete)
+
+# Download when complete
+path = await project.get_solution(destination="results/output.tar.gz")
+# Or wait and download in one call:
+path = await project.wait_for_completion(destination="results/output.tar.gz")
+
+# List / retrieve existing
+project = await Project.from_id("abc-123-def")
+projects, next_key = await Project.list_projects(status=ProjectStatus.COMPLETE, limit=10)
+
+# Cancel
+await project.cancel()
+```
+
+**`ProjectStatus` enum:** `QUEUED` → `IN_PROGRESS` → `COMPLETE` | `COMPLETE_WITH_ERRORS` | `OUT_OF_BUDGET` | `FAILED` | `CANCELED`
+
+Terminal statuses (no further changes): `COMPLETE`, `COMPLETE_WITH_ERRORS`, `OUT_OF_BUDGET`, `FAILED`, `CANCELED`
+
+## CLI
+
+```bash
+aristotle submit "Fill in the sorries" --project-dir . --wait --destination output.tar.gz
+aristotle list --status COMPLETE IN_PROGRESS --limit 20
+aristotle result <project-id> --wait --destination output.tar.gz
+aristotle cancel <project-id>
+```
+
+---
+
+## Result File Structure
+
+```
+{project_id}_aristotle/
+├── ARISTOTLE_SUMMARY_{project_id}.md   # read this first — what changed, what compiled
+├── README.md
+├── lake-manifest.json
+├── lakefile.toml
+├── lean-toolchain
+└── RequestProject/
+    └── {TheoremName}.lean              # proven files (sorries filled)
+```
+
+Always read `ARISTOTLE_SUMMARY_*.md` first. Diff returned `.lean` files against local versions — Aristotle may add hypotheses.

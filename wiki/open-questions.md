@@ -21,12 +21,12 @@ Aristotle jobs b1c3a2c5 + aa0cf669 proved `fillingProb_tendsto_one` via `fill_ev
 
 ---
 
-### OQ-7: Publication strategy — finalize venue targets
+### OQ-7: Publication strategy — JEPA and stochastic-search-bounds venue targets
 
-**Decision needed:** Three-paper structure proposed:
-1. JEPA standalone → ICLR theory / COLT / TMLR (submittable once abstract updated)
-2. Simplicial standalone → AoAP / Bernoulli / EJP (NOW UNBLOCKED — OQ-9 resolved, paper complete)
-3. Methodology paper ("Aristotle-Assisted Formalization of ML Theory") → NeurIPS / ITP / CPP — uses all three as case studies; `stochastic-search-bounds` self-referential meta-narrative is the centrepiece
+Simplicial venue is now decided (RSA, session 12). Remaining open items:
+1. **JEPA standalone** → ICLR theory / COLT / TMLR (submittable once abstract updated; 1 sorry remaining)
+2. **Stochastic-search-bounds standalone** → venue TBD (0 sorries; LaTeX/bib pending)
+3. **Methodology paper** ("Aristotle-Assisted Formalization of ML Theory") → NeurIPS / ITP / CPP — uses all three as case studies; `stochastic-search-bounds` self-referential meta-narrative is the centrepiece
 
 **Blocking:** Paper 2 needs matchRadius resolved (OQ-3). Paper 3 needs a rough outline and decision on whether to involve collaborators.
 

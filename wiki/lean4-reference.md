@@ -216,3 +216,22 @@ exact ⟨0, (L : ℝ) / (projectedCovariance dat eb r * ...), by simp, by simp�
 **`"Imports are out of date"` in VS Code** — LSP cache stale after adding an import. Not a code error. Fix: `lake build` or "Restart File" in editor.
 
 **`corollary` keyword** — does not exist in Lean 4. Use `theorem`.
+
+---
+
+## Environment
+
+**Toolchain:** `leanprover/lean4:v4.28.0`
+**Mathlib:** `v4.28.0` / commit `8f9d9cff6bd728b17a24e163c9402775d9e6a365`
+
+All projects in this workspace are pinned to match Aristotle's fixed environment — proofs returned by Aristotle compile locally without porting.
+
+**Standard Lean options (used across all projects):**
+```lean
+set_option pp.unicode.fun true          -- pretty-prints lambdas as fun a ↦ b
+set_option relaxedAutoImplicit false    -- all variables must be explicitly declared
+set_option weak.linter.mathlibStandardSet true  -- Mathlib standard linter active
+set_option maxSynthPendingDepth 3
+```
+
+If a proof returned by Aristotle fails to compile locally, the issue is a hallucinated lemma name or syntax error in Aristotle's output — not a version mismatch.
