@@ -4,6 +4,29 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-22 (session 13) — paper.tex reviewed; running-head fix and arXiv/RSA submission still pending
+
+### What was done
+
+- Reviewed `simplicial-latent-geometry/my_theorems/paper.tex` (mtime updated Apr 22).
+- Content confirmed unchanged from session 12: two authors (Goh + Cook), affiliations, AI disclosure, Lean catalog, all correct.
+- No code or proof changes. Lean sorry count remains 0.
+- Running-head TODO (`\author[Goh and Cook]{David Goh}` optional arg) confirmed still unresolved.
+
+### State at end of session
+
+Clean. Paper in submission-ready state except for the one-line running-head fix.
+No in-progress Lean work.
+
+### What to do next session
+
+1. **Fix running head:** change `\author{David Goh}` → `\author[Goh and Cook]{David Goh}` in paper.tex author block (line 96).
+2. **arXiv upload:** `paper.tex` + `references.bib` (no figures needed).
+3. **RSA submission:** PDF via Wiley ScholarOne; no house style required for round 1.
+4. **OQ-7:** Decide JEPA and stochastic-search-bounds venue targets.
+
+---
+
 ## 2026-04-20 (session 12) — paper.tex authorship + AI disclosure updated; root CLAUDE.md slimmed; wiki completed
 
 ### What was done

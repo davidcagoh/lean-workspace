@@ -25,13 +25,13 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-20 — session 12)
+## Status (2026-04-22 — session 13)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper complete (12pp, two authors, compiles clean). Venue: **RSA** (round 1). Ready for arXiv + RSA submission. Minor TODO: running-head `\author[Goh and Cook]`. |
+| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper complete (12pp, two authors, compiles clean). Venue: **RSA** (round 1). Ready for arXiv + RSA submission. Minor TODO: running-head `\author[Goh and Cook]` (line 96). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
