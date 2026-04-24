@@ -17,3 +17,9 @@ stochastic-search-bounds/
 .DS_Store
 **/.DS_Store
 __pycache__/
+
+# Session artifacts
+*.log
+qna.md
+qna.pdf
+*.docx
