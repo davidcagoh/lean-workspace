@@ -4,6 +4,54 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-24 (session 23) — stochastic-search-bounds: Aristotle fc0719d6 merged + Winston-star paper rewrite
+
+### What was done
+
+**Aristotle fc0719d6 retrieved and merged (COMPLETE):**
+- Both sorries proved: `sum_prod_erase_le_one_of_sum_le_one` and `sequential_le_parallel_sharp`.
+- `Theorem4_Strong.lean` merged from aristotle/ into `AutomatedProofs/AOTree/`. `lake build` clean (8034 jobs, 0 sorries). Committed as `124d0ec`.
+- `#print axioms sequential_le_parallel_sharp = [propext, Classical.choice, Quot.sound]`.
+
+**Paper rewrite — Patrick Winston "star" principles:**
+Editorial audit by subagent (full Winston-star analysis). Implemented all critical and high-priority fixes:
+
+1. **Abstract restructured** from one 500-word paragraph into 4 clean paragraphs: (i) context + gap, (ii) the star (expert iteration provably monotone but envelope exponential), (iii) four results numbered, (iv) verification status.
+
+2. **"This paper" section** replaced with numbered `\begin{enumerate}` list — four contributions with explicit "we prove" structure, each starting with bold theorem label. Old prose retained but restructured. Scope paragraph trimmed from 200 words to ~60.
+
+3. **Near-miss example** added before Theorem 1 (policy improvement): concrete two-child OR-node counterexample showing that dominance alone (without `hcorrect_better`) can *worsen* hitting time.
+
+4. **Proposition thm:seq upgraded to sharp form** (`∑ q(i) ≤ 1` replaces uniform `q(i) ≤ 1/2` as main hypothesis). Old uniform form retained separately (`sequential_le_parallel`). New `\leanverified{sequential_le_parallel_sharp}` annotation.
+
+5. **New Lemma 3.x added** to §3: `sum_prod_erase_le_one_of_sum_le_one` with full inductive proof sketch.
+
+6. **Discussion §5 restructured**: added open-questions subsection (3 questions: hcorrect_better weakening, sharp seq/par threshold, unconditional lower bound); formalization notes condensed to 2 sentences + citation.
+
+7. **Appendix catalog updated**: new table row for sharp decomposition; new verified-results entry for `sequential_le_parallel_sharp`; Theorem4_Strong.lean added to formalization architecture; Lean signatures appendix updated.
+
+**Compile:** 18pp PDF, 0 warnings, 0 undefined refs. Was 17pp.
+
+### Status after session
+
+| Item | Status |
+|---|---|
+| lake build | ✓ clean (8034 jobs, 0 sorries) |
+| paper.tex | 18pp, compiles clean, 0 warnings |
+| Theorem4_Strong.lean | merged and committed |
+| Aristotle fc0719d6 | ✓ retrieved and integrated |
+| OQ-12 (T2 hcorrect_better) | still open — scoped in open-questions §5 |
+| ITP/CPP 2026 deadline | still unconfirmed (OQ-7) |
+
+### Open for future sessions
+- arXiv upload: stochastic-search-bounds paper.tex (18pp) ready.
+- JEPA and simplicial arXiv uploads also ready (unchanged).
+- OQ-7: confirm ITP/CPP 2026 deadline before submitting.
+- OQ-12: design hcorrect_better weakening before next Aristotle submission.
+- T3 unconditional lower bound: still requires information-theoretic argument.
+
+---
+
 ## 2026-04-24 (session 22) — stochastic-search-bounds: reframe + Theorem 1 root-only hypothesis weakening
 
 ### User concern
