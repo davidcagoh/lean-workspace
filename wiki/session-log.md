@@ -4,6 +4,65 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-24 (session 20) — simplicial: paper expository Q&A pass, real definitional bug fixed (paper F ≠ Lean F), §5 restructured
+
+### What was done
+
+**Expository pass on `paper.tex` driven by a 11-question review.** User brought a list of clarification / intuition / literature / future-work questions on the submission-ready paper. Worked through all 11 as concrete edits:
+
+**Definitional bug found and fixed (item 7 — most important):** Paper Def 2.3 had `F_{ijk} = 𝟙[all edges]·𝟙[nerve]`; Lean's `CechSample.hasFill` is pure nerve indicator. Paper's Def 2.5 `q` was conditional `P[nerve | edges]`; Lean's `fillingProb` is marginal `P[nerve]`. These give genuinely different `geomCov` values. The old prose proof of Thm 4.4(b) "F−q = 0 identically" only holds under Lean's definition. Since Lean is verified, paper was updated to match: Def 2.3 → nerve-only, Def 2.5 → marginal, Thm 4.4(b) proof rewritten. Added Remark 2.4 documenting the two conventions (nerve-only vs. downward-closed) and why they differ under the paper's stricter `d ≤ r` edge condition.
+
+**Scope of Thm 4.4(b) softened:** Original claimed `TV(2PC, Čech) = 0` above `d*`. Real result is statistic-level `TV(law(τ_f)) = 0` — above `d*`, edges remain geometrically correlated, so other tests (notably BDER-style edge-only) may still distinguish. Added Remark 4.5 with explicit cross-reference. Abstract softened from "detection is impossible" → "`τ_f`-based detection is impossible."
+
+**New conceptual finding from the power-comparison exercise (item 10):** Derived identity `geomCov(p,d) = Cov_Čech(∏(A_e−p), F_{ijk})` — our per-triangle signal is literally the covariance between BDER's signed-edge product and the nerve indicator. Consequence: *above* `d*`, `geomCov = 0` but `trip(p,d) = E[∏(A_e−p)]` need not vanish, so the edge-only statistic is *strictly more powerful* above threshold — fills actually *hurt* there. This flips the paper's original conjecture (that `τ_f` is always stronger).
+
+**§5 Discussion restructured from 3 subsections + 6 paragraph blocks to 3 clean subsections:**
+- **§5.1 Comparison with BDER** — absorbs the covariance identity + above/below-threshold bifurcation.
+- **§5.2 Limitations** — collapsed from 2 paragraphs to 1 (flat-torus + cross-ref to Remark 4.5 replaces old "one-sided detection").
+- **§5.3 Open Problems** (renamed from Future Work) — three named blocks: (a) *Sharp threshold and simultaneous limits* merges old "detection rate below threshold" + "simultaneous limits" + power-comparison open parts; (b) *Higher-dimensional simplices* with Conjecture 5.1 stating `d*_k(p) = |log p|/log((k+1)/k)` and exponent `(k+1)/2`; (c) *Beyond flat torus and triangle-count tests* combines old sphere + Fourier/spectral + Yu-Zadik-Zhang + Brennan-Bresler-Huang + Litvak.
+
+**Other paper edits (items 1–6):**
+- §1.2 DMW citation upgraded — framed as combinatorial cousin; new sentence on low-degree optimality of `τ_f` as open problem.
+- Added empty-triangle / filled-triangle vocab paragraph before Def 2.6.
+- Reordered Lemma 2.7(b) and 2.8: Helly (three-arc) now precedes radius asymptotics, proof back-references cleanly.
+- Expanded Def 2.6 with interpretation (BDER-pairwise-edge × Čech-nerve factor; collapse invisible at edge level).
+- Expanded Prop 3.3(b) proof with overlap-pattern table (s=0 Θ(n⁶), s=1 Θ(n⁵), s=2 Θ(n⁴), s=3 Θ(n³)) and labeled first/second terms of conditional-covariance decomposition for s=1.
+- Thm 4.2 proof: added data-processing-inequality one-liner clarifying "law" = pushforward measure.
+
+**Literature review (item 9):**
+- Read Temčinas-Nanda-Reinert 2023 (`2309.14017v1.pdf`) intro + main results. Confirmed **not a scoop** — they do one-sample GoF for `X(n,p)` via Stein's-method CLTs for subcomplex counts, not two-sample geometric detection. Their rank-one-covariance problem with raw counts is precisely what our doubly-signed `τ_f` sidesteps. Temčinas citation in §1.2 expanded accordingly.
+- Ran `forward_cites.py` on 15 bib entries (10,241 total cites reviewed). Four high-value missing citations added to `references.bib` and cited in paper: **Brennan-Bresler-Huang 2022** (anisotropic RGG extension of BDER), **Litvak-Michielan-Stegehuis 2022** ("why triangles are not enough" for hyperbolic geometry), **Perkins 2024** (sharp-threshold survey), **Yu-Zadik-Zhang 2024** (constant-degree optimality of star counts).
+- Artifacts: `simplicial-latent-geometry/my_theorems/forward_cites_report.md`, `forward_cites_edges.csv`.
+
+**Verification:**
+
+- `pdflatex` + `bibtex` passes clean. No undefined references. **Paper now 16 pages** (was 11 pages at start of session).
+- No Lean changes this session — all edits were in `paper.tex` and `references.bib`. Build state unchanged from session 19 (3 dead-code sorries, `#print axioms` clean on all main-chain theorems).
+
+### State at end of session
+
+Paper is submission-ready with a **more conceptually honest story**:
+- Paper F now matches Lean F exactly (nerve-only, marginal `q`).
+- Thm 4.4(b) claim matches what's actually proved (statistic-level TV, not complex-level).
+- §5 tighter: 3 clean subsections, Conjecture 5.1 promoted as the headline generalization.
+- New identity `geomCov = Cov(∏(A_e−p), F)` in §5.1 is a small-but-real contribution that makes the BDER↔simplicial comparison quantitative.
+- Four new references bring the paper into contact with recent (2022–2024) detection literature.
+
+### What to do next session
+
+1. **Skim-review the paper end-to-end** in rendered PDF for typography consistency (indents, \paragraph-vs-enumerate mixing, display-equation spacing) — one pass.
+2. **Decide on power-comparison evaluation:** is it worth one focused session to compute `trip(p,d)` and `geomCov(p,d)` by hand for small `d` (say `d=1,2,3`, `p=2/3, 1/2`) to empirically confirm the above-threshold dominance claim? Would strengthen §5.1.
+3. **arXiv upload:** `paper.tex` + `references.bib` are ready.
+4. **Post-upload:** Wiley ScholarOne (RSA) once arXiv ID assigned.
+5. **Optional cleanup:** 3 dead-code sorries at lines 385, 440, 649 (Strategy 1 deprecated). Low priority.
+6. **OQ-9 (decay rate of `geomCov(p,d)`):** still open. Referenced in new §5.3 as the bottleneck for both sharp-threshold work and quantitative power comparison.
+
+### Plan file
+
+`/Users/davidgoh/.claude-main/plans/see-simplicial-latent-geometry-my-theore-transient-peacock.md` — contains the original 11-question Q&A that seeded this session's edits. Useful as a reference for the reasoning behind each paper change.
+
+---
+
 ## 2026-04-24 (session 19) — simplicial: Aristotle Jobs A/B/C cherry-picked, OQ-10 resolved, paper's Thm 4.2 now Lean-verified exactly
 
 ### What was done

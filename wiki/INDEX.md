@@ -19,25 +19,27 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 - `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L (v2)
 - `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6
 - `simplicial-latent-geometry/my_theorems/paper_draft.md` — Strategy 2 draft, §5 updated
-- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **14pp, Thm 4.2 pointer now `detection_lower_bound_fixed_d` (exact match for fixed-`d` claim); all 18 `\lean{...}`/`\leanverified{...}` pointers resolve to sorry-free lemmas with clean `#print axioms`; compiles clean**
+- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **16pp (session 20: Def 2.3 aligned with Lean's nerve-only F, Thm 4.4(b) softened to statistic-level TV, §5 restructured into 3 clean subsections, 4 new refs, new covariance identity `geomCov = Cov(∏(A_e−p), F)` in §5.1); all `\lean{...}`/`\leanverified{...}` pointers resolve to sorry-free lemmas; compiles clean**
 - `simplicial-latent-geometry/my_theorems/proof_strategy.md` — active proof strategy (481L)
 
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-24 — session 19)
+## Status (2026-04-24 — session 20)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **3 dead-code only** ✅ | `lake build` clean (8029 jobs, 0 errors). Jobs A/B/C cherry-picked. OQ-10 **resolved** — added `hNG : n·g → ∞` throughout, new `detection_lower_bound_fixed_d` matches paper's Thm 4.2 verbatim. `#print axioms` on all main-chain theorems: `[propext, Classical.choice, Quot.sound]` only, no `sorryAx`. 3 remaining sorries are in `@[deprecated]` Strategy 1 blocks, not in the active chain. |
+| `simplicial-latent-geometry` | **3 dead-code only** ✅ | Build unchanged from session 19. **Paper expository pass completed** — Def 2.3 realigned to Lean's nerve-only F (fixing a genuine definitional mismatch), Thm 4.4(b) scope softened to statistic-level, §5 restructured 3→3 cleaner subsections, new `geomCov = Cov(∏(A_e−p), F)` identity derived, 4 new citations added (Brennan-Bresler-Huang, Litvak, Perkins, Yu-Zadik-Zhang). 16pp, compiles clean. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp). All Lean verification cleanly defensible.
-2. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
-3. **Simplicial — optional cleanup:** remove the 3 dead-code sorries at lines 385, 440, 649 (deprecated Strategy 1). Low priority.
-4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
-5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+1. **Simplicial — typography skim:** one visual pass through rendered 16-page PDF for any lingering indent/spacing inconsistencies before arXiv upload.
+2. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (16pp) ready.
+3. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+4. **Simplicial — optional power-comparison evaluation:** worth one focused session to verify above-`d*` dominance of edge-only statistic numerically for small `d`? Would strengthen §5.1.
+5. **OQ-9 (geomCov decay rate):** still the bottleneck for sharp-threshold and quantitative power comparison. Referenced in new §5.3.
+6. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+7. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
