@@ -4,6 +4,26 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Paper-to-Lean pointer discipline: a paper theorem's `\leanverified{...}` must name a lemma whose *signature* matches the paper's claim, not just its *proof*
+
+**Decision date:** 2026-04-24 (session 19)
+
+**Why:** During session 18 the paper's Thm 4.2 (fixed `d`, `n → ∞`) was pointing at Lean's `phase_transition`, which takes joint `(nSeq, dSeq)` sequences with `hd : dSeq → ∞`. For fixed `d`, `hd : dSeq → ∞` is *false*, so `phase_transition` can't be instantiated to recover the paper's stated claim — the pointer was aspirational rather than structural. The Lean proof chain *was* correct (main theorems had clean `#print axioms`), but a reviewer tracing "\leanverified{phase_transition}" from the paper would find a theorem that doesn't match what Thm 4.2 actually states. Session 19 fixed this by adding `detection_lower_bound_fixed_d`, a three-line specialisation whose signature is literally "fixed `d` with `0 < geometricCov p d`, `n → ∞`, conclusion TV → 1". Paper pointer updated accordingly.
+
+**Implication:** Whenever a Lean theorem is stronger than the paper's corresponding claim (common — Lean proofs often generalise to sequences naturally), add a thin corollary that exactly matches the paper statement, and point the paper at the corollary. Keeps the pointer trivially verifiable: drop both signatures side-by-side, they should line up without hypothesis re-derivation. Rule-of-thumb: if deriving the paper claim from the Lean theorem takes more than `exact`, the pointer is wrong — add the corollary.
+
+---
+
+## Aristotle PROVIDED SOLUTION docstrings are load-bearing for surfacing hypothesis gaps
+
+**Decision date:** 2026-04-24 (session 19)
+
+**Why:** OQ-10 (`chebyshev_ratio_tendsto_zero`'s signature was too weak for its conclusion) was surfaced in session 18 *only* because writing a PROVIDED SOLUTION for the sorry-stub forced the signature to be read standalone. For three weeks prior, an Aristotle-proved version closed the goal via implicit fixed-`dSeq` assumptions inside tactic blocks — the public API looked fine because nobody checked it without the tactic body. When Mathlib drift broke the tactics, the bare signature was suddenly exposed. In session 19 Aristotle's reply to the PROVIDED SOLUTION hint did pick the correct fix (add `hNG`), validating the pattern: **writing a proof sketch before submitting forces you to read the hypothesis list as a logician would, not as a tactician would.**
+
+**Implication:** When sorry-stubbing for Aristotle, always write a PROVIDED SOLUTION docstring that explicitly names the mathematical steps and the hypotheses each step needs. If the docstring reveals a gap ("this step needs `X`, but the hypothesis only gives `Y`"), surface it as an open question before submitting, and include the analysis in the docstring so Aristotle can act on it. Do not rely on Aristotle's tactics to silently patch hypothesis gaps — when tactics drift, the gap resurfaces.
+
+---
+
 ## math-paper writing: three structural rules beyond the BDER scaffold
 
 **Decision date:** 2026-04-23 (session 17)

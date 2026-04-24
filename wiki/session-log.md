@@ -4,6 +4,49 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-24 (session 19) — simplicial: Aristotle Jobs A/B/C cherry-picked, OQ-10 resolved, paper's Thm 4.2 now Lean-verified exactly
+
+### What was done
+
+**Retrieved and cherry-picked all three in-flight Aristotle jobs:**
+
+- **Job A** (`ef4bf1ac`): `cechDoublySigned_triangle_integral` (change-of-variables via `orderEmbOfFin` + a measure-preserving pushforward through the 3-coord projection) + `edgeProduct_integral_bounded'` (`norm_integral_le_integral_norm` + elementwise `|·| ≤ 1` on the torus probability measure).
+- **Job B** (`e9270000`): `vertex_sharing_indepFun'` via two new helpers — `extract_vertices_of_card_inter_one` (combinatorial vertex extraction from `|t ∩ t'| = 1`) and `triangleIndicator'_factor_coord_diffs` (factoring the indicator through `(pts j - pts i, pts k - pts i)`). Main lemma is a clean `IndepFun.comp` of `indepFun_coord_diffs_vertex` with the factoring maps.
+- **Job C** (`986efbdd`): `cech_complement_prob_bound` + `chebyshev_ratio_tendsto_zero` + `paleyZygmund_cech_prob_tendsto_one`. Aristotle **resolved OQ-10 correctly** — the docstring counterexample (`n^(3/2)·g → ∞` is insufficient because of the `48·C(n,4)/(C(n,3)·g)²` term) was acknowledged, and the hypothesis `hNG : n·g → ∞` was added to the three lemmas + `detection_lower_bound`. A new helper `derive_hNG` was added, and `phase_transition`'s `hbeyond` was tightened from `d/(n^{3/2}·G)^{1/α} → 0` to the strictly-stronger `d/(n·G)^{1/α} → 0` (under this scaling both `n^{3/2}·g → ∞` and `n·g → ∞` hold via `derive_hSNR` and `derive_hNG`).
+
+**Post-cherry-pick clean-up:**
+
+- **Dropped spurious `hd : dSeq → ∞` hypothesis** from `paleyZygmund_cech_prob_tendsto_one` and `detection_lower_bound` — verified it was in the signature but never used in the body. This matters because the paper's Thm 4.2 fixes `d` (constant sequence), making `hd : dSeq → ∞` false; without removing it the theorem was inapplicable to the paper's stated regime.
+- **Added `detection_lower_bound_fixed_d`** — a fixed-`d` specialisation that exactly matches the paper's Theorem 4.2 statement: `(d : ℕ) (hg : 0 < geometricCov p d) (hn : nSeq → ∞) → TV → 1`. Internal proof instantiates `dSeq := fun _ => d` and derives `hSNR` / `hNG` from the constant positivity of `g`.
+- **Paper pointer updated:** line 592 changed from `\leanverified{phase_transition}` to `\leanverified{detection_lower_bound_fixed_d}`. Appendix A catalog updated to describe the three-tier hierarchy: `detection_lower_bound_fixed_d` (paper's claim, fixed `d`) ← `detection_lower_bound` (joint sequences with both SNR hypotheses) ← `phase_transition` (full joint `(n,d)` limit with asymptotic-equivalence on `geomCov`).
+
+**Verification:**
+
+- `lake build`: 8029 jobs, 0 errors, 0 new warnings.
+- `#print axioms` on `detection_lower_bound_fixed_d`, `detection_lower_bound`, `phase_transition`, `paleyZygmund_cech_prob_tendsto_one`, `chebyshev_2PC_prob_tendsto_zero`, `moments_cech_signed`, `moments_twoParam_signed`, `cech_complement_prob_bound`, `chebyshev_ratio_tendsto_zero`, `cechDoublySigned_triangle_integral` all depend on `[propext, Classical.choice, Quot.sound]` **only** — no `sorryAx`. The main-chain proofs are truly Lean-verified.
+- Sorry count: 9 → 3. The 3 remaining sorries are all dead code from Strategy 1 (lines 385, 440, 649 — two inside `/- DEPRECATED -/` comment blocks, one `@[deprecated]`-annotated `moments_cech` whose only callers `cechFilledCount_integral` and `cechFilledCount_variance` are themselves unused in Strategy 2).
+- Paper compiles clean (3-pass pdflatex + bibtex, 14pp, no warnings, no undefined references).
+- All 18 `\lean{...}` / `\leanverified{...}` pointers in `paper.tex` resolve to sorry-free lemmas/theorems (17 old + 1 new `detection_lower_bound_fixed_d`; `detection_lower_bound` also now referenced in the Appendix A discussion).
+
+**Plan file:** this session started from a previous plan's open jobs; no new plan file created.
+
+### State at end of session
+
+Simplicial project is **submission-ready** with a clean Lean-verification story:
+- Paper Thm 4.2 (fixed `d`, `n → ∞`) ↔ `detection_lower_bound_fixed_d` (direct match)
+- Paper Thm 4.4 (phase transition, fixed `d` below/above `d^*(p)`) ↔ combination of `detection_lower_bound_fixed_d` + `geometricCov_eventually_zero`
+- Paper `\leanverified` tags now all point at lemmas whose `#print axioms` is clean.
+
+### What to do next session
+
+1. **Simplicial — arXiv upload:** submit `paper.tex` + `references.bib` (14pp). All Lean verification is now cleanly defensible.
+2. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+3. **Simplicial — optional:** remove the three dead-code sorries at lines 385, 440, 649 (deprecated Strategy 1 blocks). Low priority — they're not in the active chain and are clearly annotated.
+4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+
+---
+
 ## 2026-04-24 (session 18) — simplicial `lake build` restored to green; 6 tactic-drift sorries sent to Aristotle; hypothesis gap surfaced in `chebyshev_ratio_tendsto_zero`
 
 ### What was done
