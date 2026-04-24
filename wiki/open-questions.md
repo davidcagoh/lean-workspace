@@ -6,6 +6,27 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ## OPEN
 
+### OQ-11: stochastic-search-bounds — Aristotle Job `fc0719d6` (T4 sharp regime)
+
+Submitted 2026-04-24 (session 22). Target: prove `sum_prod_erase_le_one_of_sum_le_one` and `sequential_le_parallel_sharp` in `AutomatedProofs/AOTree/Theorem4_Strong.lean`, replacing the uniform hypothesis `q(i) ≤ 1/2` with the sharp condition `∑ q(i) ≤ 1`. Proof strategy in spec: Maclaurin's inequality / iterated AM-GM gives `e_{n-1}(q) ≤ 1/n^{n-2} ≤ 1` for `n ≥ 2`.
+
+- Request doc: `help_from_aristotle/05_fc0719d6_request.md`
+- Retrieve when Aristotle emails: `python scripts/retrieve.py`
+- On success: upgrade Proposition 4.15 in `paper.tex` to the sharp form; original `sequential_le_parallel` stays as special case.
+
+---
+
+### OQ-12: stochastic-search-bounds — T2 `hcorrect_better` weakening (design-before-submit)
+
+Before submitting to Aristotle, pick a concrete weaker sufficient condition. Candidates:
+1. **Locality:** require ordering only at OR nodes on actual proof paths.
+2. **Greedy-wrt-value:** require `π'` greedy wrt per-subtree `V(T) = successProb(π', T, ·)`.
+3. **Zero-on-incorrect:** require `π'(nid, i) = 0` for incorrect children (`hcorrect_better` becomes vacuous).
+
+Option 2 is the cleanest research target; Option 1 is in the middle; Option 3 is easy but very restrictive. Action: pick one, formalise, scaffold, submit.
+
+---
+
 ### ~~OQ-10: simplicial — `chebyshev_ratio_tendsto_zero` Lean signature weaker than proof needs~~ — RESOLVED 2026-04-24 (session 19)
 
 Aristotle Job C `986efbdd` chose Option 1 verbatim: added `hNG : n·g → ∞` hypothesis to `chebyshev_ratio_tendsto_zero`, `paleyZygmund_cech_prob_tendsto_one`, and `detection_lower_bound`. Also introduced `derive_hNG` helper and tightened `phase_transition`'s `hbeyond` from `d/(n^{3/2}·G)^{1/α} → 0` to the (strictly stronger) `d/(n·G)^{1/α} → 0`. Session 19 cherry-picked all three jobs, dropped a spurious `hd` hypothesis from `paleyZygmund` + `detection_lower_bound`, and added `detection_lower_bound_fixed_d` — the exact Lean counterpart to the paper's fixed-`d` Theorem 4.2. Paper pointer at line 592 updated from `phase_transition` → `detection_lower_bound_fixed_d`.

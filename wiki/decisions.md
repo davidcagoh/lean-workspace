@@ -4,6 +4,27 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Stochastic-search-bounds: bundle + reframe, don't split; weaken Theorem 1 to root-only hypothesis
+
+**Decision date:** 2026-04-24 (session 22)
+
+**Context:** After session 21 declared the paper arXiv-ready, the author reviewed it and was unconvinced the gap was visible and unsure whether the four theorems were coequal or whether the paper was really one main result plus supporting props. Asked for a reframe + strong-form roadmap vis-à-vis the 2026 SOTA (Aletheia, Gauss, GAR, HTPS lineage). See `~/.claude-main/plans/so-i-was-pretty-twinkling-sunset.md`.
+
+**Decision:** Ship reframed + restructured (2 thm + 2 prop), not T2 alone.
+
+**Alternatives considered:**
+- (a) Ship T2 (policy improvement) standalone — rejected. ITP/CPP audiences reward scope; a single-theorem submission loses the complexity-envelope narrative that makes the gap claim land. T2 alone is defensible but thin.
+- (b) Hold all until strong form proven — rejected. Reframed + weakened paper is independently defensible; indefinite hold risks being scooped by GAR/Aletheia follow-ups.
+- (c) Keep all four as coequal theorems — rejected. T3 (`hpmax`-conditional) and T4 (`q ≤ 1/2`-conditional) carry weaker punch than T1/T2 and are more honest as Propositions.
+
+**Why:** The gap statement ("first machine-verified formal theory of policy-guided hypertree search, the topology every 2026 frontier prover runs on") lands harder with four bundled results (envelope + monotone descent + decomposition) than with any single theorem. ITP/CPP formalization venues accept conditional results if formalization is clean; all four are 0-sorry and axiom-clean on `[propext, Classical.choice, Quot.sound]`.
+
+**Additional action:** Weakened Theorem 1 (upper bound) from uniform `∀ nid, successProb π t nid ≥ pmin` to root-only `successProb π t 0 ≥ pmin` in new file `AutomatedProofs/AOTree/Theorem1_Strong.lean`. Inspection of original proof showed `hpolicy` was used only at `nid = 0`; the weakening is a direct rewrite, no Aristotle submission needed. The uniform form is preserved as a corollary (`hitting_time_upper_bound_from_strong`). This is the single highest-value hypothesis weakening per the plan and addresses the author's "strong assumption" concern head-on.
+
+**Implication:** Future weakenings (T2 `hcorrect_better`, T3 unconditional lower bound, T4 regime sharpening) deferred to follow-up sessions. The pattern established here — audit used hypotheses before submitting to Aristotle; trivial weakenings may need no Aristotle at all — should be repeated on other projects.
+
+---
+
 ## Paper-to-Lean pointer discipline: a paper theorem's `\leanverified{...}` must name a lemma whose *signature* matches the paper's claim, not just its *proof*
 
 **Decision date:** 2026-04-24 (session 19)
