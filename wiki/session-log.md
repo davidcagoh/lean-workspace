@@ -4,6 +4,45 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-23 (session 16) — paper.tex §1 restructured (9 subsections → 5), principles distilled from BDER
+
+### What was done
+
+**Principles distilled from `existing-literature/1411.5713v2.pdf` (BDER):**
+1. State all main theorems in intro, numbered and formally — reader knows what the paper proves before any proof
+2. Related work comes **before** main results (reader gets landscape first)
+3. Never separate "Main Results" and "Contributions" into distinct subsections — they overlap
+4. Comparison with prior work in ONE place (briefly in related work OR fully in discussion, not both)
+5. Proof dependencies communicated by section structure + one-sentence roadmap, not a diagram
+6. Notation introduced at point of first use, not in standalone section
+7. Intro ends with single prose roadmap paragraph
+
+**paper.tex Section 1 restructure (9 subsections → 5):**
+- Old 1.1 Motivation + 1.2 Detection Problem → **new 1.1 Background and Motivation** (merged; 2PC + Čech defined once informally)
+- Old 1.6 Related Work moved up to **new 1.2 Related Work**, with BDER qualitative contrast ($d^*\asymp n^3$ vs. finite $d^*(p)$) absorbed as one paragraph
+- Old 1.3 Main Results + 1.4 Contributions → **new 1.3 Main Results and Contributions** (unified; τ_f definition + equation + informal theorem + 4-item contributions list all in one subsection)
+- Old 1.5 Comparison with BDER **deleted entirely** (content already in new 1.2 briefly and in §5.1 Discussion in depth)
+- Old 1.7 Proof Dependency Structure (raw-LaTeX arrow diagram) **deleted**; flow now one sentence inside new **1.4 Paper Organization**
+- Speculative BDER power conjecture moved to §5.3 Future Work as `\paragraph{Power comparison with BDER}`
+- Old 1.9 AI-Assisted renumbered to 1.5, unchanged
+
+**Paper state after:** 930 lines, 13 pages, compiles clean (pdflatex + bibtex + pdflatex × 2), no undefined references, no multiply-defined labels. Two main theorems (detection bound, phase transition) now sit together in §1.3, clearly spotlighted.
+
+**Plan file:** `~/.claude-main/plans/i-feel-that-simplicial-latent-geometry-m-declarative-yeti.md`
+
+### State at end of session
+
+paper.tex §1 clean. Still ready for arXiv + RSA submission.
+
+### What to do next session
+
+1. **Simplicial — arXiv upload:** submit `paper.tex` + `references.bib` (no figures needed). Paper is now 13pp (was 14pp — the restructure tightened §1).
+2. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+3. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+
+---
+
 ## 2026-04-23 (session 15) — citations verified; references.bib corrected (5 DOIs added, Temcinas fixed)
 
 ### What was done

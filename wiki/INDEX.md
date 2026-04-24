@@ -19,19 +19,19 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 - `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L (v2)
 - `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6
 - `simplicial-latent-geometry/my_theorems/paper_draft.md` — Strategy 2 draft, §5 updated
-- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **major rewrite complete (14pp, 16 bib entries, all proofs in body, compiles clean)**
+- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **§1 restructured to spotlight the two main theorems (13pp, 15 bib entries, all proofs in body, compiles clean)**
 - `simplicial-latent-geometry/my_theorems/proof_strategy.md` — active proof strategy (481L)
 
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-23 — session 15)
+## Status (2026-04-23 — session 16)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper ready (14pp, citations verified: 11/15 VERIFIED + 1 LIKELY Feller + 3 expected NOT_FOUND). **Ready to submit.** Venue: RSA (round 1). |
+| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper ready (13pp, §1 restructured to spotlight main theorems, citations verified). **Ready to submit.** Venue: RSA (round 1). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities

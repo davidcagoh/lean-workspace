@@ -4,6 +4,16 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## paper writing scaffold: follow BDER (1411.5713v2) introduction principles
+
+**Decision date:** 2026-04-23
+
+**Why:** The paper.tex intro had drifted into 9 subsections with heavy redundancy (Motivation+Detection Problem, Main Results+Contributions, Comparison+Related Work each said the same thing twice). Re-read BDER to distill structural rules: (1) state all main theorems in the intro formally, (2) related work comes **before** main results (landscape first), (3) never separate Main Results from Contributions — unify them, (4) comparison with prior work in exactly one place (briefly in related work OR fully in discussion), (5) proof dependencies by section structure + one-sentence roadmap, not a diagram in the intro, (6) notation at point of first use, (7) intro ends with a single prose roadmap paragraph.
+
+**Implication:** For future papers in this lineage (jepa, stochastic-search-bounds) apply the same scaffold principles: merge Main Results with Contributions, put Related Work before Main Results, keep comparison with prior work in one section, never inline a dependency DAG as raw LaTeX arrows.
+
+---
+
 ## simplicial paper: venue target is RSA; AoAP is prestige fallback
 
 **Decision date:** 2026-04-20
