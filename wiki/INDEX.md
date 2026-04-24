@@ -31,13 +31,13 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete (+38 uncommitted lines pending `git add`). Paper 14pp, Thm 4.2 rescoped to fixed d, variance-bound in Appendix B, all 17 Lean pointers verified. **Ready to submit.** Venue: RSA (round 1). |
+| `simplicial-latent-geometry` | **0 sorries** ⚠️ | Paper 14pp ready. **`lake build` currently broken (28 errors, pre-existing).** Fix build before arXiv submission. Venue: RSA (round 1). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial — commit uncommitted Lean lines** (`fillingProb_eventually_one`, `geometricCov_eventually_zero`) so HEAD matches paper Appendix A claims.
-2. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp), no figures needed.
+1. **Simplicial — URGENT: fix `SimplicialDetection.lean` build.** 28 scattered errors (`Unknown identifier`, `Unknown constant`, `No goals to be solved`, `unsolved goals`) — likely Mathlib drift. Paper "formally verified" claims depend on a clean build. Errors pre-date session 17.
+2. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp) after build restored.
 3. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
 4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
 5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.

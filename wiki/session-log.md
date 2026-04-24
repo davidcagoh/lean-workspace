@@ -28,12 +28,14 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 paper.tex at 14pp, compiles clean (3-pass pdflatex + bibtex, 0 warnings, 0 undefined references). Thm 4.2 scope now matches proof scope; previously-load-bearing Remark 4.5 gap absorbed into Future Work.
 
-**Uncommitted Lean work flagged:** `SimplicialLatentGeometry/SimplicialDetection.lean` has +38 uncommitted lines in working tree adding `fillingProb_eventually_one` and `geometricCov_eventually_zero` — both already cited in paper.tex Appendix A as verified. Need `git add + commit` on the simplicial-latent-geometry side to reconcile HEAD with paper claims. Not touched this session.
+**Uncommitted Lean lines committed:** `fillingProb_eventually_one` and `geometricCov_eventually_zero` landed in simplicial-latent-geometry commit `7788b02` — paper.tex Appendix A claims now match HEAD.
+
+**NEW PROBLEM SURFACED — `lake build` currently fails with 28 scattered errors in `SimplicialDetection.lean` (lines 395, 529, 1115, 1482, 1711+, 2060+, 3000+):** `Unknown identifier` (`moments_twoParam_var`, `choose3_g_sq_tendsto_atTop`, `chebyshev_single_bound`), `Unknown constant` (`Filter.Tendsto.atTop_nonneg_mul_left`), plus `No goals to be solved` and `unsolved goals` spread across multiple lemmas. Error count is identical with or without the session-17 commit (confirmed via `git stash` test), so the breakage pre-dates this session. Wiki entries for sessions 11–16 all claimed "compiles clean / 0 sorries in active proof chain" — those claims appear to have been stale. This needs investigation and fixing before arXiv submission, since the paper's Lean pointers should resolve in a clean build.
 
 ### What to do next session
 
-1. **Simplicial — commit the 38 uncommitted Lean lines** in `SimplicialLatentGeometry/SimplicialDetection.lean` (`fillingProb_eventually_one`, `geometricCov_eventually_zero`) so paper Appendix A claims match HEAD.
-2. **Simplicial — arXiv upload:** submit `paper.tex` + `references.bib` (14pp now, no figures needed).
+1. **Simplicial — URGENT: fix `lake build` errors in `SimplicialDetection.lean`.** 28 pre-existing errors block the "compiles clean" claim the paper relies on. Start with `Unknown identifier` / `Unknown constant` cases (likely rename drift or Mathlib API change); `No goals to be solved` cases suggest tactics that over-solve after a Mathlib update. Paper submission should wait for this.
+2. **Simplicial — arXiv upload:** submit `paper.tex` + `references.bib` (14pp) after build is restored.
 3. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
 4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
 5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
