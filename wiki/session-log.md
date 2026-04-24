@@ -4,6 +4,52 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-23 (session 14) — paper.tex major rewrite for arXiv; all proofs expanded, citations fixed, intro restructured
+
+### What was done
+
+**paper.tex — complete rewrite (11pp → 14pp, compiles clean):**
+- Running-head fixed: `\author[Goh and Cook]{David Goh}` (was plain `\author{David Goh}`)
+- Eliminated Appendix A (deferred proofs) — all three proofs brought into main body sections
+- Introduction restructured following BDER paper style: hypotheses stated immediately, informal theorem early (§1.3), reader sees all contributions before proofs
+- New §1.1 Motivation: TDA context from Kahle 2010/2016 and Bobrowski-Kahle survey; null-hypothesis framing explicit
+- New §1.6 Related Work: B&B Fourier coefficients paper, Dhawan-Mao-Wein dense subhypergraphs, Kahle papers, Temčinas et al.
+- New §1.7 Proof dependency diagram (explicit arrows from supporting lemmas to two main theorems)
+- BDER comparison (§1.5): added conjecture that simplicial fill layer gives greater test power than BDER setting
+- Prop 2.7 renamed to **Lemma 2.7** (stepping-stone role, not standalone result)
+- New **Lemma 2.8** (three-arc intersection): named, with complete case-split proof ($r > 1/3$ and $r = 1/3$ boundary)
+- Lemma 2.7(b) proof: self-contained Helly argument replaces sketch; shows geomCov = 0 *exactly* for d ≥ d*(p) (finite threshold), so limit is trivially 0
+- Prop 3.2 proof: off-diagonal vanishing argued case-by-case (all configurations of shared vertices/edges)
+- Prop 3.3(b) proof: translation-invariance argument that E[Z_t | x_i] is constant in x_i spelled out explicitly (change-of-variables u = x_j − x_i on T^d)
+- Thm 4.2 proof: Paley-Zygmund lower bound computed explicitly (denominator = 1 − o(1) shown)
+- Discussion §5.3: "4-cycle statistics" paragraph completely rewritten; no longer references a hallucinated paper
+
+**references.bib — complete rewrite:**
+- Removed bogus `Bangachev2024` entry (had fictitious arXiv:2304.01521, wrongly attributed "Detection of Dense Subhypergraphs" to Bangachev & Bresler)
+- Added `BangachevBresler2024`: "On the Fourier Coefficients of High-Dimensional Random Geometric Graphs", arXiv:2402.12589 — the actual B&B paper
+- Added `DhawanMaoWein2023`: "Detection of Dense Subhypergraphs by Low-Degree Polynomials", arXiv:2304.08135 (Dhawan, Mao, Wein)
+- Added `Kahle2011`: Duke Math J 2011, arXiv:0910.1649 — Random Geometric Complexes
+- Added `Kahle2016`: handbook chapter arXiv:1607.07069 — Random Simplicial Complexes
+- Total bib entries: 16 (was 12)
+
+**Citation investigation findings (from reading PDFs):**
+- 2402.12589 = Bangachev & Bresler 2024: Fourier coefficients of RGG on S^{d-1}; proves signed triangle statistic is computationally optimal
+- 2304.08135 = Dhawan, Mao, Wein 2023: dense subhypergraphs detection (NOT Bangachev & Bresler)
+- Old bib arXiv number 2304.01521 does not match any provided PDF — was hallucinated
+
+### State at end of session
+
+Paper substantially revised for arXiv submission: 14pp, 0 errors, 16 bib entries, all proofs in main body, running head fixed. No Lean changes.
+
+### What to do next session
+
+1. **Verify citations with Semantic Scholar API** (user has API key ready): check all 16 bib entries for accuracy (authors, title, year, venue).
+2. **arXiv upload:** `paper.tex` + `references.bib` (no figures needed).
+3. **RSA submission:** PDF via Wiley ScholarOne; no house style required for round 1.
+4. **OQ-7:** Decide JEPA and stochastic-search-bounds venue targets.
+
+---
+
 ## 2026-04-22 (session 13) — paper.tex reviewed; running-head fix and arXiv/RSA submission still pending
 
 ### What was done
