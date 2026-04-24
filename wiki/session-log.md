@@ -4,6 +4,63 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-24 (session 18) — simplicial `lake build` restored to green; 6 tactic-drift sorries sent to Aristotle; hypothesis gap surfaced in `chebyshev_ratio_tendsto_zero`
+
+### What was done
+
+**Backup cleanup:**
+- Deleted 7 obsolete `.bak` / `.backup` / `.bak_YYYYMMDD_*` files scattered in `simplicial-latent-geometry/` and inside `SimplicialLatentGeometry/`.
+- Deleted the superseded `.reorg-backups/` tree at workspace root (three timestamped snapshots from 2026-04-01, kept for weeks past relevance).
+- None of these were tracked by git; working tree now clean of backup debris.
+
+**`lake build` restored (28 errors → 0, 6 sorries pending Aristotle):**
+
+*Category A — structural bugs (fixed manually):*
+- **Line 395 `Unknown identifier moments_twoParam_var`:** wrapped the deprecated duplicate `moments_twoParam` (lines 388–395) in a `/- ... -/` comment block. Its variance half `moments_twoParam_var` was already intentionally commented out; the conjunction lemma at 389 was stranded referencing it. No downstream callers. Strategy-2 code uses `moments_twoParam_signed` + `cech_second_moment_bound` instead.
+- **Forward references at lines 1718 / 1725:** `chebyshev_2PC_prob_tendsto_zero` (line 1699) cited `choose3_g_sq_tendsto_atTop` and `chebyshev_single_bound`, both defined 1800+ lines later (~3523, ~3458). Moved both lemmas (together with their PROVIDED SOLUTION blocks) to before `chebyshev_2PC_prob_tendsto_zero`.
+- **Line 3159 garbled `filter_upwards`:** the line read `filter_upwards [hSNR.eventually_gt_      filter_upwards [hSNR.eventuallith k hk hn_k` — a partial paste/corrupted Aristotle return dating back to commit 0beaca4 (April 4, 2026). Reconstructed from surrounding context as `filter_upwards [hSNR.eventually_gt_atTop 0] with k hk`. Killed cascading parse errors at 3144, 3157, 3212.
+- **Additional forward references for `fillingProb_nonneg`, `fillingProb_le_one`, `torus_pi_measure_real_univ'`:** once the chebyshev-single / choose3 forward refs were fixed, `chebyshev_2PC_prob_tendsto_zero` surfaced three more. Moved all three to before line 1820 (together, as a block, with `torus_pi_measure_real_univ'` as a private helper). Dependencies still type-check: `fillingProb_nonneg` uses only Mathlib `integral_nonneg`; `fillingProb_le_one` uses `torus_pi_measure_real_univ'` which sits right above it.
+- **Redundant `erw [Measure.pi_univ]; norm_num` line in `cechMeasure_isProbabilityMeasure`** at line 534 — the preceding line already closed the goal, the second one failed with "No goals to be solved". Deleted.
+
+*Category B — tactic drift (sorry-stubbed with PROVIDED SOLUTION docstrings, submitted to Aristotle):*
+
+Wrote `/tmp/sorry_stub.py` to replace 6 broken lemma bodies with `:= by sorry` in one pass. Each lemma now carries a PROVIDED SOLUTION docstring describing the intended proof strategy. Build green with 9 effective sorries (2 pre-existing dead-code + 1 commented duplicate + 6 new).
+
+- **Job A** `ef4bf1ac-2876-4877-b33b-f051aab48bda` (IN_PROGRESS): `cechDoublySigned_triangle_integral` (change-of-variables pushforward from `CechSample n d` to `Fin 3 → Torus d`) + `edgeProduct_integral_bounded'` (|∫ e₁₂·e₁₃·e₂₃| ≤ 1).
+- **Job B** `e9270000-23cc-4d86-a333-a7eb60e718d3` (QUEUED): `vertex_sharing_indepFun'` — shared-vertex-triangle independence via shear invariance + measurability of the `∃ z, ...` fill region. Previously proved by Aristotle, broke under Mathlib drift.
+- **Job C** `986efbdd-e2c3-4225-bcaf-eed21eaef077` (IN_PROGRESS): `cech_complement_prob_bound` + `chebyshev_ratio_tendsto_zero` + `paleyZygmund_cech_prob_tendsto_one` — the Type-II-error / Paley–Zygmund chain. See "State at end of session" re: an actual hypothesis gap flagged in cluster C.
+
+All three jobs got narrow prompts naming the specific lemmas, per user guidance to follow `wiki/aristotle-strategy.md`'s "bare minimum Aristotle needs to see" principle. Job files: `help_from_aristotle/{49,50,51}_*_request.md`.
+
+**Paper-pointer audit:** 16 of 17 `\lean{...}` / `\leanverified{...}` pointers in `paper.tex` resolve to sorry-free lemmas. The one outstanding is `paleyZygmund_cech_prob_tendsto_one` (covered by Job C). `phase_transition` (the headline theorem statement) compiles sorry-free.
+
+**Plan file:** `~/.claude-main/plans/figure-out-what-s-wrong-dynamic-hummingbird.md`.
+
+### State at end of session
+
+**Build:** `lake build` completes cleanly (8029 jobs, 0 errors). 9 sorries remain; 6 are in-flight with Aristotle, 3 are pre-existing dead-code or commented-out duplicates (not in the active proof chain).
+
+**Wiki claims for sessions 11–16 of "compiles clean" were stale** — the broken state predated session 17 but had gone unnoticed because no one ran `lake build` at session boundaries. Session 18 is the first time in ≥3 weeks the build actually compiles.
+
+**Hypothesis gap surfaced (NEW, real, needs paper/Lean reconciliation):** the Lean statement of `chebyshev_ratio_tendsto_zero` takes arbitrary sequences `nSeq`, `dSeq` and assumes only `n^(3/2)·g → ∞`. That hypothesis is **not sufficient** to conclude the stated limit when `dSeq` varies — counterexample: `g ~ n^{-3/2}·log n` gives `n^(3/2)·g = log n → ∞` but `n²·g² = (log n)²/n → 0`, so the `48·C(n,4)/(C(n,3)·g)²` term in the ratio does **not** → 0.
+
+**The paper is fine** — Theorem 4.2 explicitly fixes `d` with `geomCov(p,d) > 0`, so `g` is a positive constant and all the implicit limits (`n²·g² → ∞`, `n^3·g^2 → ∞`) are automatic. The gap is in the Lean *statement*, which over-generalised to joint `(n, d)` sequences that the paper never claims.
+
+Resolution options when Job C returns: (1) tighten the Lean hypothesis, e.g. add `∃ c > 0, ∀ k, c ≤ geometricCov p (dSeq k)` or `dSeq k = dSeq 0` (fixed), matching the paper's regime; (2) inline the ratio-calculation inside `paleyZygmund_cech_prob_tendsto_one` under its actual call regime. Either is ~5 min of work.
+
+**Why this was not caught earlier:** the previous Aristotle-proved version of the lemma likely closed by implicitly requiring fixed `dSeq` inside its tactic block without surfacing it as a hypothesis; when Mathlib drift broke the tactics, nobody re-examined the bare signature. Writing the PROVIDED SOLUTION for the sorry-stub this session forced the signature to be read in isolation, exposing the mismatch.
+
+### What to do next session
+
+1. **Simplicial — Aristotle jobs:** run `python ../scripts/retrieve.py` once emails arrive for Jobs A (`ef4bf1ac`), B (`e9270000`), C (`986efbdd`). Cherry-pick the filled-in tactic bodies; do not wholesale replace the file (handbook principle).
+2. **Simplicial — `chebyshev_ratio_tendsto_zero` hypothesis reconciliation:** after Job C lands, either strengthen the Lean hypothesis to match the paper's fixed-`d` regime, or specialise the lemma at its one call site in `paleyZygmund_cech_prob_tendsto_one`. See OQ-10 (new).
+3. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp) after the above resolves.
+4. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+5. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+6. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+
+---
+
 ## 2026-04-23 (session 17) — paper.tex structural pass: Thm 1.1 killed, §3 flattened, Thm 4.2 rescoped, Appendix B added
 
 ### What was done

@@ -5,6 +5,7 @@ stochastic-search-bounds/
 
 # Shared Mathlib/Lake package cache — large, not tracked
 .lean-packages/
+.env
 
 # Claude Code local permission overrides — not shared
 .claude/settings.local.json

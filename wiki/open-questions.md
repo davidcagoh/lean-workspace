@@ -6,6 +6,24 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ## OPEN
 
+### OQ-10: simplicial — `chebyshev_ratio_tendsto_zero` Lean signature weaker than proof needs (2026-04-24, session 18)
+
+**Context:** The Lean statement in `SimplicialDetection.lean` takes arbitrary sequences `nSeq`, `dSeq : ℕ → ℕ` with hypothesis `Tendsto (fun k => (nSeq k)^(3/2) * geometricCov p (dSeq k)) atTop atTop`. Under this hypothesis alone the conclusion `Tendsto (fun k => 4·(C(n,3)+12·C(n,4)) / (C(n,3)·g)²) atTop (nhds 0)` **does not hold**.
+
+**Counterexample** (joint sequence, not used by the paper): pick `nSeq k = k²`, `dSeq k` such that `g = geometricCov p (dSeq k) ~ k^{-3} · log k`. Then `n^(3/2)·g = k³·k^{-3}·log k = log k → ∞` ✓, but `n²·g² = k⁴ · k^{-6}·(log k)² = (log k)²/k² → 0`, so the `48·C(n,4)/(C(n,3)·g)²` term in the ratio does not → 0.
+
+**Why the paper is still correct:** Theorem 4.2 fixes `d` with `geomCov(p,d) > 0`, so `g` is a positive constant. Under that regime, `n²·g² → ∞` automatically, and both terms in the ratio → 0 as the paper describes (`paper.tex` line 627). The gap is in the Lean *statement*, not the math.
+
+**Why this was missed for weeks:** the previous Aristotle-proved version (pre-Mathlib-drift) likely closed the goal implicitly assuming fixed `dSeq` inside its tactic block, without surfacing it as a hypothesis. The paper's regime + the call-site regime were both fixed-`d`, so the mismatch stayed invisible. Writing a PROVIDED SOLUTION for the sorry-stub in session 18 forced the signature to be read standalone.
+
+**Resolution options** (either is ~5 min; decide after Aristotle Job C `986efbdd` returns):
+1. **Tighten the hypothesis.** Add `(hg_lb : ∃ c > 0, ∀ k, c ≤ geometricCov p (dSeq k))` — matches the paper's "fix `d` with `geomCov(p,d) > 0`" regime. Alternative: `(hd_const : ∀ k, dSeq k = dSeq 0)`.
+2. **Inline the calculation** inside `paleyZygmund_cech_prob_tendsto_one`, which is only called by `phase_transition` under fixed-`d`. Delete `chebyshev_ratio_tendsto_zero` as a standalone lemma.
+
+Blocking: Aristotle Job C reply. If Aristotle picks option (1) based on the PROVIDED SOLUTION hint, great; otherwise manual fix.
+
+---
+
 ### ~~OQ-9: simplicial — prove geomCov(p,d) = Θ(|log p|/d)~~ — RESOLVED 2026-04-20 (session 11)
 
 The proposed decay rate was incorrect. Correct result: **sharp phase transition** at d*(p) = |log p|/log(3/2).

@@ -25,19 +25,20 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-23 — session 17)
+## Status (2026-04-24 — session 18)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 sorries** ⚠️ | Paper 14pp ready. **`lake build` currently broken (28 errors, pre-existing).** Fix build before arXiv submission. Venue: RSA (round 1). |
+| `simplicial-latent-geometry` | **6 in-flight** ⚠️ | `lake build` ✅ green (was 28 errors). 6 tactic-drift sorries sent to Aristotle (Jobs `ef4bf1ac`, `e9270000`, `986efbdd`). 16/17 paper pointers resolve; `paleyZygmund_cech_prob_tendsto_one` awaits Job C. New OQ-10 flagged: `chebyshev_ratio_tendsto_zero` Lean statement weaker than proof needs (paper fixed-`d` regime not captured in signature). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial — URGENT: fix `SimplicialDetection.lean` build.** 28 scattered errors (`Unknown identifier`, `Unknown constant`, `No goals to be solved`, `unsolved goals`) — likely Mathlib drift. Paper "formally verified" claims depend on a clean build. Errors pre-date session 17.
-2. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp) after build restored.
-3. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
-4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
-5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+1. **Simplicial — retrieve Aristotle jobs:** run `python ../scripts/retrieve.py` when emails arrive for `ef4bf1ac` (Job A: `cechDoublySigned_triangle_integral` + `edgeProduct_integral_bounded'`), `e9270000` (Job B: `vertex_sharing_indepFun'`), `986efbdd` (Job C: `cech_complement_prob_bound` + `chebyshev_ratio_tendsto_zero` + `paleyZygmund_cech_prob_tendsto_one`). Cherry-pick filled bodies; do not wholesale replace.
+2. **Simplicial — resolve OQ-10:** after Job C, reconcile `chebyshev_ratio_tendsto_zero`'s Lean hypothesis with the paper's fixed-`d` regime. Either tighten the signature (add `∃ c > 0, ∀ k, c ≤ geometricCov p (dSeq k)`) or specialise at the call site in `paleyZygmund_cech_prob_tendsto_one`. ~5 min work.
+3. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp) once sorries close.
+4. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+5. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+6. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
