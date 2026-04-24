@@ -4,6 +4,42 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-23 (session 17) — paper.tex structural pass: Thm 1.1 killed, §3 flattened, Thm 4.2 rescoped, Appendix B added
+
+### What was done
+
+**paper.tex writing quality pass** (14pp, compiles clean, 0 warnings, 0 undefined refs):
+
+- **Deleted `\begin{theorem}[Informal] thm:informal`** in §1.3 — the block just forward-referenced Thm 4.2 and Thm 4.4. Replaced with two prose paragraphs that preview the main results inline, sitting naturally above the existing Contributions list. No more "Theorem 1.1 redirects to Theorem 4.2" awkwardness.
+- **Flattened §3 entirely** — removed all three `\subsection` headers (Definition / Moments under 2PC / Moments under Čech). Added a motivating paragraph at §3's top explaining why double-centering is the right construction (edge-only = BDER-blind-to-fills, fill-only = biased under null, doubly-centered = right answer). Added one-line bridges before Props 3.2 and 3.3.
+- **Rescoped Thm 4.2** from `(d fixed) ∧ (n^{3/2}·g → ∞)` to just `(fixed d, geomCov(p,d) > 0)` — the second hypothesis was redundant under `d fixed`, and the Paley–Zygmund proof with `Var_Čech = O(n⁴)` actually needs `n·g → ∞` which is *stronger* than the advertised `n^{3/2}·g → ∞` once `g = o(n^{-1/2})`. New statement = what the proof actually delivers.
+- **Deleted Remark 4.5** (the half-admission of the above gap). Moved its honest content to §5.3 Future Work as a new `\paragraph{Simultaneous limits.}` bullet, naming both missing ingredients: (i) sharper `Var_Čech` bound below `O(n⁴)`, (ii) the `geomCov` decay rate already flagged in the preceding paragraph.
+- **Cleaned up Thm 4.4(a)** — removed the parenthetical "(the condition n^{3/2}·g → ∞ is automatic)" since the hypothesis is gone from Thm 4.2.
+- **Moved orphan `\TV` definition** from §2.2 (Parameter Matching, line 351) to the top of §4 (Detection Analysis) where it's actually used.
+- **Added inline Lean pointers** at Thm 4.2's Chebyshev step (`\leanverified{chebyshev_2PC_prob_tendsto_zero}`) and Paley–Zygmund step (`\leanverified{paleyZygmund_cech_prob_tendsto_one}`). Added `paleyZygmund_cech_prob_tendsto_one` to Appendix A's catalog.
+- **Minor prose tightenings:** collapsed nested Kahle quotation in §1.2; broke apart parenthetical at §1.2's BDER-contrast sentence; added explicit `p(1-p) ≤ 1/4` step in Prop 3.3 covariance bound.
+- **Extracted Prop 3.3 part (b) proof to new Appendix B** — 46 of 53 lines were a 4-case covariance analysis (diagonal / no shared vertex / one shared vertex / one shared edge) where only the last case carried real content. Inline prop now carries a tight 8-line sketch; full case analysis lives in **Appendix B: Variance Bound for τ_f Under the Čech Model** (`app:variance-bound`). Paper grew from 13pp → 14pp; the extra page is Appendix B plus the motivating prose added to §3.
+
+**Lean pointer audit (all 17 verified valid):** every `\lean{...}` / `\leanverified{...}` in paper.tex resolves to a sorry-free lemma/theorem in `SimplicialLatentGeometry/SimplicialDetection.lean`. No drift from paper to Lean.
+
+**Plan file:** `~/.claude-main/plans/looking-at-simplicial-latent-geometry-my-greedy-newell.md`
+
+### State at end of session
+
+paper.tex at 14pp, compiles clean (3-pass pdflatex + bibtex, 0 warnings, 0 undefined references). Thm 4.2 scope now matches proof scope; previously-load-bearing Remark 4.5 gap absorbed into Future Work.
+
+**Uncommitted Lean work flagged:** `SimplicialLatentGeometry/SimplicialDetection.lean` has +38 uncommitted lines in working tree adding `fillingProb_eventually_one` and `geometricCov_eventually_zero` — both already cited in paper.tex Appendix A as verified. Need `git add + commit` on the simplicial-latent-geometry side to reconcile HEAD with paper claims. Not touched this session.
+
+### What to do next session
+
+1. **Simplicial — commit the 38 uncommitted Lean lines** in `SimplicialLatentGeometry/SimplicialDetection.lean` (`fillingProb_eventually_one`, `geometricCov_eventually_zero`) so paper Appendix A claims match HEAD.
+2. **Simplicial — arXiv upload:** submit `paper.tex` + `references.bib` (14pp now, no figures needed).
+3. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+
+---
+
 ## 2026-04-23 (session 16) — paper.tex §1 restructured (9 subsections → 5), principles distilled from BDER
 
 ### What was done

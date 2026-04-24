@@ -19,24 +19,25 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 - `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L (v2)
 - `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6
 - `simplicial-latent-geometry/my_theorems/paper_draft.md` — Strategy 2 draft, §5 updated
-- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **§1 restructured to spotlight the two main theorems (13pp, 15 bib entries, all proofs in body, compiles clean)**
+- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **14pp, §1 prose-first, Thm 4.2 rescoped to fixed d, variance-bound case analysis in Appendix B, 15 bib entries, 17 Lean pointers all verified, compiles clean**
 - `simplicial-latent-geometry/my_theorems/proof_strategy.md` — active proof strategy (481L)
 
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-23 — session 16)
+## Status (2026-04-23 — session 17)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper ready (13pp, §1 restructured to spotlight main theorems, citations verified). **Ready to submit.** Venue: RSA (round 1). |
+| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete (+38 uncommitted lines pending `git add`). Paper 14pp, Thm 4.2 rescoped to fixed d, variance-bound in Appendix B, all 17 Lean pointers verified. **Ready to submit.** Venue: RSA (round 1). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial — arXiv upload:** `paper.tex` + `references.bib`, no figures needed.
-2. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
-3. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
-4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+1. **Simplicial — commit uncommitted Lean lines** (`fillingProb_eventually_one`, `geometricCov_eventually_zero`) so HEAD matches paper Appendix A claims.
+2. **Simplicial — arXiv upload:** `paper.tex` + `references.bib` (14pp), no figures needed.
+3. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+4. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+5. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
