@@ -25,18 +25,18 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
-## Status (2026-04-23 — session 14)
+## Status (2026-04-23 — session 15)
 
 | Project | Sorries | Status |
 |---|---|---|
 | `jepa-learning-order` | **1** (`bootstrap_consistency` only) ✅ | Paper updated. Build clean. Ready for vet. |
 | `stochastic-search-bounds` | **0** ✅ | Paper complete. LaTeX/bib pending (post-vet). |
-| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper **rewritten** (14pp, running-head fixed, all proofs expanded, citations fixed, intro restructured). Venue: **RSA** (round 1). Pending: citation verification + arXiv/RSA upload. |
+| `simplicial-latent-geometry` | **0 active** ✅ | Lean complete. Paper ready (14pp, citations verified: 11/15 VERIFIED + 1 LIKELY Feller + 3 expected NOT_FOUND). **Ready to submit.** Venue: RSA (round 1). |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
 ## Next Priorities
 
-1. **Simplicial — verify citations:** use Semantic Scholar API (user has key) to check all 16 bib entries.
-2. **Simplicial — submit:** arXiv upload (`paper.tex` + `references.bib`), then RSA via Wiley ScholarOne.
+1. **Simplicial — arXiv upload:** `paper.tex` + `references.bib`, no figures needed.
+2. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
 3. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
 4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.

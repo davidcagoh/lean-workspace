@@ -4,6 +4,40 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-23 (session 15) — citations verified; references.bib corrected (5 DOIs added, Temcinas fixed)
+
+### What was done
+
+- Set up and ran `verify_refs.py` (dropped in workspace root) against `simplicial-latent-geometry/my_theorems/references.bib`
+- Installed deps: `bibtexparser httpx python-dotenv`
+- Fixed `verify_refs.py`: `_extract_arxiv()` now scans `note`/`journal` fields for arXiv IDs — without this, 7 entries that store their IDs in `note`/`journal` were falling through to slow title search and some failing
+- Final result: **11 VERIFIED, 1 LIKELY (Feller1968 — expected, old book), 0 UNCERTAIN, 3 NOT_FOUND (all expected: Goh2023 unpublished, Aristotle2025/ClaudeCode2025 website refs)**
+
+**references.bib corrections:**
+- Added `doi = {10.1002/rsa.20633}` to Bubeck2016
+- Added `doi = {10.1145/3519935.3519989}` to Liu2022
+- Added `doi = {10.1007/978-3-030-79876-5_37}` to deMoura2021
+- Added `doi = {10.1145/3372885.3373824}` to Mathlib2020
+- `Temcinas2025` fully corrected: wrong title ("Hypothesis Testing in Topology") → "Goodness-of-fit via count statistics in dense random simplicial complexes"; wrong arXiv journal → `Foundations of Data Science`; added `doi = {10.3934/fods.2025013}`; removed spurious arXiv:2407.05006 (mapped to a Turkic NLP paper on S2)
+
+**paper.tex correction (line 327):**
+- Updated Temcinas citation description from "study hypothesis testing directly in the TDA pipeline" → "develop goodness-of-fit tests for random simplicial complexes via CLTs for subcomplex counts" (matches actual paper content)
+
+**Temcinas paper confirmed relevant:** "Goodness-of-fit via count statistics in dense random simplicial complexes" (FODS 2025) proves multivariate CLTs for subcomplex counts in a multi-parameter model and uses them to build goodness-of-fit tests — directly related to our null-hypothesis testing framing.
+
+### State at end of session
+
+Citations fully verified. bib is 15 entries, all accurate. Paper compiles clean. Ready for arXiv + RSA submission.
+
+### What to do next session
+
+1. **Simplicial — arXiv upload:** submit `paper.tex` + `references.bib` (no figures needed).
+2. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
+3. **OQ-7:** JEPA and stochastic-search-bounds venue targets still open.
+4. **JEPA:** Wire `frozen_encoder_convergence` into `JEPA_rho_ordering` (discharge `hPhaseA`) — low urgency.
+
+---
+
 ## 2026-04-23 (session 14) — paper.tex major rewrite for arXiv; all proofs expanded, citations fixed, intro restructured
 
 ### What was done
