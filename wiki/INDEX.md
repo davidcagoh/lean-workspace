@@ -4,46 +4,115 @@
 
 | File | When to read |
 |---|---|
-| `INDEX.md` (this file) | Start of every session — check status block and next priorities |
-| `session-log.md` | Start of every session — read the top (most recent) entry for project state |
+| `INDEX.md` (this file) | Start of every session — status, open questions, next priorities |
+| `session-log.md` | Start of every session — top entry for latest state |
 | `decisions.md` | Before making architectural or proof-strategy choices |
-| `open-questions.md` | When something seems ambiguous or undocumented; add new questions here |
 | `lean4-reference.md` | Before writing any Lean — type conventions, Mathlib API, pitfalls, termination patterns |
 | `aristotle-strategy.md` | Before submitting to Aristotle — sizing, statement quality, merging, domain patterns |
 
+> **Rule:** all project state (sorry counts, open Aristotle jobs, next steps) lives in this file.
+> Project CLAUDE.md files contain architecture and pitfalls only — not status.
+
 ### Handbook
-`stochastic-proofs-handbook/` is now scripts-only. Its `docs/`, `templates/`, and `archive/` directories have been deleted — all knowledge is in this wiki. The handbook README points here.
+`stochastic-proofs-handbook/` is scripts-only. All knowledge is in this wiki.
 
 ### Paper drafts — naming convention
-Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. Supporting docs sit alongside it. Older versions are in `my_theorems/archive/`. This is the standard across all three projects:
+Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. Supporting docs sit alongside it.
 - `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L source (v2)
-- `jepa-learning-order/my_theorems/paper.tex` — LaTeX version, **13pp, compiles clean (session 21); `\leanverified{…}` catalog + Appendix B axiom status**
+- `jepa-learning-order/my_theorems/paper.tex` — LaTeX, **14pp, compiles clean (session 24); `\leanverified{…}` catalog + Appendix B axiom status**
 - `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6 source
-- `stochastic-search-bounds/my_theorems/paper.tex` — LaTeX version, **17pp, compiles clean (session 22: reframe + Thm 1 root-only weakening); Appendix A Lean verification catalog with paper-to-Lean map + Appendix B Lean signatures**
+- `stochastic-search-bounds/my_theorems/paper.tex` — LaTeX, **18pp, compiles clean (session 23: Winston-star rewrite); Appendix A Lean verification catalog + Appendix B Lean signatures**
 - `simplicial-latent-geometry/my_theorems/paper_draft.md` — Strategy 2 draft, §5 updated
-- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX version, **16pp (session 20: Def 2.3 aligned with Lean's nerve-only F, Thm 4.4(b) softened to statistic-level TV, §5 restructured into 3 clean subsections, 4 new refs, new covariance identity `geomCov = Cov(∏(A_e−p), F)` in §5.1); all `\lean{...}`/`\leanverified{...}` pointers resolve to sorry-free lemmas; compiles clean**
+- `simplicial-latent-geometry/my_theorems/paper.tex` — LaTeX, **16pp (session 20); all `\lean{}`/`\leanverified{}` pointers resolve to sorry-free lemmas; compiles clean**
 - `simplicial-latent-geometry/my_theorems/proof_strategy.md` — active proof strategy (481L)
 
 ### Workspace repo
 `lean-projects/` is now `davidcagoh/lean-workspace` (private) — tracks wiki/, scripts/, stochastic-proofs-handbook/, CLAUDE.md. The three proof projects are excluded (.gitignore) and remain independent repos.
 
+---
+
 ## Status (2026-04-29 — session 24)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **1** in JEPA.lean + **3** in BootstrapLemmas.lean (Job A `697611e0` in flight) | **paper.tex 14pp, compiles clean. `bootstrap_consistency` decomposed into 3 sub-lemmas: `offDiag_ftc` + `tracking_bound_from_gronwall` (Job A pending) + `pd_lower_from_offDiag` (Job B, after A). Key insight: gradV is linear in V — off-diagonal bound needs no bootstrap, just FTC.** arXiv-ready. |
-| `stochastic-search-bounds` | **0** ✅ | **paper.tex 18pp, compiles clean (session 23: Winston-star rewrite complete). Aristotle fc0719d6 merged. lake build 8034 jobs. references.bib (40 entries).** arXiv-ready. |
+| `jepa-learning-order` | **1** in JEPA.lean + **3** in BootstrapLemmas.lean (Job A `697611e0` in flight) | **14pp paper.tex, compiles clean. `bootstrap_consistency` decomposed into 3 sub-lemmas via FTC + Gronwall. Job A pending.** arXiv-ready (conditional). |
+| `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | Unchanged from session 20. 16pp paper.tex ready for arXiv. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
 
+---
+
+## Open Questions
+
+### OQ-14: JEPA — Job B `pd_lower_from_offDiag` (spectral PD bound, design-before-submit)
+
+Strategy: reduce to `λ_min(Wbar*SigmaXX*Wbar^T) ≥ c₀*ε^{2/L}` via
+`v^T(Wbar*SigmaXX*Wbar^T)v ≥ λ_min(SigmaXX)*‖Wbar^T v‖² ≥ λ_min(SigmaXX)*σ_min(Wbar)²*‖v‖²`.
+Bound σ_min(Wbar) from diagonal amplitudes ≥ c_w*ε^{1/L} minus off-diagonal perturbation.
+Submit after Job A (`697611e0`) returns. Prompt in `help_from_aristotle/21_bootstrap_request.md`.
+
+---
+
+### OQ-13: JEPA — Aristotle Job A `697611e0-f2b0-4bd1-9520-c61cb8bcd447`
+
+Submitted 2026-04-29 (session 24). Target: fill 2 sorries in `BootstrapLemmas.lean`:
+- `offDiag_ftc` — FTC + Cauchy-Schwarz, uses `hWbar_init` + `hWbar_slow`
+- `tracking_bound_from_gronwall` — rpow identity `ε²/ε^{2/L} = ε^{2(L-1)/L}` + assembly from `020b76be` + `1afe6f24`
+
+Retrieve: `aristotle result 697611e0` (from `jepa-learning-order/`).
+On success: cherry-pick both; `hoff_small` can then be derived (not assumed) in `JEPA_rho_ordering`.
+
+---
+
+### OQ-12: stochastic-search-bounds — T2 `hcorrect_better` weakening (design-before-submit)
+
+Before submitting to Aristotle, pick a concrete weaker sufficient condition. Candidates:
+1. **Locality:** require ordering only at OR nodes on actual proof paths.
+2. **Greedy-wrt-value:** require `π'` greedy wrt per-subtree `V(T) = successProb(π', T, ·)`.
+3. **Zero-on-incorrect:** require `π'(nid, i) = 0` for incorrect children.
+
+Option 2 is the cleanest research target. Action: pick one, formalise, scaffold, submit.
+
+---
+
+### OQ-11: stochastic-search-bounds — Aristotle Job `fc0719d6` (T4 sharp regime)
+
+Submitted 2026-04-24 (session 22). Target: `sum_prod_erase_le_one_of_sum_le_one` and `sequential_le_parallel_sharp` in `Theorem4_Strong.lean`, replacing `q(i) ≤ 1/2` with sharp `∑ q(i) ≤ 1`.
+Retrieve: `python scripts/retrieve.py`. On success: upgrade Prop 4.15 to sharp form.
+
+---
+
+### OQ-7: Publication strategy — venue targets for all three papers
+
+1. **JEPA** → ICLR theory / COLT / TMLR (arXiv-ready; 1 sorry remaining in JEPA.lean)
+2. **Stochastic-search-bounds** → ITP / CPP 2026 (0 sorries; confirm deadline first)
+3. **Simplicial** → RSA via Wiley ScholarOne after arXiv ID assigned
+4. **Methodology paper** ("Aristotle-Assisted Formalization") → NeurIPS / ITP (all three as case studies)
+
+---
+
+### OQ-6: simplicial — `volumeFill_div_le_one'` forward-reference sorry (line 2296)
+
+Forward reference to `volumeFill_div_volumeEmpty_le_one` (line 3479) — Lean 4 rejects. Fix: move `incBeta_*` block earlier in the file (Option A) or duplicate inline (Option B). Not an Aristotle job.
+
+---
+
+### OQ-1: Paper submission venue for `jepa-learning-order`
+
+Strategic advice in `jepa-learning-order/CLAUDE.md` recommends submitting soon — "first machine-checked learning-dynamics result" claim has time value. One named sorry (`bootstrap_consistency`) is a strong position.
+
+---
+
+*Resolved: OQ-10 (chebyshev_ratio, session 19), OQ-9 (geomCov, session 11), OQ-8 (fillingProb, session 9), OQ-5 (frozen_encoder_convergence, session 20), OQ-3 (matchRadius, session 6), OQ-2 (SSB sorry count, session early) — see session-log for details.*
+
+---
+
 ## Next Priorities
 
-1. **JEPA — retrieve Job A** (`697611e0-f2b0-4bd1-9520-c61cb8bcd447`): `aristotle result 697611e0` — cherry-pick `offDiag_ftc` + `tracking_bound_from_gronwall` if genuine.
+1. **JEPA — retrieve Job A** (`697611e0`): `aristotle result 697611e0` — cherry-pick `offDiag_ftc` + `tracking_bound_from_gronwall` if genuine.
 2. **JEPA — submit Job B** (`pd_lower_from_offDiag`): prompt in `help_from_aristotle/21_bootstrap_request.md`.
 3. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
 4. **Simplicial — arXiv upload:** 16pp ready.
-5. **JEPA — arXiv upload:** 14pp ready. Ship as "conditional"; Jobs A+B landing would strengthen the story.
+5. **JEPA — arXiv upload:** 14pp ready. Ship as "conditional"; Jobs A+B landing would strengthen.
 6. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after arXiv ID assigned.
-7. **Forward-cites triage (stochastic-search-bounds):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
-8. **OQ-7:** Venue targets for all three papers still open.
-9. **JEPA long-term:** `bootstrap_consistency` in JEPA.lean stays sorry'd until Jobs A+B land and are wired in.
+7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.

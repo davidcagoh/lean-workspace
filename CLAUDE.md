@@ -21,6 +21,22 @@ lean-workspace/
 
 ---
 
+## Wiki structure — where things live
+
+| What | Where |
+|---|---|
+| Sorry counts, arXiv readiness, Aristotle job IDs | `wiki/INDEX.md` — Status + Open Questions |
+| Session history | `wiki/session-log.md` |
+| Architectural decisions | `wiki/decisions.md` |
+| Lean/Mathlib API reference | `wiki/lean4-reference.md` |
+| Aristotle submission patterns | `wiki/aristotle-strategy.md` |
+| File maps, pitfalls, build commands | Each project's `CLAUDE.md` |
+
+> **Rule:** project CLAUDE.md files contain architecture only — not status or roadmaps.
+> `wiki/INDEX.md` is the single source of truth for project state.
+
+---
+
 ## Session Start
 
 Read `wiki/INDEX.md`, then the top entry of `wiki/session-log.md`.
@@ -28,9 +44,3 @@ Read `wiki/INDEX.md`, then the top entry of `wiki/session-log.md`.
 ## Session End
 
 Run `/session-wrap` to update `wiki/session-log.md` and `wiki/INDEX.md`.
-
----
-
-## Project-Specific Context
-
-Everything else — Lean 4 conventions, Aristotle API usage, proof strategy, pitfalls, scripts — lives in each project's own `CLAUDE.md` and `wiki/` files.
