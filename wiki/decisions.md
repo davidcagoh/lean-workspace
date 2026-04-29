@@ -4,6 +4,16 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Wiki/memory architecture: INDEX.md is the single source of truth; CLAUDE.md = architecture only
+
+**Decision date:** 2026-04-29 (session 25)
+
+**Why:** open-questions.md was missed during session 24's session-wrap because session-wrap had a mental checklist across too many files. Consolidating OQs into INDEX.md means session-wrap has one mandatory update target (plus session-log.md), eliminating the "forgot a file" failure mode. CLAUDE.md files were also carrying duplicate state (sorry counts, roadmaps) that diverged from wiki — stripped to architecture/pitfalls/build commands only.
+
+**Implication:** Future session-wrap updates touch exactly two files: session-log.md (prepend entry) and INDEX.md (refresh status + OQs + priorities). CLAUDE.md is only touched when architecture actually changes. Do not put sorry counts, job IDs, or roadmap steps in any CLAUDE.md.
+
+---
+
 ## JEPA: bootstrap_consistency decomposed via FTC, not maximal-interval argument
 
 **Decision date:** 2026-04-29 (session 24)

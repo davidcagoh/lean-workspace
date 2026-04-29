@@ -4,6 +4,38 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-29 (session 25) — wiki/memory architecture refactor: INDEX.md is now single source of truth
+
+### What was done
+
+**Wiki restructure:**
+- Merged `wiki/open-questions.md` into `wiki/INDEX.md` — OQs now live in INDEX.md under an "Open Questions" section; open-questions.md is a redirect stub
+- Root `lean-workspace/CLAUDE.md` updated with explicit "where things live" table and the rule: CLAUDE.md = architecture only, wiki/INDEX.md = all state
+- `jepa-learning-order/CLAUDE.md` stripped of sorry table and step-by-step roadmap (~80 lines removed); kept file map, architecture invariants, build commands, strategic advice; added the "why BootstrapLemmas.lean exists" note
+- `simplicial-latent-geometry/CLAUDE.md` and `stochastic-search-bounds/CLAUDE.md` already correct — no changes needed
+- `session-wrap` skill rewritten: Step 3B now names INDEX.md as the single mandatory update target; explicitly says do NOT update a separate open-questions.md; Step 4 rule added (CLAUDE.md = architecture only)
+
+**Token hygiene:**
+- Deleted `~/.claude/rules/README.md` (1.1k tokens of meta-documentation that Claude doesn't need at runtime)
+- Decided to accept the 4k token overhead of web rules loading globally — no per-project suppression mechanism exists in Claude Code, not worth the maintenance risk of moving to project-level
+
+**No proof changes this session.** All changes are wiki/tooling only.
+
+### State at end of session
+
+All changes committed in both lean-workspace (wiki) and jepa-learning-order (CLAUDE.md).
+Aristotle Job A `697611e0` still in flight (no change from session 24).
+Wiki structure is now: INDEX.md = single source of truth; session-log.md = history; decisions.md = architectural choices; CLAUDE.md files = architecture/pitfalls only.
+
+### What to do next session
+
+1. **Retrieve Job A** (`697611e0`) — `aristotle result 697611e0` from `jepa-learning-order/`
+2. **Submit Job B** (`pd_lower_from_offDiag`) — prompt in `help_from_aristotle/21_bootstrap_request.md`
+3. **arXiv uploads** — stochastic-search-bounds (18pp, 0 sorries), simplicial (16pp, 3 dead-code), JEPA (14pp, conditional)
+4. **OQ-7** — confirm ITP/CPP 2026 deadline before submitting stochastic-search-bounds
+
+---
+
 ## 2026-04-29 (session 24) — jepa: bootstrap_consistency decomposed into 3 sub-lemmas; Job A submitted
 
 ### What was done
