@@ -121,13 +121,29 @@ await project.cancel()
 
 Terminal statuses (no further changes): `COMPLETE`, `COMPLETE_WITH_ERRORS`, `OUT_OF_BUDGET`, `FAILED`, `CANCELED`
 
-## CLI
+## CLI (prefer the scripts below over raw CLI)
 
 ```bash
 aristotle submit "Fill in the sorries" --project-dir . --wait --destination output.tar.gz
 aristotle list --status COMPLETE IN_PROGRESS --limit 20
 aristotle result <project-id> --wait --destination output.tar.gz
 aristotle cancel <project-id>
+```
+
+## Preferred workflow (run from project dir)
+
+```bash
+# Submit
+python ../stochastic-proofs-handbook/scripts/submit.py my_theorems/Paper.md "Fill in the sorries"
+
+# Retrieve (auto-downloads + annotates)
+python ../stochastic-proofs-handbook/scripts/retrieve.py
+python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>
+
+# If you have the tarball already (e.g. downloaded manually):
+# 1. Place at results/<full-uuid>.tar.gz
+# 2. python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>
+#    (skips download, runs annotation)
 ```
 
 ---

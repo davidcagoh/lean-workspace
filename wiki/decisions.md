@@ -4,6 +4,33 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Canonical Aristotle directory structure per project
+
+**Decision date:** 2026-04-29 (session 27)
+
+**Structure:**
+```
+<project>/
+├── requests/           # submission prompts (gitignored; numbered NN_<id>_request.md)
+└── results/            # downloaded tarballs only (gitignored; <full-uuid>.tar.gz)
+```
+
+No `aristotle/`, `help_from_aristotle/`, `scripts/`, or extracted subdirs at project root.
+All extracted content is ephemeral — cherry-pick proofs from tarballs, then delete extractions.
+
+**Scripts:** centralized in `stochastic-proofs-handbook/scripts/`. Run from the project dir:
+```bash
+python ../stochastic-proofs-handbook/scripts/submit.py my_theorems/Paper.md "..."
+python ../stochastic-proofs-handbook/scripts/retrieve.py
+python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>   # targeted
+```
+
+**API key:** loaded by walking up from cwd — workspace root `.env` is sufficient. No per-project `.env` required (though harmless if present).
+
+**Why:** The old setup had per-project `scripts/` copies that drifted, `help_from_aristotle/` as an unrecognizable name, and ad-hoc extraction dirs (`{id}_out`, `extracted_{id}`) with inconsistent naming. This decision locks the single canonical layout.
+
+---
+
 ## Wiki/memory architecture: INDEX.md is the single source of truth; CLAUDE.md = architecture only
 
 **Decision date:** 2026-04-29 (session 25)

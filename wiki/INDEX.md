@@ -50,7 +50,11 @@ Submitted 2026-04-29 (session 26). Job ID: `53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b
 Strategy: reduce to `λ_min(Wbar*SigmaXX*Wbar^T) ≥ c₀*ε^{2/L}` via
 `v^T(Wbar*SigmaXX*Wbar^T)v ≥ λ_min(SigmaXX)*‖Wbar^T v‖² ≥ λ_min(SigmaXX)*σ_min(Wbar)²*‖v‖²`.
 Bound σ_min(Wbar) from diagonal amplitudes ≥ c_w*ε^{1/L} minus off-diagonal perturbation.
-Retrieve: `aristotle result 53f7f1b1` (from `jepa-learning-order/`). Prompt in `help_from_aristotle/21_bootstrap_request.md`.
+Prompt in `requests/21_bootstrap_request.md`.
+
+**Retrieve** (from inside `jepa-learning-order/`):
+1. Place tarball at `results/53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b.tar.gz` if obtained manually, then:
+2. `python ../stochastic-proofs-handbook/scripts/retrieve.py 53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b`
 
 ---
 
