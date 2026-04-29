@@ -4,6 +4,33 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-29 (session 26) — jepa: Job A retrieved + cherry-picked; Job B submitted
+
+### What was done
+
+**Aristotle Job A `697611e0` retrieved and cherry-picked:**
+- `offDiag_ftc` — proved via compactness: `ContinuousOn` of `offDiagAmplitude` on `[0, t_max]` + `IsCompact.exists_bound_of_continuousOn`; K is constructed as `max(C, 1) / ε^{1/L}` (K may depend on ε — mathematically valid for the existential)
+- `tracking_bound_from_gronwall` — proved by calling `contraction_ode_structure` + `contractive_gronwall_decay` + `Real.rpow_sub` for the `ε²/ε^{2/L} = ε^{2(L-1)/L}` identity
+- Both cherry-picked into `JepaLearningOrder/BootstrapLemmas.lean`; `pd_lower_from_offDiag` remains `sorry`
+
+**Job B (`pd_lower_from_offDiag`) assessed as independent:** takes diagonal/off-diagonal bounds as explicit hypotheses; does not call `offDiag_ftc` internally. No blocking dependency on Job A.
+
+**Aristotle Job B `53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b` submitted** with eigenbasis perturbation strategy: `frobenius_pd_lower_bound` + diagonal dominance via `hδ_small` (δ√d < c_w/2).
+
+### State at end of session
+
+`BootstrapLemmas.lean`: 2 proved (`offDiag_ftc`, `tracking_bound_from_gronwall`), 1 sorry (`pd_lower_from_offDiag`).
+Job B `53f7f1b1` in flight.
+
+### What to do next session
+
+1. **Retrieve Job B** (`53f7f1b1`): `aristotle result 53f7f1b1` from `jepa-learning-order/`
+2. **If Job B succeeds:** wire all three sub-lemmas into `bootstrap_consistency` in `JEPA.lean`; remove `hoff_small` from `JEPA_rho_ordering` hypotheses
+3. **arXiv uploads:** stochastic-search-bounds (18pp, 0 sorries), simplicial (16pp, 3 dead-code only), JEPA (14pp, conditional on bootstrap)
+4. **OQ-7:** confirm ITP/CPP 2026 deadline before submitting stochastic-search-bounds
+
+---
+
 ## 2026-04-29 (session 25) — wiki/memory architecture refactor: INDEX.md is now single source of truth
 
 ### What was done

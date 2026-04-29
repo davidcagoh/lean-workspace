@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-29 — session 24)
+## Status (2026-04-29 — session 26)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **1** in JEPA.lean + **3** in BootstrapLemmas.lean (Job A `697611e0` in flight) | **14pp paper.tex, compiles clean. `bootstrap_consistency` decomposed into 3 sub-lemmas via FTC + Gronwall. Job A pending.** arXiv-ready (conditional). |
+| `jepa-learning-order` | **1** in JEPA.lean + **1** in BootstrapLemmas.lean (Job B `53f7f1b1` in flight) | **14pp paper.tex, compiles clean. Job A `697611e0` landed: `offDiag_ftc` + `tracking_bound_from_gronwall` proved. Job B `53f7f1b1` pending: `pd_lower_from_offDiag`.** arXiv-ready (conditional). |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | Unchanged from session 20. 16pp paper.tex ready for arXiv. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -44,23 +44,23 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ## Open Questions
 
-### OQ-14: JEPA — Job B `pd_lower_from_offDiag` (spectral PD bound, design-before-submit)
+### OQ-14: JEPA — Job B `pd_lower_from_offDiag` (spectral PD bound)
 
+Submitted 2026-04-29 (session 26). Job ID: `53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b`.
 Strategy: reduce to `λ_min(Wbar*SigmaXX*Wbar^T) ≥ c₀*ε^{2/L}` via
 `v^T(Wbar*SigmaXX*Wbar^T)v ≥ λ_min(SigmaXX)*‖Wbar^T v‖² ≥ λ_min(SigmaXX)*σ_min(Wbar)²*‖v‖²`.
 Bound σ_min(Wbar) from diagonal amplitudes ≥ c_w*ε^{1/L} minus off-diagonal perturbation.
-Submit after Job A (`697611e0`) returns. Prompt in `help_from_aristotle/21_bootstrap_request.md`.
+Retrieve: `aristotle result 53f7f1b1` (from `jepa-learning-order/`). Prompt in `help_from_aristotle/21_bootstrap_request.md`.
 
 ---
 
-### OQ-13: JEPA — Aristotle Job A `697611e0-f2b0-4bd1-9520-c61cb8bcd447`
+### OQ-13: JEPA — Aristotle Job A `697611e0` ✅ DONE (session 26)
 
-Submitted 2026-04-29 (session 24). Target: fill 2 sorries in `BootstrapLemmas.lean`:
-- `offDiag_ftc` — FTC + Cauchy-Schwarz, uses `hWbar_init` + `hWbar_slow`
-- `tracking_bound_from_gronwall` — rpow identity `ε²/ε^{2/L} = ε^{2(L-1)/L}` + assembly from `020b76be` + `1afe6f24`
+Both sorries proved and cherry-picked into `BootstrapLemmas.lean`:
+- `offDiag_ftc` — proved via compactness on compact interval [0, t_max] (fun_prop + IsCompact.exists_bound_of_continuousOn)
+- `tracking_bound_from_gronwall` — proved via `contractive_gronwall_decay` + `Real.rpow_sub` arithmetic
 
-Retrieve: `aristotle result 697611e0` (from `jepa-learning-order/`).
-On success: cherry-pick both; `hoff_small` can then be derived (not assumed) in `JEPA_rho_ordering`.
+Note: `offDiag_ftc` proof uses a compactness bound (K may depend on ε); mathematically sufficient for the existential but K is not ε-independent. `hoff_small` can be derived in `JEPA_rho_ordering` once Job B (`pd_lower_from_offDiag`) also lands.
 
 ---
 
@@ -109,8 +109,8 @@ Strategic advice in `jepa-learning-order/CLAUDE.md` recommends submitting soon �
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job A** (`697611e0`): `aristotle result 697611e0` — cherry-pick `offDiag_ftc` + `tracking_bound_from_gronwall` if genuine.
-2. **JEPA — submit Job B** (`pd_lower_from_offDiag`): prompt in `help_from_aristotle/21_bootstrap_request.md`.
+1. **JEPA — retrieve Job B** (`53f7f1b1`): `aristotle result 53f7f1b1` — cherry-pick `pd_lower_from_offDiag` if genuine.
+2. **JEPA — wire sub-lemmas into `bootstrap_consistency`** once Job B lands.
 3. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
 4. **Simplicial — arXiv upload:** 16pp ready.
 5. **JEPA — arXiv upload:** 14pp ready. Ship as "conditional"; Jobs A+B landing would strengthen.
