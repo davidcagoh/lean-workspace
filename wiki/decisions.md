@@ -4,6 +4,36 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Canonical per-project directory structure
+
+**Decision date:** 2026-04-29 (session 27)
+
+```
+<project>/
+├── <Module>/           # Lean source — flat (no subdirs), named after the lake_lib
+│   └── *.lean
+├── <Module>.lean       # Lake entry point (imports in dependency order)
+├── lakefile.toml
+├── lean-toolchain
+├── literature/         # Reference PDFs (gitignored)
+├── my_theorems/        # Paper and notes (gitignored)
+│   ├── paper.tex       # LaTeX source
+│   ├── paper_draft.md  # Markdown draft / Aristotle submission spec
+│   ├── references.bib
+│   ├── [*_spec.md]     # Any Aristotle submission specs
+│   └── notes/          # Everything else: citation work, memos, verification reports
+├── requests/           # Aristotle submission prompts (gitignored, numbered NN_<id>_request.md)
+├── results/            # Aristotle result tarballs only (gitignored, <uuid>.tar.gz)
+├── README.md           # Short public description with current commands
+└── CLAUDE.md           # Architecture + pitfalls + commands — authoritative for agents
+```
+
+No `scripts/` (centralized in stochastic-proofs-handbook), no `aristotle/`, no `help_from_aristotle/`, no `reports/`, no `memory/`, no `archive/`, no nested READMEs or CLAUDE.mds, no LaTeX build artifacts.
+
+**Why:** Eliminated ~10 structurally inconsistent dirs across the three projects that had accumulated via ad-hoc sessions with no agreed layout.
+
+---
+
 ## Canonical Aristotle directory structure per project
 
 **Decision date:** 2026-04-29 (session 27)
