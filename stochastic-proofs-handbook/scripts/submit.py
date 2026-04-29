@@ -32,7 +32,7 @@ import pathspec
 from aristotlelib import Project, AristotleAPIError
 from aristotlelib.local_file_utils import should_skip_input_file, get_pruned_dirnames
 
-EXTRA_EXCLUDE_DIRS = {".claude", ".github", "results", "scripts", "my_theorems", "proofs-from-literature", "memory", "reports", "requests", "my_theorem_stronger"}
+EXTRA_EXCLUDE_DIRS = {".claude", ".github", "results", "scripts", "my_theorems", "literature", "memory", "reports", "requests", "my_theorem_stronger"}
 
 
 def list_tar_files(tar_bytes: bytes) -> list[str]:
