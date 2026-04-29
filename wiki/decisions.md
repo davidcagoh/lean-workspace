@@ -4,6 +4,16 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## JEPA: bootstrap_consistency decomposed via FTC, not maximal-interval argument
+
+**Decision date:** 2026-04-29 (session 24)
+
+**Why:** Prior note said "do not attempt bootstrap_consistency via Aristotle — requires Picard-Lindelöf." This was wrong. (1) Mathlib has Picard-Lindelöf. (2) `bootstrap_consistency` takes the ODE solution as a hypothesis — it doesn't need to prove existence at all. The key structural insight is that `gradV` is **linear** in V, so the Lipschitz constant is just `‖Wbar*SigmaXX*Wbar^T‖` (explicit, bounded). The two conclusions decouple: off-diagonal bound needs only FTC + Cauchy-Schwarz on a linear functional of Wbar; tracking bound assembles already-proved `contraction_ode_structure` + `contractive_gronwall_decay`. No bootstrap argument is required for either.
+
+**Implication:** `BootstrapLemmas.lean` contains the three sub-lemmas. When Jobs A+B land, `hoff_small` can be removed from `JEPA_rho_ordering`'s signature (derived instead). The original `bootstrap_consistency` sorry in JEPA.lean stays until the new lemmas are wired in.
+
+---
+
 ## Stochastic-search-bounds: bundle + reframe, don't split; weaken Theorem 1 to root-only hypothesis
 
 **Decision date:** 2026-04-24 (session 22)

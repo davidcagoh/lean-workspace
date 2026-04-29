@@ -6,6 +6,26 @@ Add new questions at the top of the OPEN section. Move to RESOLVED when closed.
 
 ## OPEN
 
+### OQ-14: JEPA — Job B `pd_lower_from_offDiag` (spectral PD bound, design-before-submit)
+
+Strategy: reduce to `λ_min(Wbar*SigmaXX*Wbar^T) ≥ c₀*ε^{2/L}` via
+`v^T(Wbar*SigmaXX*Wbar^T)v ≥ λ_min(SigmaXX)*‖Wbar^T v‖² ≥ λ_min(SigmaXX)*σ_min(Wbar)²*‖v‖²`.
+Then bound σ_min(Wbar) from diagonal amplitudes ≥ c_w*ε^{1/L} minus off-diagonal perturbation.
+Submit after Job A (`697611e0`) returns. Prompt in `help_from_aristotle/21_bootstrap_request.md`.
+
+---
+
+### OQ-13: JEPA — Aristotle Job A `697611e0-f2b0-4bd1-9520-c61cb8bcd447`
+
+Submitted 2026-04-29 (session 24). Target: fill 2 sorries in `BootstrapLemmas.lean`:
+- `offDiag_ftc` — FTC + Cauchy-Schwarz, uses `hWbar_init` + `hWbar_slow`
+- `tracking_bound_from_gronwall` — rpow identity `ε²/ε^{2/L} = ε^{2(L-1)/L}` + Gronwall assembly from `020b76be` + `1afe6f24`
+
+Retrieve: `aristotle result 697611e0` (from `jepa-learning-order/`).
+On success: cherry-pick both lemmas; `hoff_small` can then be derived (not assumed) in `JEPA_rho_ordering`.
+
+---
+
 ### OQ-11: stochastic-search-bounds — Aristotle Job `fc0719d6` (T4 sharp regime)
 
 Submitted 2026-04-24 (session 22). Target: prove `sum_prod_erase_le_one_of_sum_le_one` and `sequential_le_parallel_sharp` in `AutomatedProofs/AOTree/Theorem4_Strong.lean`, replacing the uniform hypothesis `q(i) ≤ 1/2` with the sharp condition `∑ q(i) ≤ 1`. Proof strategy in spec: Maclaurin's inequality / iterated AM-GM gives `e_{n-1}(q) ≤ 1/n^{n-2} ≤ 1` for `n ≥ 2`.

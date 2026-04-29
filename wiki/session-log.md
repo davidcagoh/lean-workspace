@@ -4,6 +4,49 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-29 (session 24) — jepa: bootstrap_consistency decomposed into 3 sub-lemmas; Job A submitted
+
+### What was done
+
+**Reanalysis of `bootstrap_consistency` sorry:**
+- Previous note "requires Picard-Lindelöf, not in Mathlib" was wrong on two counts: (1) Mathlib has `Mathlib.Analysis.ODE.PicardLindelof`; (2) `bootstrap_consistency` takes the ODE solution as a *given hypothesis*, so ODE existence is irrelevant.
+- Key insight: `gradV` is **linear in V** (`gradV dat Wbar V = V*(Wbar*SigmaXX*Wbar^T) - Wbar*SigmaYX*Wbar^T`), so no eigenvalue smoothness is needed.
+- The two conclusions decouple: off-diagonal bound via FTC (no bootstrap), tracking bound via existing proved lemmas.
+
+**New file: `JepaLearningOrder/BootstrapLemmas.lean`** — 3 sub-lemmas, builds clean (8029 jobs, 3 targeted sorries):
+
+| Lemma | Line | Status |
+|---|---|---|
+| `offDiag_ftc` | 103 | sorry — Aristotle Job A `697611e0` |
+| `pd_lower_from_offDiag` | 159 | sorry — Aristotle Job B (after A) |
+| `tracking_bound_from_gronwall` | 285 | sorry (h_D_over_lam) — Aristotle Job A `697611e0` |
+
+**Aristotle Job A submitted:** `697611e0-f2b0-4bd1-9520-c61cb8bcd447` (targets offDiag_ftc + tracking_bound_from_gronwall). Prompt in `help_from_aristotle/21_bootstrap_request.md`.
+
+**New hypothesis identified:** `bootstrap_consistency` was missing `hWbar_init` (Frobenius norm bound on Wbar(0)) — needed to bound `|offDiag(0)|`. Added to `offDiag_ftc` signature. Already a hypothesis of `JEPA_rho_ordering`, so no net increase in assumptions.
+
+**CLAUDE.md updated:** proof state table, roadmap Step 3 rewritten, priority ranking updated, new file added to table.
+
+**No changes to JEPA.lean, paper.tex, or other files.** JEPA.lean still has 1 sorry (`bootstrap_consistency`), paper.tex still 18pp.
+
+### State at end of session
+
+jepa-learning-order:
+- Build: 8029 jobs, clean
+- Aristotle Job A `697611e0` in flight
+- `bootstrap_consistency` in JEPA.lean: still sorry'd (decomposition is in BootstrapLemmas.lean)
+- Paper: 14pp, arXiv-ready, unchanged
+
+### What to do next session
+
+1. **Retrieve Job A** (`697611e0`) — `aristotle result 697611e0` — cherry-pick `offDiag_ftc` and `tracking_bound_from_gronwall` proofs if genuine
+2. **Submit Job B** (`pd_lower_from_offDiag`) using the prompt in `help_from_aristotle/21_bootstrap_request.md`
+3. **Wire BootstrapLemmas into JEPA_rho_ordering** once Jobs A+B land — replace `hoff_small` with call to `offDiag_ftc`
+4. **arXiv uploads** for all three projects (stochastic-search-bounds, jepa, simplicial) — all papers ready
+5. **OQ-7** — confirm ITP/CPP 2026 deadline before submitting stochastic-search-bounds
+
+---
+
 ## 2026-04-24 (session 23) — stochastic-search-bounds: Aristotle fc0719d6 merged + Winston-star paper rewrite
 
 ### What was done
