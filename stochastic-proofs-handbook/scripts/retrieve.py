@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """Check and download completed Aristotle jobs, then annotate your papers.
 
-Run this after submitting (or any time you think a job might be done):
+Run from the project subdirectory after submitting (or any time a job might be done):
 
-    python ../scripts/retrieve.py
+    python ../stochastic-proofs-handbook/scripts/retrieve.py
 
-For a specific project ID:
+For a specific project ID (e.g. after getting the tarball manually):
 
-    python ../scripts/retrieve.py <project-id>
+    python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>
 
-For each completed job found, downloads the result and writes:
+If the tarball already exists at results/<project-id>.tar.gz, the download is
+skipped and annotation runs immediately — useful when the API is down.
+
+For each completed job found, downloads the result to:
+    results/<project-id>.tar.gz
+and writes:
     reports/<PaperName>_annotated.md
 """
 

@@ -6,14 +6,21 @@ import re
 
 
 def load_env() -> None:
-    """Load .env from the current working directory into os.environ."""
-    env = pathlib.Path(".env")
-    if env.exists():
-        for line in env.read_text().splitlines():
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                k, _, v = line.partition("=")
-                os.environ.setdefault(k.strip(), v.strip())
+    """Walk up from cwd until a .env file is found, then load it.
+
+    Searches cwd first, then each parent — so a project-local .env takes
+    precedence over the workspace-root one, but either works.
+    """
+    cwd = pathlib.Path.cwd()
+    for directory in [cwd, *cwd.parents]:
+        env = directory / ".env"
+        if env.exists():
+            for line in env.read_text().splitlines():
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, _, v = line.partition("=")
+                    os.environ.setdefault(k.strip(), v.strip())
+            return
 
 
 def get_module_name() -> str:

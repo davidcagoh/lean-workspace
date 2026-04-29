@@ -2,16 +2,17 @@
 """Submit a Lean project to Aristotle, linked to a theorem paper.
 
 Usage (run from the project subdirectory):
-    python ../scripts/submit.py my_theorems/Paper.md "Fill in the sorries"
-    python ../scripts/submit.py my_theorems/Paper.md "Fill in the sorries" --dry-run
+    python ../stochastic-proofs-handbook/scripts/submit.py my_theorems/Paper.md "Fill in the sorries"
+    python ../stochastic-proofs-handbook/scripts/submit.py my_theorems/Paper.md "Fill in the sorries" --dry-run
 
 The paper path is required as the first argument — it links this submission to its
-source so that  python ../scripts/retrieve.py  can find and annotate the right file
-when the job completes.
+source so that  python ../stochastic-proofs-handbook/scripts/retrieve.py  can find
+and annotate the right file when the job completes.
 
 --dry-run  List files that would be packaged and exit without submitting.
 
 Exits immediately after submitting. Aristotle will email when done.
+API key: loaded from nearest .env file walking up from cwd (workspace root .env is fine).
 """
 
 import asyncio
@@ -31,7 +32,7 @@ import pathspec
 from aristotlelib import Project, AristotleAPIError
 from aristotlelib.local_file_utils import should_skip_input_file, get_pruned_dirnames
 
-EXTRA_EXCLUDE_DIRS = {".claude", ".github", "results", "scripts", "my_theorems", "proofs-from-literature", "memory", "reports", "help_from_aristotle", "my_theorem_stronger"}
+EXTRA_EXCLUDE_DIRS = {".claude", ".github", "results", "scripts", "my_theorems", "proofs-from-literature", "memory", "reports", "requests", "my_theorem_stronger"}
 
 
 def list_tar_files(tar_bytes: bytes) -> list[str]:
@@ -48,7 +49,7 @@ def write_request_doc(
     submitted_at: str,
 ) -> pathlib.Path:
     short_id = project_id[:8]
-    doc_dir = pathlib.Path("help_from_aristotle")
+    doc_dir = pathlib.Path("requests")
     doc_dir.mkdir(exist_ok=True)
     existing = sorted(doc_dir.glob("[0-9][0-9]_*.md"))
     next_num = int(existing[-1].name[:2]) + 1 if existing else 1
@@ -199,7 +200,7 @@ async def main() -> None:
     print(f"Paper:      {paper}")
     print(f"Prompt:     {prompt}")
     print(f"\n→ Fill in justification: {doc_path}")
-    print(f"\nWhen Aristotle emails, run:  python ../scripts/retrieve.py")
+    print(f"\nWhen Aristotle emails, run:  python ../stochastic-proofs-handbook/scripts/retrieve.py")
 
 
 asyncio.run(main())
