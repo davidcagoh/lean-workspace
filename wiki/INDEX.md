@@ -31,7 +31,7 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-29 — session 26)
+## Status (2026-04-29 — session 27)
 
 | Project | Sorries | Status |
 |---|---|---|
@@ -113,8 +113,8 @@ Strategic advice in `jepa-learning-order/CLAUDE.md` recommends submitting soon �
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job B** (`53f7f1b1`): `aristotle result 53f7f1b1` — cherry-pick `pd_lower_from_offDiag` if genuine.
-2. **JEPA — wire sub-lemmas into `bootstrap_consistency`** once Job B lands.
+1. **JEPA — retrieve Job B** (`53f7f1b1`): place tarball at `results/53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b.tar.gz`, then `python ../stochastic-proofs-handbook/scripts/retrieve.py 53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b` from `jepa-learning-order/`.
+2. **JEPA — wire sub-lemmas into `bootstrap_consistency`** once Job B lands; remove `hoff_small` hypothesis.
 3. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
 4. **Simplicial — arXiv upload:** 16pp ready.
 5. **JEPA — arXiv upload:** 14pp ready. Ship as "conditional"; Jobs A+B landing would strengthen.

@@ -4,6 +4,65 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-29 (session 27) — workspace-wide directory standardization + AOTree flatten
+
+### What was done
+
+**Aristotle Job B (`53f7f1b1`) check:** Aristotle API returned 500; user obtaining tarball manually.
+
+**Standardized Aristotle workflow:**
+- `help_from_aristotle/` → `requests/` in all three projects (gitignore updated)
+- Per-project `scripts/` removed from git (centralized in `stochastic-proofs-handbook/scripts/`)
+- `_common.py`: `load_env()` now walks up from cwd — workspace-root `.env` is sufficient
+- `submit.py`: uses `requests/` dir, updated paths throughout
+- All three CLAUDE.md files updated with `../stochastic-proofs-handbook/scripts/` paths
+
+**Cleanup (untracked junk deleted):**
+- `jepa/aristotle/`, `ssb/aristotle/` — stale old result extractions at project root
+- All `{id}_out/`, `extracted_{id}/` subdirs from `results/` (tarballs preserved)
+- `jepa/memory/` — stale per-project Claude memory from 2026-04-03 (contradicted wiki)
+- `jepa/reports/`, `ssb/reports/`, `simplicial/reports/` — generated artifacts
+- `jepa/my_theorems/archive/`, `ssb/my_theorems/archive/` — old manuscript drafts
+- `simplicial/starting-point/`, `simplicial/arxiv-submission/` (empty)
+- `jepa/JepaLearningOrder/README.md` — nested, redundant with CLAUDE.md
+- `scripts/__pycache__/` dirs in all three
+- LaTeX build artifacts (`*.aux`, `*.bbl`, `*.blg`, `*.log`, `*.out`) from all `my_theorems/`
+- `jepa/aristotle-docs.md` — scraped API docs, superseded by wiki
+- `jepa/requests/315fff00/` — old extraction in wrong location (tarball in results/)
+- `jepa/697611e0-*-aristotle.tar.gz` — misplaced Job A tarball → moved to `results/`
+
+**Directory renames:**
+- `jepa/proofs-from-literature/` → `jepa/literature/`
+- `simplicial/existing-literature/` → `simplicial/literature/`
+
+**`my_theorems/` reorganized** (all three projects):
+- `notes/` subdir created — citation work, memos, verification reports moved in
+- Paper files (`.tex`, `_draft.md`, `references.bib`, Aristotle specs) stay at `my_theorems/` root
+
+**AOTree flatten (ssb):**
+- `AutomatedProofs/AOTree/*.lean` → `AutomatedProofs/*.lean`
+- All `import AutomatedProofs.AOTree.X` → `import AutomatedProofs.X`
+- Build verified: 8034 jobs, 0 errors
+
+**Root READMEs rewritten** — short, accurate, current script paths (all three projects)
+
+**Wiki/decisions.md:** Canonical per-project layout locked in; `aristotle-strategy.md` preferred workflow section added
+
+### State at end of session
+
+Job B (`53f7f1b1`) still in flight — user obtaining tarball manually.
+All three repos have clean, standardized structure matching `decisions.md` canonical layout.
+No nested docs, no stale script paths, no redundant dirs.
+
+### What to do next session
+
+1. **Retrieve Job B:** place tarball at `jepa-learning-order/results/53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b.tar.gz`, then run `python ../stochastic-proofs-handbook/scripts/retrieve.py 53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b` from inside `jepa-learning-order/`
+2. **If Job B succeeds:** wire `pd_lower_from_offDiag` + the two session-26 lemmas into `bootstrap_consistency` in `JEPA.lean`; remove `hoff_small` from `JEPA_rho_ordering` hypotheses
+3. **arXiv uploads:** stochastic-search-bounds (18pp, 0 sorries), simplicial (16pp, 3 dead-code), JEPA (14pp, conditional on bootstrap)
+4. **OQ-7:** confirm ITP/CPP 2026 deadline before submitting stochastic-search-bounds
+
+---
+
 ## 2026-04-29 (session 26) — jepa: Job A retrieved + cherry-picked; Job B submitted
 
 ### What was done
