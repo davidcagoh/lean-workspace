@@ -4,6 +4,44 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 29) — JEPA paper.tex 0-sorry update + LeWM citations + Aristotle job C submitted
+
+### What was done
+
+**Read LeWM paper (2603.19312v2, pages 1–20 + references):** Assessed how the March 2026 LeWM world-model paper could strengthen our paper.tex. Key findings:
+- LeWM Figure 8 caption corroborates our theorem: "early in training, decoded images correspond to slow features" (citing Sobal2022 = arXiv:2211.10831).
+- Ref [25] = Balestriero & LeCun 2025 "Lejepa: Provable and scalable SSL without the heuristics" (arXiv:2511.08544) — closest competing theory paper on JEPA; proves convergence guarantees (orthogonal to our feature-ordering result).
+- LeWM has no theoretical result overlapping our feature-ordering theorem; SIGReg is an empirical regularizer.
+
+**paper.tex overhaul (15 pages, compiles clean):**
+- All "sorry'd / primary open item" language removed throughout (abstract, contribution 4, H5 table, prop:bootstrap, discussion, appendix roadmap).
+- `prop:bootstrap` proof strategy replaced with the actual 3 sub-lemma proof sketch.
+- Formal verification table: `bootstrap_consistency` row → "Exact", location → BootstrapLemmas.lean.
+- Build record updated: "sorry count is 0".
+- Added `Sobal2022` citation in intro (empirical slow-features precedent).
+- Added `Lejepa2025` citation in related work + discussion (their convergence ≠ our ordering).
+
+**references.bib:** Added `Sobal2022` and `Lejepa2025`. Both resolve in .bbl.
+
+**Roadmap saved to wiki/decisions.md:**
+- "bootstrap_consistency proved via FTC + Gronwall" replaces old "stays as sorry" entry.
+- Assumption-free roadmap: Tier 1 (uniform hPD_lower, hDrift_bound, diagonal FTC), Tier 2 (hPhaseA wiring, ODE continuation), Tier 3 (critical-time formula, nonlinear).
+
+**Aristotle Job C submitted (`b061ab0f`):** `uniform_pd_lower_from_compactness` — compactness argument for uniform c₀ over [0, t_max], removes `hPD_lower` from main theorem signature. Request: `requests/22_uniform_hPD_lower_request.md`.
+
+### State at end of session
+
+`jepa-learning-order`: **0 sorries** ✅. paper.tex 15pp compiles clean. Aristotle job `b061ab0f` in flight.
+
+### What to do next session
+
+1. **Retrieve Aristotle job `b061ab0f`** and integrate — removes `hPD_lower` from JEPA_rho_ordering.
+2. **Wire `hPhaseA`** via `frozen_encoder_convergence` (deferred mechanical step).
+3. **arXiv upload:** jepa-learning-order (0 sorries, 15pp).
+4. **arXiv upload:** stochastic-search-bounds (0 sorries, 18pp).
+
+---
+
 ## 2026-04-30 (session 28) — JEPA: 0 sorries, bootstrap_consistency proved
 
 ### What was done
