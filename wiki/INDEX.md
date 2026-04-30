@@ -49,7 +49,7 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 Job `53f7f1b1` landed. Proof via Frobenius submultiplicativity + Gershgorin det ≠ 0.
 Key finding: hypothesis strengthened from `δ*√d < c_w/2` to `δ*(d-1) < c_w`.
 PDLowerHelpers.lean added with 6 helper lemmas. Build clean.
-**Action needed:** update paper.tex Appendix B hypothesis statement.
+paper.tex already reflects `δ(d-1) < c_w` at lines 661 and 1593. No further action.
 
 ---
 
@@ -105,7 +105,7 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 - Final rate: `geomCov ≍ (1-q)\gamma(r)^d ≍ (3/4)^d p^2` deep in regime.
 - Sparse threshold: `p_n \gg n^{-3/4}` for fixed `d`.
 
-**Next:** state `geometricCov_decay_rate` in `SimplicialDetection.lean`, submit Aristotle job `sim-A5`. Track C (optimality) drafted in `fourier_setup.md`, paper-only.
+**Next:** Aristotle packet drafted in `requests/sim_A5_packet.md` — split into two jobs (primitives 3 sorries + assembly 2 sorries). Lemma stubs ready to paste into `SimplicialDetection.lean`. Open risk: AddCircle integration API gap may need a `ArcGeometry.lean` helper file. Track C (optimality) drafted in `fourier_setup.md`, paper-only.
 
 ---
 
