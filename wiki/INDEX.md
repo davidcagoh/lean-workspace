@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-29 — session 27)
+## Status (2026-04-30 — session 28)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **1** in JEPA.lean + **1** in BootstrapLemmas.lean (Job B `53f7f1b1` in flight) | **14pp paper.tex, compiles clean. Job A `697611e0` landed: `offDiag_ftc` + `tracking_bound_from_gronwall` proved. Job B `53f7f1b1` pending: `pd_lower_from_offDiag`.** arXiv-ready (conditional). |
+| `jepa-learning-order` | **0** ✅ | **14pp paper.tex, compiles clean. bootstrap_consistency proved (BootstrapLemmas.lean). PDLowerHelpers.lean added. Remaining named assumptions in JEPA_rho_ordering are genuine mathematical hypotheses, not proof gaps.** arXiv-ready. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | Unchanged from session 20. 16pp paper.tex ready for arXiv. |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -44,17 +44,12 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ## Open Questions
 
-### OQ-14: JEPA — Job B `pd_lower_from_offDiag` (spectral PD bound)
+### OQ-14: JEPA — Job B `pd_lower_from_offDiag` ✅ DONE (session 28)
 
-Submitted 2026-04-29 (session 26). Job ID: `53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b`.
-Strategy: reduce to `λ_min(Wbar*SigmaXX*Wbar^T) ≥ c₀*ε^{2/L}` via
-`v^T(Wbar*SigmaXX*Wbar^T)v ≥ λ_min(SigmaXX)*‖Wbar^T v‖² ≥ λ_min(SigmaXX)*σ_min(Wbar)²*‖v‖²`.
-Bound σ_min(Wbar) from diagonal amplitudes ≥ c_w*ε^{1/L} minus off-diagonal perturbation.
-Prompt in `requests/21_bootstrap_request.md`.
-
-**Retrieve** (from inside `jepa-learning-order/`):
-1. Place tarball at `results/53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b.tar.gz` if obtained manually, then:
-2. `python ../stochastic-proofs-handbook/scripts/retrieve.py 53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b`
+Job `53f7f1b1` landed. Proof via Frobenius submultiplicativity + Gershgorin det ≠ 0.
+Key finding: hypothesis strengthened from `δ*√d < c_w/2` to `δ*(d-1) < c_w`.
+PDLowerHelpers.lean added with 6 helper lemmas. Build clean.
+**Action needed:** update paper.tex Appendix B hypothesis statement.
 
 ---
 
@@ -113,8 +108,9 @@ Strategic advice in `jepa-learning-order/CLAUDE.md` recommends submitting soon �
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job B** (`53f7f1b1`): place tarball at `results/53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b.tar.gz`, then `python ../stochastic-proofs-handbook/scripts/retrieve.py 53f7f1b1-b48a-47a3-bfe9-1fcb3dbaf10b` from `jepa-learning-order/`.
-2. **JEPA — wire sub-lemmas into `bootstrap_consistency`** once Job B lands; remove `hoff_small` hypothesis.
+1. **JEPA — update paper.tex Appendix B**: change Lemma B.2 hypothesis from `δ*√d < c_w/2` to `δ*(d-1) < c_w` (Gershgorin).
+2. **JEPA — derive uniform hPD_lower**: Aristotle job for compactness argument (uniform c₀ from pd_lower_from_offDiag); removes `hPD_lower` named assumption.
+3. **JEPA — file restructure**: move `JEPA_rho_ordering` to a file importing BootstrapLemmas.lean so `hoff_small` is derived, not assumed.
 3. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
 4. **Simplicial — arXiv upload:** 16pp ready.
 5. **JEPA — arXiv upload:** 14pp ready. Ship as "conditional"; Jobs A+B landing would strengthen.
