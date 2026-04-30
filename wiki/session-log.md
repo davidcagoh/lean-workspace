@@ -4,6 +4,26 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 32) — JEPA Job F.1 landed, cherry-picked; Job F.2 submitted
+
+### What was done
+- Retrieved Aristotle Job F.1 (`d145f917`) — `bernoulli_partial_fractions` **PASS** (✓ Proved).
+- Cherry-picked proof into `JepaLearningOrder/JEPA.lean` lines 488–508 (replaces `sorry`). Proof uses `HasDerivAt.sum` + `convert` + geometric-sum induction + `grind`.
+- `lake build` clean: 8028 jobs, no errors.
+- Submitted Job F.2 (`jepa_bernoulli_solution`, Littwin Theorem 4.4) as **`76910515`**. Prompt cites request `requests/25_jobF_bernoulli_solution.md`.
+
+### State at end of session
+- **In flight:** Job F.2 `76910515` (`jepa_bernoulli_solution`) and Job E `083e48d6` (`diagAmp_ODE`).
+- Sorry count: **5** (down from 6): `jepa_bernoulli_solution`, `jepa_critical_time_diag`, `diagAmp_ODE`, `actual_critical_time`, `JEPA_dynamics_ordering`.
+
+### What to do next session
+1. Retrieve Job F.2 `76910515` when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 76910515-...`
+2. Retrieve Job E `083e48d6` (`diagAmp_ODE`) when Aristotle emails.
+3. On F.2 PASS: cherry-pick into `JEPA.lean`, `lake build`, then submit Job F.3 (`jepa_critical_time_diag`, request `26_jobF_critical_time_diag.md`).
+4. On E+F.3 both landed: submit Job G (`actual_critical_time`, request `28_jobG_actual_critical_time.md`).
+
+---
+
 ## 2026-04-30 (session 31, simplicial sub-session) — Cook pre-arXiv expansion: Track A done, Job 1 submitted, Decision Point 2 hit
 
 **Trigger.** User's chat with Nick Cook → two requirements before arXiv:

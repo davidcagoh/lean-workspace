@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-30 — session 31)
+## Status (2026-04-30 — session 32)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **6 (all roadmap stubs)** | **17pp paper.tex (Section 6 rewritten to drop the heuristic Prediction 6.1 in favour of four target theorems: `thm:diag-critical-time`, `thm:diag-amp-ode`, `thm:actual-critical-time`, `thm:dynamics-ordering`). Five sorry stubs added in `JEPA.lean` for Jobs E, F.1–F.3, G; one sorry in `MainTheorem.lean` for `JEPA_dynamics_ordering` assembly. **In flight: Job F.1 `bernoulli_partial_fractions` (`d145f917`) and Job E `diagAmp_ODE` (`083e48d6`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
+| `jepa-learning-order` | **5 (all roadmap stubs)** | **17pp paper.tex (Section 6: four target theorems). `bernoulli_partial_fractions` ✅ proved (Job F.1 `d145f917`). **In flight: Job F.2 `jepa_bernoulli_solution` (`76910515`) and Job E `diagAmp_ODE` (`083e48d6`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -146,7 +146,7 @@ theorems. Five Lean stubs added; full proof plan in
 `jepa-learning-order/my_theorems/strongest_result_roadmap.md`. Aristotle
 Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
-**In flight:** Job F.1 `bernoulli_partial_fractions` (`d145f917`) and Job E `diagAmp_ODE` (`083e48d6`).
+**In flight:** Job F.2 `jepa_bernoulli_solution` (`76910515`) and Job E `diagAmp_ODE` (`083e48d6`).
 
 ---
 
@@ -156,36 +156,34 @@ Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job F.1 `d145f917`** (`bernoulli_partial_fractions`) when Aristotle returns. Run `python ../stochastic-proofs-handbook/scripts/retrieve.py`.
-2. **JEPA — retrieve Job E `083e48d6`** (`diagAmp_ODE`) when Aristotle returns.
-3. **JEPA — submit Job F.2 `jepa_bernoulli_solution`** (request `25_jobF_bernoulli_solution.md`) once F.1 lands.
-4. **JEPA — submit Job F.3 `jepa_critical_time_diag`** (request `26_jobF_critical_time_diag.md`) once F.2 lands.
-5. **JEPA — submit Job G `actual_critical_time`** (request `28_jobG_actual_critical_time.md`) once Jobs E + F.3 both land.
-6. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once all five sub-jobs land. (Possibly Opus-level work — the assembly is non-trivial.)
-7. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority — not blocking the dynamics-ordering goal.)
-8. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
+1. **JEPA — retrieve Job F.2 `76910515`** (`jepa_bernoulli_solution`) when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 76910515-...`
+2. **JEPA — retrieve Job E `083e48d6`** (`diagAmp_ODE`) when Aristotle emails.
+3. **JEPA — submit Job F.3 `jepa_critical_time_diag`** (request `26_jobF_critical_time_diag.md`) once F.2 lands.
+4. **JEPA — submit Job G `actual_critical_time`** (request `28_jobG_actual_critical_time.md`) once Jobs E + F.3 both land.
+5. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once all five sub-jobs land. (Possibly Opus-level work — the assembly is non-trivial.)
+6. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority — not blocking the dynamics-ordering goal.)
+7. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
 
-## Pickup notes for fresh agent (2026-04-30, after session 31)
+## Pickup notes for fresh agent (2026-04-30, after session 32)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — full account of session 31's audit and roadmap construction.
+- `wiki/session-log.md` top entry — session 32 wrap (F.1 landed, F.2 submitted).
 - `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan for the dynamics-level ordering theorem.
 - `jepa-learning-order/my_theorems/paper.tex` Section 6 — the theorem statements being formalised.
-- Aristotle ids in flight: `d145f917` (Job F.1) and `083e48d6` (Job E).
+- Aristotle ids in flight: `76910515` (Job F.2) and `083e48d6` (Job E).
 
 **Mathematical context to know:**
 - The audit revealed the previous draft's "leading critical time" formula was actually the n=1 Laurent term (smallest), not the leading one. Littwin 2024 Theorem 4.5 has the correct form. Don't get confused if old comments in JEPA.lean still reference the old formula.
 - The dynamics-level ordering proof uses a monotone-comparison sandwich on autonomous scalar ODEs — *not* an ODE blow-up argument as earlier drafts speculated.
 - Lean note: `w̄` (combining bar) breaks the parser — use `wbar` instead.
 
-**Current sorry inventory (6 total, all intentional):**
-1. `JEPA.lean` `bernoulli_partial_fractions` — Job F.1 (in flight `d145f917`).
-2. `JEPA.lean` `jepa_bernoulli_solution` — Job F.2.
-3. `JEPA.lean` `jepa_critical_time_diag` — Job F.3.
-4. `JEPA.lean` `diagAmp_ODE` — Job E (in flight `083e48d6`).
-5. `JEPA.lean` `actual_critical_time` — Job G.
-6. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
+**Current sorry inventory (5 total, all intentional):**
+1. `JEPA.lean` `jepa_bernoulli_solution` — Job F.2 (in flight `76910515`).
+2. `JEPA.lean` `jepa_critical_time_diag` — Job F.3.
+3. `JEPA.lean` `diagAmp_ODE` — Job E (in flight `083e48d6`).
+4. `JEPA.lean` `actual_critical_time` — Job G.
+5. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
 
 **Build status:** `lake build` succeeds (8035 jobs).
 
