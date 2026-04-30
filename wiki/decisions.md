@@ -252,13 +252,43 @@ python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>   # target
 
 ---
 
-## `bootstrap_consistency` as named regularity assumption (jepa-learning-order)
+## `bootstrap_consistency` proved via FTC + Gronwall (jepa-learning-order, session 28)
 
-**Decision:** `bootstrap_consistency` stays as an explicit named `sorry` in `JEPA.lean`. No attempt to close it via Aristotle.
+**Decision:** `bootstrap_consistency` is now proved in `BootstrapLemmas.lean` by assembling three sub-lemmas. The Picard–Lindelöf route was unnecessary.
 
-**Why:** Requires Picard-Lindelöf ODE continuation for a joint gradient-flow system — infrastructure not in Mathlib. This is the CompCert convention; every ODE learning-dynamics paper assumes joint solution existence.
+**Why:** The key insight is that the sub-lemmas bypass ODE continuation entirely:
+1. `offDiag_ftc` — off-diagonal bound via FTC on compact [0, t_max] (Cauchy-Schwarz + hWbar_slow)
+2. `pd_lower_from_offDiag` — PD lower bound via Gershgorin diagonal dominance (δ*(d-1) < c_w)
+3. `tracking_bound_from_gronwall` — tracking bound via `contraction_ode_structure` + `contractive_gronwall_decay`
 
-**Consequence:** The paper §5.3 should name it as the single explicit open assumption. Do not chase it in Lean.
+`hPD_lower` remains an explicit hypothesis of `JEPA_rho_ordering` until the compactness argument connecting uniform c₀ from pd_lower_from_offDiag over [0, t_max] is proved.
+
+**Consequence:** Project has 0 sorries. Named hypotheses in `JEPA_rho_ordering` (hoff_small, hPhaseA, hPD_lower) are genuine mathematical conditions following CompCert convention.
+
+---
+
+## JEPA: critical path toward assumption-free proof (roadmap, session 28)
+
+**Decision date:** 2026-04-30 (session 28)
+
+**Goal:** Remove all remaining named hypotheses from `JEPA_rho_ordering` to produce an assumption-free theorem.
+
+**Why:** Current status is 0 sorries with 3 named mathematical hypotheses. The CompCert convention accepts this for arXiv, but each hypothesis that can be derived strengthens the result. Priority order follows what's achievable with current Mathlib infrastructure.
+
+**Tier 1 — derivable from existing Lean + one Aristotle job each:**
+1. **Uniform `hPD_lower`** — derive c₀ uniformly over [0, t_max] from `pd_lower_from_offDiag` via IsCompact.exists_bound_of_continuousOn; removes `hPD_lower` from signature. Aristotle job: "compactness argument for uniform PD lower bound."
+2. **Uniform `hDrift_bound`** — bound ‖d/dt Vqs(Wbar(t))‖_F via chain rule + hWbar_slow; likely derivable without Aristotle.
+3. **Diagonal FTC bound** — diagAmplitude lower bound for all t ≥ 0 via slow dynamics; removes `hoff_small` (which currently comes only from offDiag_ftc existential).
+
+**Tier 2 — requires more infrastructure:**
+4. **Wire `hPhaseA`** via `frozen_encoder_convergence` — mechanical step (deferred wiring); removes `hPhaseA` from signature.
+5. **Uniform ODE continuation** — formal Picard–Lindelöf on the full (Wbar, V) system; removes the need for all trajectory regularity hypotheses simultaneously. Long-term Mathlib dependency.
+
+**Tier 3 — beyond current scope:**
+6. **Critical-time formula as theorem** — requires ODE blow-up argument; currently only a Prediction.
+7. **Nonlinear JEPA extension** — beyond deep-linear setting.
+
+**How to apply:** When scheduling Aristotle jobs, follow Tier 1 in order. Each job removes one named hypothesis. The paper can ship arXiv-ready at any tier with remaining hypotheses named explicitly.
 
 ---
 
