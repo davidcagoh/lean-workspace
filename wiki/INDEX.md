@@ -35,7 +35,7 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **6 (all roadmap stubs)** | **17pp paper.tex (Section 6 rewritten to drop the heuristic Prediction 6.1 in favour of four target theorems: `thm:diag-critical-time`, `thm:diag-amp-ode`, `thm:actual-critical-time`, `thm:dynamics-ordering`). Five sorry stubs added in `JEPA.lean` for Jobs E, F.1–F.3, G; one sorry in `MainTheorem.lean` for `JEPA_dynamics_ordering` assembly. **In flight: Job F.1 `bernoulli_partial_fractions` (Aristotle `d145f917`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
+| `jepa-learning-order` | **6 (all roadmap stubs)** | **17pp paper.tex (Section 6 rewritten to drop the heuristic Prediction 6.1 in favour of four target theorems: `thm:diag-critical-time`, `thm:diag-amp-ode`, `thm:actual-critical-time`, `thm:dynamics-ordering`). Five sorry stubs added in `JEPA.lean` for Jobs E, F.1–F.3, G; one sorry in `MainTheorem.lean` for `JEPA_dynamics_ordering` assembly. **In flight: Job F.1 `bernoulli_partial_fractions` (`d145f917`) and Job E `diagAmp_ODE` (`083e48d6`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -97,8 +97,15 @@ Nick Cook wants two extensions before arXiv:
 2. **Sparse regime** `p → 0` / `p = p(d)` (LMSY 2111.11316 model).
 
 Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
-Blocker: **OQ-9 (quantitative `geomCov` decay rate)** must be resolved first — gates the sparse track. Optimality track runs in parallel, paper-only (no Lean planned).
-Aristotle jobs planned: `sim-A5` (decay rate), `sim-B3` (sequence Paley–Zygmund), `sim-B4` (sparse detection bound).
+
+**Track A — DONE pen-and-paper (session 31).** `analytic_decay_rate.md`:
+- `\phi(1/3 - \epsilon) = 1 - 36\epsilon^2` *exactly* on `[0, 1/12]` (Stevens 1939).
+- `1 - fillingP(p,d) = 4\log(3/2)\,|\log p|\,\eta^2(1+O(\eta))`, `\eta = 1 - d/d^*(p)`.
+- 8-term `geomCov` collapse: `geomCov = (1-q)\gamma^d + 3p^3[(7r/2)^d - q]`. Wedge term vanishes by 1D Helly.
+- Final rate: `geomCov ≍ (1-q)\gamma(r)^d ≍ (3/4)^d p^2` deep in regime.
+- Sparse threshold: `p_n \gg n^{-3/4}` for fixed `d`.
+
+**Next:** state `geometricCov_decay_rate` in `SimplicialDetection.lean`, submit Aristotle job `sim-A5`. Track C (optimality) drafted in `fourier_setup.md`, paper-only.
 
 ---
 
@@ -128,7 +135,7 @@ theorems. Five Lean stubs added; full proof plan in
 `jepa-learning-order/my_theorems/strongest_result_roadmap.md`. Aristotle
 Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
-**In flight:** Job F.1 `bernoulli_partial_fractions` (`d145f917`).
+**In flight:** Job F.1 `bernoulli_partial_fractions` (`d145f917`) and Job E `diagAmp_ODE` (`083e48d6`).
 
 ---
 
@@ -138,14 +145,40 @@ Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job F.1 `d145f917`** (`bernoulli_partial_fractions`) when Aristotle returns.
-2. **JEPA — submit Job F.2 `jepa_bernoulli_solution`** (request `25_jobF_bernoulli_solution.md`) once F.1 lands.
-3. **JEPA — submit Job F.3 `jepa_critical_time_diag`** (request `26_jobF_critical_time_diag.md`) once F.2 lands.
-4. **JEPA — submit Job E `diagAmp_ODE`** (request `27_jobE_diagAmp_ODE.md`) — can submit in parallel with F.2/F.3 since it doesn't depend on them.
+1. **JEPA — retrieve Job F.1 `d145f917`** (`bernoulli_partial_fractions`) when Aristotle returns. Run `python ../stochastic-proofs-handbook/scripts/retrieve.py`.
+2. **JEPA — retrieve Job E `083e48d6`** (`diagAmp_ODE`) when Aristotle returns.
+3. **JEPA — submit Job F.2 `jepa_bernoulli_solution`** (request `25_jobF_bernoulli_solution.md`) once F.1 lands.
+4. **JEPA — submit Job F.3 `jepa_critical_time_diag`** (request `26_jobF_critical_time_diag.md`) once F.2 lands.
 5. **JEPA — submit Job G `actual_critical_time`** (request `28_jobG_actual_critical_time.md`) once Jobs E + F.3 both land.
-6. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once all five sub-jobs land.
+6. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once all five sub-jobs land. (Possibly Opus-level work — the assembly is non-trivial.)
 7. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority — not blocking the dynamics-ordering goal.)
 8. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
+
+## Pickup notes for fresh agent (2026-04-30, after session 31)
+
+**Context to load on session start:**
+- This file (`wiki/INDEX.md`) — status + open questions + next priorities.
+- `wiki/session-log.md` top entry — full account of session 31's audit and roadmap construction.
+- `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan for the dynamics-level ordering theorem.
+- `jepa-learning-order/my_theorems/paper.tex` Section 6 — the theorem statements being formalised.
+- Aristotle ids in flight: `d145f917` (Job F.1) and `083e48d6` (Job E).
+
+**Mathematical context to know:**
+- The audit revealed the previous draft's "leading critical time" formula was actually the n=1 Laurent term (smallest), not the leading one. Littwin 2024 Theorem 4.5 has the correct form. Don't get confused if old comments in JEPA.lean still reference the old formula.
+- The dynamics-level ordering proof uses a monotone-comparison sandwich on autonomous scalar ODEs — *not* an ODE blow-up argument as earlier drafts speculated.
+- Lean note: `w̄` (combining bar) breaks the parser — use `wbar` instead.
+
+**Current sorry inventory (6 total, all intentional):**
+1. `JEPA.lean` `bernoulli_partial_fractions` — Job F.1 (in flight `d145f917`).
+2. `JEPA.lean` `jepa_bernoulli_solution` — Job F.2.
+3. `JEPA.lean` `jepa_critical_time_diag` — Job F.3.
+4. `JEPA.lean` `diagAmp_ODE` — Job E (in flight `083e48d6`).
+5. `JEPA.lean` `actual_critical_time` — Job G.
+6. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
+
+**Build status:** `lake build` succeeds (8035 jobs).
+
+A Sonnet agent can run the workflow autonomously: retrieve → cherry-pick → submit next → repeat. Request docs `24_*` through `28_*` contain the reference proofs.
 3. **JEPA — arXiv upload:** 15pp paper.tex compiles clean, 0 sorries. Ship now.
 4. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
 5. **Simplicial — OQ-16 expansion (pre-arXiv):** see roadmap. Start with Track A (geomCov decay rate, A1–A3 pen-and-paper) + Track C steps C1–C2 in parallel.
