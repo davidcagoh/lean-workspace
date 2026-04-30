@@ -105,7 +105,18 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 - Final rate: `geomCov ≍ (1-q)\gamma(r)^d ≍ (3/4)^d p^2` deep in regime.
 - Sparse threshold: `p_n \gg n^{-3/4}` for fixed `d`.
 
-**Next:** Aristotle packet drafted in `requests/sim_A5_packet.md` — split into two jobs (primitives 3 sorries + assembly 2 sorries). Lemma stubs ready to paste into `SimplicialDetection.lean`. Open risk: AddCircle integration API gap may need a `ArcGeometry.lean` helper file. Track C (optimality) drafted in `fourier_setup.md`, paper-only.
+**Status (session 31, end):**
+- ✅ 5 Lean stubs landed in `SimplicialDetection.lean` (lines 691–820), build clean.
+- ✅ **Aristotle Job 1 (sim-A5-primitives) IN FLIGHT: `43761387-672d-4007-9a74-aefd8efb068d`.** Targets `wedge_implies_fill`, `gamma_pow_eq`, `mu_e_pow_eq`, `fillingProb_eq_low_r`. Email-on-completion.
+- ✅ Paper deltas drafted in `my_theorems/paper_delta_OQ16.md` (§5.1 quantitative decay, §5.2 sparse corollary, §5.3 low-degree, §5.4 sub-regime open problem, Stevens 1939 bib entry).
+- ⚠️ **Decision Point 2 hit (Track C C3, session 31).** Pure-fill pair statistic `τ_ff = ∑_{shared-edge t,t'} (F_t-q)(F_{t'}-q)` appears to beat `τ_f` by `n^{1/2} · 2.07^d` in the deep regime — see `fourier_setup.md` §C3-C4. If correct, **τ_f is NOT low-degree optimal**; the paper's planned §5.3 "Theorem 6.1: τ_f optimal" must be reframed to "there exists a strictly better test". Calculation needs independent verification before telling Cook.
+
+**Next (when Aristotle returns):**
+1. `python ../stochastic-proofs-handbook/scripts/retrieve.py` for job `43761387`.
+2. Cherry-pick PASS into `SimplicialDetection.lean`, `lake build`, commit.
+3. Submit Job 2 (sim-A5-assembly: `geometricCov_eq_deep`, `geometricCov_decay_rate_le`).
+4. **Verify τ_{ff} > τ_f finding** — check arithmetic in `fourier_setup.md` §C3-C4 by hand, then numerically.
+5. If verified, draft revised §5.3 + send Cook a note describing the new test.
 
 ---
 
