@@ -4,6 +4,39 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 30) — JEPA: Job C retrieved + cherry-picked; uniform_pd_lower_from_compactness + JEPA_rho_ordering'
+
+### What was done
+
+**Retrieved Aristotle job C (`b061ab0f`) — COMPLETE:**
+Fixed retrieve.py error (job `020b76be` had stale paper path `JEPA_paper_draft.md`); ran retrieve with explicit project ID to bypass the crash.
+
+**Cherry-picked into jepa-learning-order (commit `12d33ec`):**
+- `JepaLearningOrder/BootstrapLemmas.lean`: 4 new continuity helpers (`continuousOn_matrix_det`, `continuousOn_matrix_adjugate`, `continuousOn_matrix_inv`, `continuousOn_matFrobNorm_comp`) + `uniform_pd_lower_from_compactness` lemma (compactness argument: A(t)⁻¹ continuous on compact [0, t_max] → max K → uniform c₀ = 1/(K·ε^{2/L})).
+- `bootstrap_consistency` signature upgraded: `hPD_lower` hypothesis replaced by diagonal amplitude conditions (`c_w`, `hdiag_t`, `δ_off`, `hδ_nn`, `hδ_small`, `hoff_t`) — the uniform PD lower bound is now derived internally.
+- `JepaLearningOrder/MainTheorem.lean` (new file): `JEPA_rho_ordering'` — same conclusion as `JEPA_rho_ordering` but with `hPD_lower` derived via compactness. Due to circular-import constraint (BootstrapLemmas imports JEPA), the updated theorem lives in a new file that imports both.
+- `JepaLearningOrder.lean`: added `import JepaLearningOrder.MainTheorem`.
+
+**Build:** 8035 jobs, 0 sorries, 0 errors. ✅
+
+**Reviewed next-priority targets:**
+- Tier 1 item 2: `hDrift_bound` — chain rule + hWbar_slow; likely no Aristotle needed.
+- Tier 1 item 3: Diagonal FTC bound for diagAmplitude.
+- Tier 2 item 4: Wire `hPhaseA` via `frozen_encoder_convergence` (mechanical wiring + quasiStaticDecoder norm bound).
+
+### State at end of session
+
+`jepa-learning-order`: **0 sorries** ✅. `JEPA_rho_ordering'` in `MainTheorem.lean` removes `hPD_lower` from main theorem signature. 15pp paper.tex compiles clean. No Aristotle jobs in flight.
+
+### What to do next session
+
+1. **Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow` — removes it from `JEPA_rho_ordering'` / `contraction_ode_structure`. (Or attempt directly without Aristotle.)
+2. **Wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper, then apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'` to discharge `hPhaseA` explicitly.
+3. **arXiv upload:** jepa-learning-order (0 sorries, 15pp paper.tex). Push now.
+4. **arXiv upload:** stochastic-search-bounds (0 sorries, 18pp). Confirm ITP/CPP 2026 deadline first.
+
+---
+
 ## 2026-04-30 (session 29) — JEPA paper.tex 0-sorry update + LeWM citations + Aristotle job C submitted
 
 ### What was done
