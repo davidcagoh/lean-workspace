@@ -4,6 +4,75 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 31, simplicial sub-session) — Cook pre-arXiv expansion: Track A done, Job 1 submitted, Decision Point 2 hit
+
+**Trigger.** User's chat with Nick Cook → two requirements before arXiv:
+1. Low-degree optimality of τ_f (BB24-style for the simplicial setting).
+2. Sparse regime `p → 0` / `p = p(d)` (LMSY 2111.11316 model).
+
+**Roadmap.** `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md` decomposes into Track A (geomCov decay rate — blocker), Track B (sparse theorem — depends on A), Track C (low-degree optimality — independent, paper-only). OQ-16 added to wiki.
+
+**Track A — DONE pen-and-paper.** `analytic_decay_rate.md`:
+- `\phi(1/3 - \epsilon) = 1 - 36\epsilon^2` *exactly* on `[0, 1/12]` (Stevens 1939).
+- `1 - \fillingP(p,d) = 4\log(3/2)\,|\log p|\,\eta^2(1+O(\eta))`.
+- 8-term `\geomCov` collapse: `\geomCov = (1-q)\gamma^d + 3p^3[(7r/2)^d - q]`. Wedge term vanishes by 1D Helly applied to two arcs sharing a centre vertex.
+- Final rate: `\geomCov \asymp (1-q)\gamma(r)^d \asymp (3/4)^d p^2` deep in regime.
+- Sparse threshold: `p_n \gg n^{-3/4}` for fixed `d`.
+
+**Track A → Lean.** Five lemma stubs added to `SimplicialDetection.lean` lines 691–820 with PROVIDED SOLUTION blocks: `wedge_implies_fill`, `gamma_pow_eq`, `mu_e_pow_eq`, `fillingProb_eq_low_r`, `geometricCov_eq_deep`, `geometricCov_decay_rate_le`. Build clean (8027 jobs). Naive two-sided rate dropped — `(7r/2)^d/\gamma^d` unbounded for small `r`.
+
+**Aristotle Job 1 (sim-A5-primitives) IN FLIGHT:** `43761387-672d-4007-9a74-aefd8efb068d`. Job 2 (assembly) deferred until Job 1 lands.
+
+**Paper deltas.** `my_theorems/paper_delta_OQ16.md` drafted with §5.1 quantitative-decay rewrite, §5.2 sparse corollary, §5.3 low-degree, §5.4 sub-regime open problem, Stevens 1939 bib entry. To be merged after Job 1 returns and §5.3 is resolved.
+
+**⚠️ Decision Point 2 hit — Track C C3.** Computed pure-fill pair Fourier coefficient `\widehat{L}(\emptyset, \{t,t'\})` for shared-edge triangle pairs:
+- `\Var[\tilde g] = (112 r^3/3)^d - (144 r^4)^d \sim (112 r^3/3)^d` deep.
+- Pure-fill statistic `\tau_{ff} = \sum_{shared edge} (F_t - q)(F_{t'} - q)` SNR `\approx n^2 (14/9)^d p`.
+- τ_f SNR `\approx n^{3/2} (3/4)^d p`.
+- Ratio: τ_{ff} beats τ_f by `n^{1/2} \cdot (56/27)^d \approx n^{1/2} \cdot 2.07^d`.
+
+If correct, **τ_f is NOT low-degree optimal** — strictly better degree-2 fill-pair test exists, no graph analogue. Working notes `fourier_setup.md` §C3-C4. Halt for human verification before reframing §5.3 / telling Cook.
+
+**Cron caveat.** Daily cron `26c03145` (9:17 local) created with `durable:true` but runtime returned "session-only" — likely won't survive session exit. Wake-up relies on user action.
+
+**Pickup for next session (sonnet wake-up procedure):**
+1. **Wait for Aristotle email** on job `43761387`, then `cd simplicial-latent-geometry && python ../stochastic-proofs-handbook/scripts/retrieve.py`.
+2. On PASS: cherry-pick proofs into `SimplicialDetection.lean` (lemmas at lines 691–760), `lake build`, commit.
+3. Submit Job 2 with prompt referencing `geometricCov_eq_deep` + `geometricCov_decay_rate_le` (PROVIDED SOLUTIONs already in docstrings).
+4. **Verify τ_{ff} > τ_f arithmetic** in `fourier_setup.md` §C3-C4 by hand AND numerically (concrete `n, p, d`). This is the gate for §5.3 of the paper.
+5. If verified: draft revised §5.3 (τ_{ff} as new headline), send Cook a note.
+6. Track B (`detection_lower_bound_sparse`) follows Job 2 + verification.
+
+---
+
+## 2026-04-30 (session 31) — JEPA: strongest-result roadmap + Section 6 rewrite + Aristotle Job F.1 submitted
+
+**Goal pivot.** User declined arXiv submission; wants the strongest possible result, ultimately ρ-recovery. This means closing the conceptual gap between the formula-level ordering (`critical_time_ordering`, already proved) and the dynamics-level ordering (which earlier drafts left as a heuristic prediction).
+
+**Mathematical audit.** Read Littwin 2024 (`jepa-learning-order/literature/2407.03475v1.pdf`) Theorem 4.5. The exact diagonal-case JEPA critical time is
+$$t^* = \frac{1}{\lambda}\sum_{n=1}^{2L-1} \frac{L}{n\rho^{2L-n-1}\varepsilon^{n/L}} - \frac{1}{\sigma^2\rho^{2L}}\log\varepsilon + \Theta(1).$$
+The previous paper draft quoted the $n=1$ term $L/(\lambda\rho^{2L-2}\varepsilon^{1/L})$ as "leading"; it is in fact the *smallest* term. The leading term is the $n=2L-1$ summand $L/((2L-1)\lambda\varepsilon^{(2L-1)/L})$, which depends only on $\lambda$ — not $\rho$. The $\rho$-distinguishing term IS the $n=1$ summand, and it controls the ordering exactly as Littwin's Corollary 4.8 shows. Section 6 of the paper rewritten to reflect this.
+
+**Three-job plan to close the gap (no Mathlib blowup infrastructure needed):**
+- **Job F (closed-form Bernoulli inversion)**: split into F.1 `bernoulli_partial_fractions` (Littwin Lemma B.6, induction on $L$ + partial fractions), F.2 `jepa_bernoulli_solution` (separate variables), F.3 `jepa_critical_time_diag` (Laurent expansion, Theorem 4.5).
+- **Job E (diagonal ODE in generalised eigenbasis)**: `diagAmp_ODE` — perturbed Bernoulli ODE with error $O(\varepsilon^{(2L-1)/L})$, structurally parallel to existing `offDiag_ODE`.
+- **Job G (hitting-time perturbation)**: `actual_critical_time` — monotone-sandwich autonomous-scalar-ODE comparison, replacing the alleged "ODE blow-up" obstacle.
+
+**Artifacts produced:**
+- `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full plan.
+- `jepa-learning-order/my_theorems/paper.tex` — Section 6 rewritten (17pp, compiles clean), Prediction 6.1 removed, four new target theorems stated, Appendix B added with Littwin's Bernoulli closed form.
+- `jepa-learning-order/JepaLearningOrder/JEPA.lean` — five Lean stubs added (`hittingTime` def, `bernoulli_partial_fractions`, `jepa_bernoulli_solution`, `jepa_critical_time_diag`, `diagAmp_ODE`, `actual_critical_time`), all `sorry`'d. (Side note: renamed `w̄` to `wbar` because the combining-bar character broke Lean's parser.)
+- `jepa-learning-order/JepaLearningOrder/MainTheorem.lean` — `JEPA_dynamics_ordering` theorem stub added.
+- `jepa-learning-order/requests/24_jobF_bernoulli_partial_fractions.md` through `28_jobG_actual_critical_time.md` — five Aristotle request docs with detailed reference proofs.
+- `lake build` succeeds with 8035 jobs; 6 sorries (all roadmap stubs), all previously-proved lemmas remain proved.
+
+**Submitted Aristotle Job F.1:** `d145f917-1512-4863-ae4d-4c799e146981` — `bernoulli_partial_fractions`. Pure algebra/induction.
+**Submitted Aristotle Job E:** `083e48d6-3939-42dd-b156-18733a068885` — `diagAmp_ODE`. Mirrors `offDiag_ODE` (Aristotle 7e7b8e9a) in structure. Submitted in parallel with F.1 since the two are logically independent.
+
+**Pickup for next session:** check Aristotle email; run `python ../stochastic-proofs-handbook/scripts/retrieve.py`. F.1 returns first (smaller scope). After F.1 lands and is cherry-picked, submit Job F.2 (request `25_jobF_bernoulli_solution.md`); after F.2 lands, submit F.3 (request 26). Job E running in parallel — when both E and F.3 land, submit Job G (request 28). Final assembly `JEPA_dynamics_ordering` in `MainTheorem.lean` may benefit from Opus.
+
+---
+
 ## 2026-04-30 (session 30) — JEPA: Job C retrieved + cherry-picked; uniform_pd_lower_from_compactness + JEPA_rho_ordering'
 
 ### What was done
