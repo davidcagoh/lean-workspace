@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-30 — session 35)
+## Status (2026-05-01 — session 37)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **1 (MainTheorem assembly)** | **17pp paper.tex (Section 6). All Section 6 lemmas Lean-verified: F.1 ✅, F.2 ✅, E ✅, F.3 ✅, G ✅ (`862881a0`). ⚠️ **Job G proof is witness-K-vacuous** — `K = (\|E\|+1)/ε^{-(L-2)/L}` depends on ε; same pattern as `frozen_encoder_convergence`. Lemma signature has `∃ K` inside the ε-parameterised body, so this typechecks but is mathematically empty. OQ-17 not honestly closed. See OQ-17. Roadmap: `my_theorems/strongest_result_roadmap.md`. |
+| `jepa-learning-order` | **2 (bernoulli_laurent_bound + JEPA_dynamics_ordering)** | **Job I `d9d21ce9` cherry-picked (`1e52e17`).** `actual_critical_time` proved by delegation to `bernoulli_laurent_bound` (named sorry, correct uniform-K signature). **Aristotle Job J `b94c82bd` in flight** — `bernoulli_laurent_bound` (Gronwall comparison + Laurent sorry). Build clean (8035 jobs). See OQ-17. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -164,8 +164,12 @@ monotone-sandwich strategy (`my_theorems/job_H_sandwich_prompt.md`).
 With this, Step 1 (Grönwall: |T̂-T₀|) and Step 2 (Laurent: |T₀-T_Laurent|) both close.
 Step 2 may be left as a named `sorry` (`h_bernoulli_laurent`).
 
-**Aristotle Job I `d9d21ce9` submitted** (`my_theorems/job_I_actual_critical_time_prompt.md`).
-Forbidden: wrong exponent, triangle inequality, K without C, hWbar unused, hwbar_init unused.
+**Aristotle Job I `d9d21ce9` — RETRIEVED AND CHERRY-PICKED (session 37, commit `1e52e17`).**
+`actual_critical_time` proved: Gronwall sandwich delegated to `bernoulli_laurent_bound` (named sorry).
+Build clean (8035 jobs).
+
+**Aristotle Job J `b94c82bd` submitted (session 37)** — `bernoulli_laurent_bound` (scalar ODE Gronwall + Laurent sorry).
+Prompt: `my_theorems/job_J_bernoulli_laurent_bound_prompt.md`.
 
 Decision rationale: the project's stated goal is to *close*
 the gap, not document it open. Also note: `jepa_critical_time_diag` (Job F)
@@ -179,40 +183,35 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job I `d9d21ce9`** (`actual_critical_time` with hwbar_init fix + Grönwall sandwich). `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py`
-2. **JEPA — audit Job I** before cherry-pick: (a) exponent stays `-(L-2)/L`, (b) `hWbar` used in Grönwall step, (c) `hwbar_init` used, (d) K contains C, (e) no triangle inequality.
-3. **JEPA — cherry-pick I** into `JEPA.lean` (with `hwbar_init` added to signature), `lake build`, commit.
+1. **JEPA — retrieve Job J `b94c82bd`** when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py b94c82bd-cf81-4513-af58-8ab11ab11392`
+2. **JEPA — audit Job J** before cherry-pick: (a) exponent stays `-(L-2)/L`, (b) `hode` used in Gronwall step, (c) `f 0 = epsilon` used, (d) K contains C_ode, (e) `h_laurent` is a named sorry (not proved vacuously), (f) K has no ε.
+3. **JEPA — cherry-pick J** into `JEPA.lean`, `lake build`, commit.
 4. **JEPA — update `JEPA_dynamics_ordering` call site** in `MainTheorem.lean` to pass `hwbar_init`.
 5. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean`. Separation Θ(ε^{-(2L-2)/L}) >> error O(ε^{-(L-2)/L}). Closes OQ-17.
-5. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority.)
-6. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
+6. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority.)
+7. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority.)
 
-## Pickup notes for fresh agent (2026-04-30, after session 35)
+## Pickup notes for fresh agent (2026-05-01, after session 37)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 35 wrap (Job G witness-K-vacuous; refactor + Job H submitted).
-- `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan for the dynamics-level ordering theorem.
-- `jepa-learning-order/my_theorems/job_I_actual_critical_time_prompt.md` — Job I prompt (hwbar_init fix + Grönwall sandwich).
-- `jepa-learning-order/my_theorems/paper.tex` Section 6 — the theorem statements being formalised.
-- Aristotle id in flight: `d9d21ce9` (Job I `actual_critical_time`, hwbar_init added + Grönwall sandwich).
+- `wiki/session-log.md` top entry — session 37 wrap (Job I cherry-picked; Job J submitted).
+- `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan.
+- `jepa-learning-order/my_theorems/job_J_bernoulli_laurent_bound_prompt.md` — Job J prompt.
+- Aristotle id in flight: `b94c82bd` (Job J `bernoulli_laurent_bound`, Gronwall + Laurent sorry).
 
 **Mathematical context to know:**
-- **Witness-K vacuity pattern (session 35):** when an existential `∃ K` sits inside an ε-parameterised body, Aristotle can pick `K = (LHS+1)/RHS` to make any bound trivial. Always hoist constants outside the universal quantifiers they should be uniform over. Same trap caught `frozen_encoder_convergence` (f9906716).
-- **Triangle-inequality evasion (session 36, Job H):** `|T̂ - T*| ≤ |T̂| + |T*|` always typechecks but is mathematically empty — never shows cancellation. Fingerprints: (a) K has no C, (b) the conclusion exponent silently widens (e.g. `-(2L-1)/L` instead of `-(L-2)/L`), (c) `hWbar` never appears in the proof body. Always grep for `hWbar` usage before accepting a hitting-time bound.
-- **Missing initial condition (session 36, Job H root cause):** `actual_critical_time` with `-(L-2)/L` exponent is FALSE without `hwbar_init`. Counterexample: Wbar=0 satisfies the ODE residual bound trivially. The fix: add `hwbar_init : diagAmplitude dat eb (Wbar 0) r = epsilon` to the signature.
-- **`jepa_critical_time_diag` is vacuous (session 36):** K = (|LHS|+1)/|log ε| at line 646 — K depends on ε. Do not use it as a black box.
-- The audit revealed the previous draft's "leading critical time" formula was actually the n=1 Laurent term (smallest), not the leading one. Littwin 2024 Theorem 4.5 has the correct form. Don't get confused if old comments in JEPA.lean still reference the old formula.
-- **Coefficient correction (session 33):** `jepa_bernoulli_solution` coefficient is `σ_xx * ρ^(2L)` NOT `σ_xx * ρ^(2L)/L`. The L in the ODE cancels with 1/L from the chain rule on wbar^{1/L}. Old wrong statement is preserved in a block comment in JEPA.lean for reference.
-- **diagAmp_ODE (session 33):** Three new hypotheses `hflow_diag`, `hWbar_cont`, `hV_cont` were added (mirror offDiag_ODE regularity inputs). These are present in any downstream use.
-- The dynamics-level ordering proof uses a monotone-comparison sandwich on autonomous scalar ODEs — *not* an ODE blow-up argument as earlier drafts speculated.
-- Lean note: `w̄` (combining bar) breaks the parser — use `wbar` instead.
+- **Witness-K vacuity pattern:** when `∃ K` sits inside the ε-parameterised body, K = (LHS+1)/RHS typechecks. Always hoist K outside `∀ ε`.
+- **Triangle-inequality evasion:** `|T̂ - T*| ≤ |T̂| + |T*|` shows no cancellation. Fingerprints: K has no C, exponent widens silently, ODE hypothesis never used.
+- **`jepa_critical_time_diag` is vacuous:** K = (|LHS|+1)/|log ε| — K depends on ε. Do not use it as a genuine black box.
+- **`bernoulli_laurent_bound` structure (session 37):** Gronwall step (K₁ genuine, contains C_ode) + Laurent step (`h_laurent` named sorry) + triangle on hitting times. K = K₁ + K₂ is ε-free.
+- **Audit checklist for Job J:** (a) exponent `-(L-2)/L`, (b) `hode` in Gronwall step, (c) `f 0 = epsilon` used, (d) K contains C_ode, (e) `h_laurent` is a named sorry not proved vacuously, (f) K has no ε.
 
 **Current sorry inventory (2 total, all intentional):**
-1. `JEPA.lean` `actual_critical_time` — Job H (in flight `b1224de3`), refactored uniform-K signature.
+1. `JEPA.lean` `bernoulli_laurent_bound` — Job J in flight (`b94c82bd`). Gronwall step genuine; Laurent step a named sorry.
 2. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
 
-**Build status:** `lake build` succeeds (8028 jobs).
+**Build status:** `lake build` succeeds (8035 jobs).
 
 A Sonnet agent can run the workflow autonomously: retrieve → cherry-pick → submit next → repeat. Request docs `24_*` through `28_*` contain the reference proofs.
 3. **JEPA — arXiv upload:** 15pp paper.tex compiles clean, 0 sorries. Ship now.

@@ -4,6 +4,26 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-01 (session 37) — JEPA Job I cherry-picked; Job J submitted
+
+### What was done
+- Retrieved Aristotle Job I (`d9d21ce9`) from tar.gz (API 500'd again). Audited against five fingerprints: exponent `-(L-2)/L` ✅, `hwbar_init` used ✅, K contains C_ode (via `bernoulli_laurent_bound`) ✅, no triangle inequality in `actual_critical_time` body ✅, Gronwall delegated to named sorry `bernoulli_laurent_bound` ✅.
+- Cherry-picked into `JepaLearningOrder/JEPA.lean`. `lake build` clean (8035 jobs). Committed `1e52e17`.
+- Sorry inventory stable at 2: `bernoulli_laurent_bound` (replaces `actual_critical_time`) + `JEPA_dynamics_ordering`.
+- **Submitted Aristotle Job J `b94c82bd`** — `bernoulli_laurent_bound` scalar ODE lemma. Strategy: Gronwall comparison (K₁ genuine, contains C_ode) + `h_laurent` named sorry + triangle on hitting times. Prompt: `my_theorems/job_J_bernoulli_laurent_bound_prompt.md`.
+
+### State at end of session
+- JEPA: 2 sorries (`bernoulli_laurent_bound` Job J in flight, `JEPA_dynamics_ordering` assembly).
+- Job J `b94c82bd` submitted, awaiting Aristotle.
+- Build clean (8035 jobs).
+
+### What to do next session
+1. **Retrieve Job J `b94c82bd`** when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py b94c82bd-cf81-4513-af58-8ab11ab11392`
+2. **Audit Job J**: (a) exponent `-(L-2)/L`, (b) `hode` in Gronwall step, (c) `f 0 = epsilon` used, (d) K contains C_ode, (e) `h_laurent` is a named sorry (not vacuous), (f) K has no ε.
+3. If genuine, cherry-pick, `lake build`, commit. Then assemble `JEPA_dynamics_ordering` in `MainTheorem.lean`.
+
+---
+
 ## 2026-04-30 (session 35) — JEPA Job G cherry-picked, found witness-K vacuous, refactored signature, submitted Job H; workspace symlink cleanup
 
 ### What was done
