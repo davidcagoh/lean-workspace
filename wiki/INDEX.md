@@ -19,7 +19,7 @@
 ### Paper drafts — naming convention
 Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. Supporting docs sit alongside it.
 - `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L source (v2)
-- `jepa-learning-order/my_theorems/paper.tex` — LaTeX, **14pp, compiles clean (session 24); `\leanverified{…}` catalog + Appendix B axiom status**
+- `jepa-learning-order/my_theorems/paper.tex` — LaTeX, **18pp, compiles clean (session 39); `\leanverified{…}` catalog + §app:axioms (Axioms A1+A2 per CompCert)**
 - `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6 source
 - `stochastic-search-bounds/my_theorems/paper.tex` — LaTeX, **18pp, compiles clean (session 23: Winston-star rewrite); Appendix A Lean verification catalog + Appendix B Lean signatures**
 - `simplicial-latent-geometry/my_theorems/paper_draft.md` — Strategy 2 draft, §5 updated
@@ -191,11 +191,10 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **JEPA — decide on `bernoulli_laurent_bound` internals.** Two paths: (a) submit Aristotle jobs for `h_gronwall` (Picard-Lindelöf existence + Gronwall + hitting time comparison) and `h_laurent` (Littwin 2024 Thm 4.5 — closed-form Laurent inversion); (b) accept as named axioms documented in Appendix B. Path (b) matches CompCert convention and is paper-ready.
-2. **JEPA — paper.tex audit:** Update Section 6/7 to reflect the assembled `JEPA_dynamics_ordering` (Theorem 6.1) signature: `hinit_r/s` + `hode_r/s` + `hrho` + `hlam`. Refresh `\leanverified{…}` catalog and Appendix B axiom status.
-3. **JEPA — arXiv submission.** With Theorem 6.1 structurally proved, the paper can ship. Confirm OQ-7 venue (ICLR theory / COLT / TMLR).
-4. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority.)
-5. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority.)
+1. **JEPA — `bernoulli_laurent_bound` internals: path (b) chosen (session 39).** `h_gronwall` and `h_laurent` documented as named scalar-ODE axioms in `paper.tex` §`app:axioms` per CompCert convention (Leroy 2009). Both characterised as standard infrastructure (Picard-Lindelöf+Gronwall and Bernoulli Laurent inversion / Littwin 2024 Thm 4.5) independent of the paper's learning-theoretic content. paper.pdf clean (18pp).
+2. **JEPA — arXiv submission.** Paper ready. Confirm OQ-7 venue (ICLR theory / COLT / TMLR) before upload.
+3. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority — not required for arXiv.)
+4. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority — not required for arXiv.)
 6. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
 7. **Simplicial — OQ-16 expansion (pre-arXiv):** see roadmap. Start with Track A (geomCov decay rate, A1–A3 pen-and-paper) + Track C steps C1–C2 in parallel.
 8. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
