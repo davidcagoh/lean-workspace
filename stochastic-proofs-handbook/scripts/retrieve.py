@@ -66,7 +66,10 @@ async def process_one(project_id: str, meta: dict, results_dir: pathlib.Path) ->
 
     if tar_path.exists():
         print(f"  {project_id[:8]}…  already downloaded → re-annotating")
-        annotate(tar_path, meta)
+        try:
+            annotate(tar_path, meta)
+        except FileNotFoundError as e:
+            print(f"             skipped annotation (missing file: {e.filename})")
         return True
 
     try:
@@ -89,7 +92,10 @@ async def process_one(project_id: str, meta: dict, results_dir: pathlib.Path) ->
     try:
         path = await project.get_solution(destination=str(tar_path))
         print(f"             saved to {path}")
-        annotate(tar_path, meta)
+        try:
+            annotate(tar_path, meta)
+        except FileNotFoundError as e:
+            print(f"             skipped annotation (missing file: {e.filename})")
         return True
     except AristotleAPIError as e:
         print(f"             download failed: {e}")
