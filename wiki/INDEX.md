@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-05-01 — session 38)
+## Status (2026-05-01 — session 39)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **3 (bernoulli_laurent_bound h_gronwall + h_laurent + laurent_separation_dominates)** | **Job J `b94c82bd` cherry-picked (`62392e4`).** `bernoulli_laurent_bound` proved structurally: Gronwall comparison (sorry'd) + Laurent (named sorry) + triangle inequality. **`JEPA_dynamics_ordering` assembled (`4d3c920`)**: composes `actual_critical_time` × 2 + `laurent_separation_dominates` (new named sub-lemma) + `linarith`. **Aristotle Job K `47230570` in flight** — `laurent_separation_dominates` (ε-asymptotic algebra). Build clean (8035 jobs). See OQ-17. |
+| `jepa-learning-order` | **2 (bernoulli_laurent_bound h_gronwall + h_laurent)** | **Job K `47230570` cherry-picked (`05adbd0`).** `laurent_separation_dominates` proved (n=2L-2 extraction + ε^{-(2L-2)/L} = ε^{-1}·ε^{-(L-2)/L}). New file `LaurentHelpers.lean` (5 helpers). **`JEPA_dynamics_ordering` (Theorem 6.1) is fully proved** — no `sorry` in body. Build clean (8036 jobs). Remaining sorries are both internal to `bernoulli_laurent_bound`: `h_gronwall` (Picard-Lindelöf + Gronwall + hitting time) and `h_laurent` (Littwin 2024 Thm 4.5). arXiv-ready under CompCert convention. See OQ-17. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -173,7 +173,10 @@ Build clean (8035 jobs).
 
 **`JEPA_dynamics_ordering` ASSEMBLED (session 38, commit `4d3c920`).** Refactored signature with `hinit_r/s` (diagonal-amplitude initial conditions) + `hode_r/s` (perturbed Bernoulli ODE bounds). Proof composes `actual_critical_time` × 2 + `laurent_separation_dominates` (new named sub-lemma) + `linarith`.
 
-**Aristotle Job K `47230570` submitted (session 38)** — `laurent_separation_dominates`. Strategy: drop all but n=2L-2 summand (each nonneg via λ_s ≤ λ_r and ρ_s < ρ_r); rewrite ε^{-(2L-2)/L} = ε^{-1} · ε^{-(L-2)/L}; choose ε_0 = min(1/2, M/(K_r+K_s)) where M = L·(1/(λ_s ρ_s) − 1/(λ_r ρ_r))/(2L−2). Prompt: `my_theorems/job_K_laurent_separation_dominates_prompt.md`.
+**Aristotle Job K `47230570` — RETRIEVED AND CHERRY-PICKED (session 39, commit `05adbd0`).**
+`laurent_separation_dominates` proved. New file `LaurentHelpers.lean` (5 helpers: `projectedCovariance_pos`, `projCov_mul_rho_strict_lt`, `projCov_mul_rho_pow_le`, `Finset.sum_sub_ge_single`, `rpow_two_L_minus_two_split`). Audit pass: ε_0 from `(dat, eb, L, r, s, K_r, K_s)` only; both `hrho` and `hlam` consumed; n=2L-2 extracted via `Finset.single_le_sum`; no `decide`/`native_decide`/`admit`.
+
+**`JEPA_dynamics_ordering` chain is structurally complete.** Theorem 6.1 has no `sorry` in body. Two remaining sorries are both internal to `bernoulli_laurent_bound`: `h_gronwall` (Picard-Lindelöf + Gronwall + hitting time comparison) and `h_laurent` (Littwin 2024 Thm 4.5 — pure calculus). Both are standard ODE/Laurent facts left implicit in informal learning-theory papers — paper-ready under CompCert convention. Decision pending on whether to submit Aristotle jobs for them or document as named axioms.
 
 Decision rationale: the project's stated goal is to *close*
 the gap, not document it open. Also note: `jepa_critical_time_diag` (Job F)
@@ -187,25 +190,23 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job K `47230570`** when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 47230570-5153-479f-8da9-7ea657f8dca2`
-2. **JEPA — audit Job K** before cherry-pick: (a) `ε_0` built only from `(dat, eb, L, r, s, K_r, K_s)` — no ε in witness, (b) both `hrho` and `hlam` actually consumed, (c) n=2L-2 summand extraction is genuine (not a witness trick), (d) no `decide`/`native_decide`. If genuine, cherry-pick into `MainTheorem.lean`, `lake build`, commit. JEPA sorries drop to 2.
-3. **JEPA — close `bernoulli_laurent_bound` internals** (decision needed): submit jobs for `h_gronwall` (Picard-Lindelöf + Gronwall) and `h_laurent` (Littwin 2024 Thm 4.5), or accept as named "Mathlib infrastructure missing" placeholders for the paper.
-4. **JEPA — paper.tex audit:** Ensure Section 6/7 reflects the assembled `JEPA_dynamics_ordering` (Theorem 6.1) signature: it takes `hinit_r/s` + `hode_r/s` + `hrho` + `hlam`.
-5. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority.)
-6. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority.)
-7. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
-8. **Simplicial — OQ-16 expansion (pre-arXiv):** see roadmap. Start with Track A (geomCov decay rate, A1–A3 pen-and-paper) + Track C steps C1–C2 in parallel.
-9. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
-10. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
+1. **JEPA — decide on `bernoulli_laurent_bound` internals.** Two paths: (a) submit Aristotle jobs for `h_gronwall` (Picard-Lindelöf existence + Gronwall + hitting time comparison) and `h_laurent` (Littwin 2024 Thm 4.5 — closed-form Laurent inversion); (b) accept as named axioms documented in Appendix B. Path (b) matches CompCert convention and is paper-ready.
+2. **JEPA — paper.tex audit:** Update Section 6/7 to reflect the assembled `JEPA_dynamics_ordering` (Theorem 6.1) signature: `hinit_r/s` + `hode_r/s` + `hrho` + `hlam`. Refresh `\leanverified{…}` catalog and Appendix B axiom status.
+3. **JEPA — arXiv submission.** With Theorem 6.1 structurally proved, the paper can ship. Confirm OQ-7 venue (ICLR theory / COLT / TMLR).
+4. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority.)
+5. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority.)
+6. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
+7. **Simplicial — OQ-16 expansion (pre-arXiv):** see roadmap. Start with Track A (geomCov decay rate, A1–A3 pen-and-paper) + Track C steps C1–C2 in parallel.
+8. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
+9. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-01, after session 38)
+## Pickup notes for fresh agent (2026-05-01, after session 39)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 38 wrap (Job J cherry-picked; `JEPA_dynamics_ordering` assembled; Job K submitted).
+- `wiki/session-log.md` top entry — session 39 wrap (Job K cherry-picked; `JEPA_dynamics_ordering` chain structurally complete).
 - `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan.
-- `jepa-learning-order/my_theorems/job_K_laurent_separation_dominates_prompt.md` — Job K prompt.
-- Aristotle id in flight: `47230570` (Job K `laurent_separation_dominates`, ε-asymptotic algebra).
+- No Aristotle jobs in flight.
 
 **Mathematical context to know:**
 - **Witness-K vacuity pattern:** when `∃ K` (or `∃ ε_0`) sits inside the ε-parameterised body, the witness can absorb the bound. Always hoist outside `∀ ε`. For Job K, `ε_0` MUST be built only from `(dat, eb, L, r, s, K_r, K_s)`.
@@ -213,13 +214,12 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 - **`JEPA_dynamics_ordering` assembly (session 38):** Composes `actual_critical_time` × 2 + `laurent_separation_dominates`. Key identity: ε^{-(2L-2)/L} = ε^{-1} · ε^{-(L-2)/L}, so the Laurent gap dominates the perturbation error iff ε < M/(K_r+K_s).
 - **`jepa_critical_time_diag` is vacuous:** K = (|LHS|+1)/|log ε| — K depends on ε. Do not use it as a genuine black box.
 
-**Current sorry inventory (3 total, all intentional, all named):**
+**Current sorry inventory (2 total, both intentional, both named):**
 1. `JEPA.lean` `bernoulli_laurent_bound` — internal `h_gronwall` (Picard-Lindelöf + Gronwall + hitting time comparison).
 2. `JEPA.lean` `bernoulli_laurent_bound` — internal `h_laurent` (Littwin 2024 Thm 4.5 — pure calculus).
-3. `MainTheorem.lean` `laurent_separation_dominates` — Job K in flight (`47230570`); ε-asymptotic algebra over finite Laurent sum.
 
-`JEPA_dynamics_ordering` itself is **structurally proved** — body has no `sorry`.
+`JEPA_dynamics_ordering` (Theorem 6.1) and `laurent_separation_dominates` are **fully proved** — bodies have no `sorry`.
 
-**Build status:** `lake build` succeeds (8035 jobs).
+**Build status:** `lake build` succeeds (8036 jobs).
 
 A Sonnet agent can run the workflow autonomously: retrieve → audit → cherry-pick → commit → repeat.

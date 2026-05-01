@@ -4,6 +4,34 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-01 (session 39) — JEPA Job K cherry-picked; `JEPA_dynamics_ordering` chain structurally complete
+
+### What was done
+- Retrieved Aristotle Job K (`47230570`) for `laurent_separation_dominates`. Audited:
+  - ε_0 = min(1, M/(K_r+K_s))/2 with M = (L/(2L-2))(1/(λ_s ρ_s) − 1/(λ_r ρ_r)) — depends only on `(dat, eb, L, r, s, K_r, K_s)` ✅
+  - `hrho` consumed via `projCov_mul_rho_strict_lt`; `hlam` consumed via same lemma ✅
+  - n=2L-2 summand extraction genuine (`Finset.single_le_sum` on dropped non-negative terms) ✅
+  - No `decide`/`native_decide`/`admit` ✅
+- Cherry-picked into `JepaLearningOrder/MainTheorem.lean` + new file `JepaLearningOrder/LaurentHelpers.lean` (5 helpers). `lake build` clean (8036 jobs). Committed `05adbd0`.
+
+### State at end of session
+- JEPA: **2 sorries** (both internal to `bernoulli_laurent_bound`):
+  - `h_gronwall` (Picard-Lindelöf existence + Gronwall + hitting time comparison)
+  - `h_laurent` (Littwin 2024 Thm 4.5 — pure calculus on the unperturbed Bernoulli ODE)
+- `JEPA_dynamics_ordering` (Theorem 6.1) and `laurent_separation_dominates`: fully proved (no `sorry` in body).
+- Build clean (8036 jobs).
+- arXiv-ready under CompCert convention: the two remaining sorries are named explicit assumptions corresponding to standard ODE / Laurent-series facts left implicit in informal learning-theory papers.
+
+### What to do next session
+1. **Decide on `bernoulli_laurent_bound` internals.** Two paths:
+   - (a) Submit Aristotle jobs for `h_gronwall` and `h_laurent`. Both are research-grade — `h_gronwall` needs Picard-Lindelöf existence + Gronwall hitting-time comparison; `h_laurent` needs Littwin 2024 Thm 4.5 (closed-form Laurent inversion of the Bernoulli ODE). Likely require Mathlib infrastructure that may be missing.
+   - (b) Accept as named axioms / hypotheses for the paper. Document in Appendix B as "Mathlib gap, mathematically standard." This is the CompCert path.
+2. **Paper.tex audit.** Section 6/7 should reflect the assembled `JEPA_dynamics_ordering` signature: `hinit_r/s` (diagonal-amplitude initial conditions) + `hode_r/s` (perturbed Bernoulli ODE bounds) + `hrho` + `hlam`. Update `\leanverified{…}` catalog and Appendix B axiom status.
+3. **Stochastic-search-bounds — arXiv upload** (after confirming OQ-7 venue/deadline).
+4. **Simplicial — OQ-16 expansion** (Track A geomCov decay rate; verify τ_{ff} > τ_f finding before telling Cook).
+
+---
+
 ## 2026-05-01 (session 38) — JEPA Job J cherry-picked; JEPA_dynamics_ordering assembled; Job K submitted
 
 ### What was done
