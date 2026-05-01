@@ -4,6 +4,30 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 33) — JEPA Jobs F.2 + E cherry-picked, Job F.3 submitted
+
+### What was done
+- Retrieved Job F.2 (`76910515`) — `jepa_bernoulli_solution` — **COMPLETE**.
+  - Coefficient corrected: `σ_xx * ρ^(2L)` (not `/L`). L from ODE cancels with 1/L from chain rule on wbar^{1/L}. Old wrong statement preserved in block comment.
+  - Three helper lemmas added: `exists_const_of_hasDerivAt_const`, `rpow_div_pow_eq`, `bernoulli_antideriv_hasDerivAt`.
+- Retrieved Job E (`083e48d6`) — `diagAmp_ODE` — **COMPLETE_WITH_ERRORS** (proved, minor linter notes).
+  - Three new hypotheses added: `hflow_diag`, `hWbar_cont`, `hV_cont` (mirror `offDiag_ODE` regularity inputs).
+  - Proof via compactness sandwich on continuous error function.
+- Cherry-picked both into `JepaLearningOrder/JEPA.lean`. `lake build` clean (8028 jobs). Committed `2ee8e47`.
+- Submitted **Job F.3** (`jepa_critical_time_diag`) as **`859e521e`**. Prompt references corrected coefficient and request `26_jobF_critical_time_diag.md`.
+
+### State at end of session
+- **In flight:** Job F.3 `859e521e` (`jepa_critical_time_diag`).
+- Sorry count: **3** (down from 5): `jepa_critical_time_diag`, `actual_critical_time`, `JEPA_dynamics_ordering`.
+
+### What to do next session
+1. Retrieve Job F.3 `859e521e` when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 859e521e-...`
+2. Cherry-pick F.3 into `JEPA.lean`, `lake build`, commit.
+3. Submit Job G (`actual_critical_time`, request `28_jobG_actual_critical_time.md`) — needs both F.3 and E to be landed.
+4. On G landed + cherry-picked: assemble `JEPA_dynamics_ordering` in `MainTheorem.lean` (Opus-level — see roadmap).
+
+---
+
 ## 2026-04-30 (session 32) — JEPA Job F.1 landed, cherry-picked; Job F.2 submitted
 
 ### What was done
