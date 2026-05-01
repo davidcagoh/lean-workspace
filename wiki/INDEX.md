@@ -146,22 +146,15 @@ theorems. Five Lean stubs added; full proof plan in
 `jepa-learning-order/my_theorems/strongest_result_roadmap.md`. Aristotle
 Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
-**Job G landed (`862881a0`) — but witness-K-vacuous (session 35).** Aristotle picked
-`K = (|E|+1) / ε^{-(L-2)/L}` so the bound `|E| ≤ K·ε^{-(L-2)/L}` is trivial.
-Re-reading the lemma: `∃ K` sits inside the ε-parameterised body, so K can depend
-on ε. Lean accepts; mathematics is empty. The `MainTheorem.lean` assembly cannot
-conclude "perturbation = o(ε^{-1/L})" from a K that absorbs the LHS.
+**Session 35 update:** Job G's first proof (`862881a0`) was witness-K-vacuous —
+`K = (|E|+1)/ε^{-(L-2)/L}`. Path (1) chosen: lemma signature refactored to hoist
+`K` outside `∀ ε, ∀ Wbar` so K depends only on `(dat, eb, L, t_max, p, r, C)`.
+Sorry restored. **Aristotle Job H `b1224de3` submitted** with the genuine
+monotone-sandwich strategy (`my_theorems/job_H_sandwich_prompt.md`). Forbidden in
+the Job H prompt: `decide`, `native_decide`, `sorry`, `admit`, witness-K patterns
+of the form `(LHS+1)/RHS`. When Job H returns: audit for vacuity before cherry-pick.
 
-**To honestly close OQ-17, two paths:**
-1. **Refactor lemma signature** to push `∃ K : ℝ, 0 < K ∧ ∀ε ∈ (0,1), …`
-   so K is independent of ε. Then re-submit Aristotle with the monotone-sandwich
-   strategy (Mathlib `ODE_solution_unique`, autonomous scalar Bernoulli with rates
-   `Lλ(1±δ_E)`).
-2. **Accept as a CompCert-style named assumption** (parallel to
-   `frozen_encoder_convergence` f9906716 vacuous proof), and document the
-   dynamics-ordering theorem as conditional on a uniform-in-ε perturbation bound.
-
-Decision pending. Recommended: path (1) — the project's stated goal is to *close*
+Decision rationale: the project's stated goal is to *close*
 the gap, not document it open.
 
 ---
@@ -172,22 +165,25 @@ the gap, not document it open.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job G `862881a0`** (`actual_critical_time`) when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 862881a0-...`
-2. **JEPA — cherry-pick G** into `JEPA.lean`, `lake build`, commit.
-3. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once G lands (all of E, F.1–F.3, G now done). (Opus-level — see roadmap.)
-4. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority — not blocking the dynamics-ordering goal.)
-5. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
+1. **JEPA — retrieve Job H `b1224de3`** (`actual_critical_time` genuine sandwich proof). `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py b1224de3-b4bb-40c7-a0b2-1d3bd4175ad7`
+2. **JEPA — audit for witness-K vacuity** before cherry-pick. K must be expressible from `(dat, eb, L, t_max, p, r, C)` only; proof must construct upper/lower comparison ODEs (not collapse the whole bound into a single term).
+3. **JEPA — cherry-pick H** into `JEPA.lean`, `lake build`, commit.
+4. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean`. Now honestly closeable: leading separation `Θ(ε^{-1/L})` dominates the uniform `O(ε^{-(L-2)/L}) = o(ε^{-1/L})` perturbation. Closes OQ-17.
+5. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority.)
+6. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
 
-## Pickup notes for fresh agent (2026-04-30, after session 34)
+## Pickup notes for fresh agent (2026-04-30, after session 35)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 34 wrap (F.3 landed, G submitted).
+- `wiki/session-log.md` top entry — session 35 wrap (Job G witness-K-vacuous; refactor + Job H submitted).
 - `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan for the dynamics-level ordering theorem.
+- `jepa-learning-order/my_theorems/job_H_sandwich_prompt.md` — Job H prompt with monotone-sandwich strategy.
 - `jepa-learning-order/my_theorems/paper.tex` Section 6 — the theorem statements being formalised.
-- Aristotle id in flight: `862881a0` (Job G `actual_critical_time`).
+- Aristotle id in flight: `b1224de3` (Job H `actual_critical_time`, genuine sandwich proof).
 
 **Mathematical context to know:**
+- **Witness-K vacuity pattern (session 35):** when an existential `∃ K` sits inside an ε-parameterised body, Aristotle can pick `K = (LHS+1)/RHS` to make any bound trivial. Always hoist constants outside the universal quantifiers they should be uniform over. Same trap caught `frozen_encoder_convergence` (f9906716).
 - The audit revealed the previous draft's "leading critical time" formula was actually the n=1 Laurent term (smallest), not the leading one. Littwin 2024 Theorem 4.5 has the correct form. Don't get confused if old comments in JEPA.lean still reference the old formula.
 - **Coefficient correction (session 33):** `jepa_bernoulli_solution` coefficient is `σ_xx * ρ^(2L)` NOT `σ_xx * ρ^(2L)/L`. The L in the ODE cancels with 1/L from the chain rule on wbar^{1/L}. Old wrong statement is preserved in a block comment in JEPA.lean for reference.
 - **diagAmp_ODE (session 33):** Three new hypotheses `hflow_diag`, `hWbar_cont`, `hV_cont` were added (mirror offDiag_ODE regularity inputs). These are present in any downstream use.
@@ -195,7 +191,7 @@ the gap, not document it open.
 - Lean note: `w̄` (combining bar) breaks the parser — use `wbar` instead.
 
 **Current sorry inventory (2 total, all intentional):**
-1. `JEPA.lean` `actual_critical_time` — Job G (in flight `862881a0`).
+1. `JEPA.lean` `actual_critical_time` — Job H (in flight `b1224de3`), refactored uniform-K signature.
 2. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
 
 **Build status:** `lake build` succeeds (8028 jobs).

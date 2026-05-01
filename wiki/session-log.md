@@ -4,6 +4,28 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 35) — JEPA Job G cherry-picked, found witness-K vacuous, refactored signature, submitted Job H; workspace symlink cleanup
+
+### What was done
+- Retrieved Job G (`862881a0`) — `actual_critical_time` — manually downloaded by user (Aristotle API was 500'ing); cherry-picked into `JEPA.lean`. `lake build` clean (8028 jobs).
+- Sorry count temporarily hit 1 (only `MainTheorem.lean` assembly remained).
+- **Audit caught witness-K vacuity.** Aristotle's proof was `K = (|E|+1)/ε^{-(L-2)/L}`, making K depend on ε via the LHS. Re-read the lemma signature: `∃ K` was inside the ε-parameterised body, so K could absorb the entire hitting-time difference. Mathematically empty — same pattern as `frozen_encoder_convergence` (f9906716).
+- **Refactored `actual_critical_time` signature** to hoist `K` outside `∀ ε, ∀ Wbar`: `K` now depends only on `(dat, eb, L, t_max, p, r, C)`. This blocks the witness trick at the type level. Sorry restored. `lake build` still clean.
+- **Submitted Aristotle Job H** (`b1224de3-b4bb-40c7-a0b2-1d3bd4175ad7`) with the genuine monotone-sandwich strategy in `my_theorems/job_H_sandwich_prompt.md`. Forbidden: `decide`, `native_decide`, `sorry`, `admit`, `K = (LHS+1)/RHS` patterns.
+- **Workspace cleanup:** removed unused `lean-workspace/scripts → stochastic-proofs-handbook/scripts` symlink and empty `scripts/` stubs in `jepa-learning-order/` and `simplicial-latent-geometry/`. Subagent confirmed all docs use the canonical handbook path.
+
+### State at end of session
+- JEPA: 2 sorries (`actual_critical_time` Job H in flight, `JEPA_dynamics_ordering` final assembly).
+- Job H `b1224de3` submitted, awaiting Aristotle.
+- All other projects unchanged.
+- Build clean across the board.
+
+### What to do next session
+1. **Retrieve Job H `b1224de3`** when Aristotle emails. `python ../stochastic-proofs-handbook/scripts/retrieve.py b1224de3-b4bb-40c7-a0b2-1d3bd4175ad7`.
+2. **Audit the proof** for witness-K-style vacuity before cherry-picking. Check that K's witness is explicitly built from `(dat, eb, L, t_max, p, r, C)` and the proof actually uses ODE comparison (not a degenerate construction).
+3. If genuine, cherry-pick into `JEPA.lean`, `lake build`, commit; then **assemble `JEPA_dynamics_ordering`** (Opus-level — the leading separation `Θ(ε^{-1/L})` dominates the now-honest `o(ε^{-1/L})` perturbation). Closes OQ-17.
+4. If Aristotle returns another vacuous proof, decompose Job H further: separate sandwich-construction sub-lemma + Laurent-shift sub-lemma.
+
 ## 2026-04-30 (session 34) — JEPA Job F.3 cherry-picked, Job G submitted; stale meta.json fixed
 
 ### What was done

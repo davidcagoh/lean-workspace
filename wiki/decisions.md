@@ -4,6 +4,28 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Hoist uniformity constants outside parameterised quantifiers
+
+**Decision date:** 2026-04-30 (session 35)
+
+**Why:** Aristotle's `actual_critical_time` proof (Job G `862881a0`) used a witness-K trick: with `∃ K, |E| ≤ K · ε^{-(L-2)/L}` sitting inside the `ε`-parameterised body, K can be chosen as `K = (|E|+1)/ε^{-(L-2)/L}` to make the bound trivial. Lean type-checks this, but the lemma is mathematically empty. Same trap caught `frozen_encoder_convergence` (f9906716).
+
+**Rule:** when a lemma asserts a *uniform* bound (independent of ε, of a function family, of a regularity parameter, …), the existential for the constant must be hoisted **outside** the universals it should be uniform over. Acceptable form:
+
+```lean
+∃ K : ℝ, 0 < K ∧ ∀ ε ∈ (0,1), ∀ family f, …, |E[f, ε]| ≤ K · g(ε)
+```
+
+Unacceptable form:
+
+```lean
+∀ ε ∈ (0,1), ∀ family f, …, ∃ K : ℝ, 0 < K ∧ |E[f, ε]| ≤ K · g(ε)
+```
+
+**Implication:** When drafting any future Aristotle prompt that bounds a quantity uniformly, audit the signature first. Ban `decide`, `native_decide`, `sorry`, `admit`, and witness-K-of-the-form `(LHS+1)/RHS` patterns explicitly in the prompt. After Aristotle returns, audit the `K` witness expression: if it textually contains the LHS (e.g. `|hittingTime ... - ...|`), the proof is vacuous regardless of whether Lean accepted it.
+
+---
+
 ## Canonical per-project directory structure
 
 **Decision date:** 2026-04-29 (session 27)
