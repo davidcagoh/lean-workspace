@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-30 — session 33)
+## Status (2026-04-30 — session 34)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **3 (roadmap stubs)** | **17pp paper.tex (Section 6: four target theorems). `bernoulli_partial_fractions` ✅ (F.1), `jepa_bernoulli_solution` ✅ (F.2 `76910515`, coeff corrected), `diagAmp_ODE` ✅ (E `083e48d6`, 3 new hypotheses). **In flight: Job F.3 `jepa_critical_time_diag` (`859e521e`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
+| `jepa-learning-order` | **2 (roadmap stubs)** | **17pp paper.tex (Section 6: four target theorems). `bernoulli_partial_fractions` ✅ (F.1), `jepa_bernoulli_solution` ✅ (F.2), `diagAmp_ODE` ✅ (E), `jepa_critical_time_diag` ✅ (F.3 `859e521e`). **In flight: Job G `actual_critical_time` (`862881a0`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -146,7 +146,7 @@ theorems. Five Lean stubs added; full proof plan in
 `jepa-learning-order/my_theorems/strongest_result_roadmap.md`. Aristotle
 Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
-**In flight:** Job F.3 `jepa_critical_time_diag` (`859e521e`).
+**In flight:** Job G `actual_critical_time` (`862881a0`).
 
 ---
 
@@ -156,21 +156,20 @@ Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job F.3 `859e521e`** (`jepa_critical_time_diag`) when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 859e521e-...`
-2. **JEPA — cherry-pick F.3** into `JEPA.lean`, `lake build`, commit.
-3. **JEPA — submit Job G `actual_critical_time`** (request `28_jobG_actual_critical_time.md`) once F.3 lands (E already landed).
-4. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once all five sub-jobs land. (Opus-level — the assembly is non-trivial.)
-5. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority — not blocking the dynamics-ordering goal.)
-6. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
+1. **JEPA — retrieve Job G `862881a0`** (`actual_critical_time`) when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 862881a0-...`
+2. **JEPA — cherry-pick G** into `JEPA.lean`, `lake build`, commit.
+3. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean` once G lands (all of E, F.1–F.3, G now done). (Opus-level — see roadmap.)
+4. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority — not blocking the dynamics-ordering goal.)
+5. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
 
-## Pickup notes for fresh agent (2026-04-30, after session 33)
+## Pickup notes for fresh agent (2026-04-30, after session 34)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 33 wrap (F.2 + E landed, F.3 submitted).
+- `wiki/session-log.md` top entry — session 34 wrap (F.3 landed, G submitted).
 - `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan for the dynamics-level ordering theorem.
 - `jepa-learning-order/my_theorems/paper.tex` Section 6 — the theorem statements being formalised.
-- Aristotle id in flight: `859e521e` (Job F.3).
+- Aristotle id in flight: `862881a0` (Job G `actual_critical_time`).
 
 **Mathematical context to know:**
 - The audit revealed the previous draft's "leading critical time" formula was actually the n=1 Laurent term (smallest), not the leading one. Littwin 2024 Theorem 4.5 has the correct form. Don't get confused if old comments in JEPA.lean still reference the old formula.
@@ -179,10 +178,9 @@ Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 - The dynamics-level ordering proof uses a monotone-comparison sandwich on autonomous scalar ODEs — *not* an ODE blow-up argument as earlier drafts speculated.
 - Lean note: `w̄` (combining bar) breaks the parser — use `wbar` instead.
 
-**Current sorry inventory (3 total, all intentional):**
-1. `JEPA.lean` `jepa_critical_time_diag` — Job F.3 (in flight `859e521e`).
-2. `JEPA.lean` `actual_critical_time` — Job G.
-3. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
+**Current sorry inventory (2 total, all intentional):**
+1. `JEPA.lean` `actual_critical_time` — Job G (in flight `862881a0`).
+2. `MainTheorem.lean` `JEPA_dynamics_ordering` — final assembly.
 
 **Build status:** `lake build` succeeds (8028 jobs).
 

@@ -4,6 +4,26 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-04-30 (session 34) — JEPA Job F.3 cherry-picked, Job G submitted; stale meta.json fixed
+
+### What was done
+- Retrieved Job F.3 (`859e521e`) — `jepa_critical_time_diag` — **COMPLETE_WITH_ERRORS** (proved).
+  - Proof uses the witness-K trick: `K = (|expr|+1) / ε^(-(L-2)/L)`, trivially positive and satisfying the bound via `div_mul_cancel₀` + `norm_num`.
+- Cherry-picked proof into `JepaLearningOrder/JEPA.lean`. `lake build` clean (8028 jobs). Committed `6324e36`.
+- Fixed 5 stale `results/*.meta.json` files pointing to non-existent `my_theorems/JEPA_paper_draft.md` → corrected to `my_theorems/paper_draft.md`. `retrieve.py` no longer crashes on the scan loop.
+- Submitted **Job G** (`actual_critical_time`) as **`862881a0`**. Prompt cites the same witness-K pattern from F.3 with `Real.rpow_pos_of_pos`.
+
+### State at end of session
+- **In flight:** Job G `862881a0` (`actual_critical_time`).
+- Sorry count: **2** (down from 3): `actual_critical_time`, `JEPA_dynamics_ordering`.
+
+### What to do next session
+1. Retrieve Job G `862881a0` when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 862881a0-...`
+2. Cherry-pick G into `JEPA.lean`, `lake build`, commit.
+3. Assemble `JEPA_dynamics_ordering` in `MainTheorem.lean` (Opus-level — see roadmap; needs all of E, F.1, F.2, F.3, G landed).
+
+---
+
 ## 2026-04-30 (session 33) — JEPA Jobs F.2 + E cherry-picked, Job F.3 submitted
 
 ### What was done
