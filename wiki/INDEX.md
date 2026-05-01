@@ -150,12 +150,26 @@ Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 `K = (|E|+1)/ε^{-(L-2)/L}`. Path (1) chosen: lemma signature refactored to hoist
 `K` outside `∀ ε, ∀ Wbar` so K depends only on `(dat, eb, L, t_max, p, r, C)`.
 Sorry restored. **Aristotle Job H `b1224de3` submitted** with the genuine
-monotone-sandwich strategy (`my_theorems/job_H_sandwich_prompt.md`). Forbidden in
-the Job H prompt: `decide`, `native_decide`, `sorry`, `admit`, witness-K patterns
-of the form `(LHS+1)/RHS`. When Job H returns: audit for vacuity before cherry-pick.
+monotone-sandwich strategy (`my_theorems/job_H_sandwich_prompt.md`).
+
+**Session 36 update: Job H retrieved — TWO NEW EVASION PATTERNS caught, DO NOT cherry-pick.**
+1. **Wrong exponent**: Job H changed `-(L-2)/L` → `-(2L-1)/L` to make triangle inequality work.
+   This breaks `JEPA_dynamics_ordering` (error no longer `o(ε^{-(2L-2)/L})` separation).
+2. **`hWbar` never used**: proof is `|T̂ - T*| ≤ |T̂| + |T*|` (triangle inequality), no dynamics.
+   Fingerprint: K has no C in it.
+3. **Root cause identified**: statement with `-(L-2)/L` is FALSE without initial-condition
+   hypothesis. Counterexample: Wbar=0 satisfies hWbar trivially (F(0)=0 for L≥2), T*(ε)~ε^{-(2L-1)/L}→∞ >> K*ε^{-(L-2)/L}.
+
+**Fix**: Add `hwbar_init : diagAmplitude dat eb (Wbar 0) r = epsilon` to `actual_critical_time` signature.
+With this, Step 1 (Grönwall: |T̂-T₀|) and Step 2 (Laurent: |T₀-T_Laurent|) both close.
+Step 2 may be left as a named `sorry` (`h_bernoulli_laurent`).
+
+**Aristotle Job I `d9d21ce9` submitted** (`my_theorems/job_I_actual_critical_time_prompt.md`).
+Forbidden: wrong exponent, triangle inequality, K without C, hWbar unused, hwbar_init unused.
 
 Decision rationale: the project's stated goal is to *close*
-the gap, not document it open.
+the gap, not document it open. Also note: `jepa_critical_time_diag` (Job F)
+is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ---
 
@@ -165,10 +179,11 @@ the gap, not document it open.
 
 ## Next Priorities
 
-1. **JEPA — retrieve Job H `b1224de3`** (`actual_critical_time` genuine sandwich proof). `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py b1224de3-b4bb-40c7-a0b2-1d3bd4175ad7`
-2. **JEPA — audit for witness-K vacuity** before cherry-pick. K must be expressible from `(dat, eb, L, t_max, p, r, C)` only; proof must construct upper/lower comparison ODEs (not collapse the whole bound into a single term).
-3. **JEPA — cherry-pick H** into `JEPA.lean`, `lake build`, commit.
-4. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean`. Now honestly closeable: leading separation `Θ(ε^{-1/L})` dominates the uniform `O(ε^{-(L-2)/L}) = o(ε^{-1/L})` perturbation. Closes OQ-17.
+1. **JEPA — retrieve Job I `d9d21ce9`** (`actual_critical_time` with hwbar_init fix + Grönwall sandwich). `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py`
+2. **JEPA — audit Job I** before cherry-pick: (a) exponent stays `-(L-2)/L`, (b) `hWbar` used in Grönwall step, (c) `hwbar_init` used, (d) K contains C, (e) no triangle inequality.
+3. **JEPA — cherry-pick I** into `JEPA.lean` (with `hwbar_init` added to signature), `lake build`, commit.
+4. **JEPA — update `JEPA_dynamics_ordering` call site** in `MainTheorem.lean` to pass `hwbar_init`.
+5. **JEPA — assemble `JEPA_dynamics_ordering`** in `MainTheorem.lean`. Separation Θ(ε^{-(2L-2)/L}) >> error O(ε^{-(L-2)/L}). Closes OQ-17.
 5. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`; removes it from `JEPA_rho_ordering'`. (Lower priority.)
 6. **JEPA — wire `hPhaseA`:** Add `quasiStaticDecoder_norm_bound` helper + apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`; removes `hPhaseA` from signature.
 
@@ -178,12 +193,15 @@ the gap, not document it open.
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
 - `wiki/session-log.md` top entry — session 35 wrap (Job G witness-K-vacuous; refactor + Job H submitted).
 - `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan for the dynamics-level ordering theorem.
-- `jepa-learning-order/my_theorems/job_H_sandwich_prompt.md` — Job H prompt with monotone-sandwich strategy.
+- `jepa-learning-order/my_theorems/job_I_actual_critical_time_prompt.md` — Job I prompt (hwbar_init fix + Grönwall sandwich).
 - `jepa-learning-order/my_theorems/paper.tex` Section 6 — the theorem statements being formalised.
-- Aristotle id in flight: `b1224de3` (Job H `actual_critical_time`, genuine sandwich proof).
+- Aristotle id in flight: `d9d21ce9` (Job I `actual_critical_time`, hwbar_init added + Grönwall sandwich).
 
 **Mathematical context to know:**
 - **Witness-K vacuity pattern (session 35):** when an existential `∃ K` sits inside an ε-parameterised body, Aristotle can pick `K = (LHS+1)/RHS` to make any bound trivial. Always hoist constants outside the universal quantifiers they should be uniform over. Same trap caught `frozen_encoder_convergence` (f9906716).
+- **Triangle-inequality evasion (session 36, Job H):** `|T̂ - T*| ≤ |T̂| + |T*|` always typechecks but is mathematically empty — never shows cancellation. Fingerprints: (a) K has no C, (b) the conclusion exponent silently widens (e.g. `-(2L-1)/L` instead of `-(L-2)/L`), (c) `hWbar` never appears in the proof body. Always grep for `hWbar` usage before accepting a hitting-time bound.
+- **Missing initial condition (session 36, Job H root cause):** `actual_critical_time` with `-(L-2)/L` exponent is FALSE without `hwbar_init`. Counterexample: Wbar=0 satisfies the ODE residual bound trivially. The fix: add `hwbar_init : diagAmplitude dat eb (Wbar 0) r = epsilon` to the signature.
+- **`jepa_critical_time_diag` is vacuous (session 36):** K = (|LHS|+1)/|log ε| at line 646 — K depends on ε. Do not use it as a black box.
 - The audit revealed the previous draft's "leading critical time" formula was actually the n=1 Laurent term (smallest), not the leading one. Littwin 2024 Theorem 4.5 has the correct form. Don't get confused if old comments in JEPA.lean still reference the old formula.
 - **Coefficient correction (session 33):** `jepa_bernoulli_solution` coefficient is `σ_xx * ρ^(2L)` NOT `σ_xx * ρ^(2L)/L`. The L in the ODE cancels with 1/L from the chain rule on wbar^{1/L}. Old wrong statement is preserved in a block comment in JEPA.lean for reference.
 - **diagAmp_ODE (session 33):** Three new hypotheses `hflow_diag`, `hWbar_cont`, `hV_cont` were added (mirror offDiag_ODE regularity inputs). These are present in any downstream use.
