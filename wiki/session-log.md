@@ -4,6 +4,34 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-01 (session 38) — JEPA Job J cherry-picked; JEPA_dynamics_ordering assembled; Job K submitted
+
+### What was done
+- Retrieved Aristotle Job J (`b94c82bd`) from user-dropped tar.gz (Aristotle API still 500'ing). Audited `bernoulli_laurent_bound` proof against all 8 fingerprints: exponent `-(L-2)/L` ✅, K = K₁+K₂ is ε-free ✅, K₁ implicitly contains C_ode (via `h_gronwall`) ✅, `hode` and `hf0` used (passed to `hK₁_bound`) ✅, `h_laurent` is a named sorry (Littwin 2024 Thm 4.5) ✅, no witness-K pattern ✅, no `decide`/`native_decide`/`admit` ✅.
+- Cherry-picked into `JepaLearningOrder/JEPA.lean`. `lake build` clean (8035 jobs). Committed `62392e4`.
+- **Assembled `JEPA_dynamics_ordering` in `MainTheorem.lean`** (commit `4d3c920`). Refactored signature to take diagonal-amplitude initial conditions (`hinit_r`, `hinit_s`) and perturbed Bernoulli ODE bounds (`hode_r`, `hode_s`) — natural outputs of `diagAmp_ODE` per ε. Proof structure:
+  - `actual_critical_time` applied once each for r and s → uniform K_r, K_s independent of ε.
+  - New named sub-lemma `laurent_separation_dominates` provides asymptotic gap: `LSs(ε) - LSr(ε) > (K_r + K_s) * ε^{-(L-2)/L}` for ε small.
+  - Triangle inequality + `linarith` closes `T_r < T_s`.
+- **Submitted Aristotle Job K `47230570`** for `laurent_separation_dominates`. Strategy: drop all summands except n=2L-2 (each is nonneg), giving `M * ε^{-(2L-2)/L}` lower bound; rewrite `ε^{-(2L-2)/L} = ε^{-1} * ε^{-(L-2)/L}`; choose `ε_0 = min(1/2, M/(K_r+K_s))`. Prompt: `my_theorems/job_K_laurent_separation_dominates_prompt.md`. Constraints: ε_0 must depend only on `(dat, eb, L, r, s, K_r, K_s)`, both `hrho` and `hlam` must be used, no decide/native_decide.
+
+### State at end of session
+- JEPA: 3 sorries (was 2 — net +1 because the previously opaque `JEPA_dynamics_ordering` sorry was decomposed into a structural assembly + 1 named asymptotic sub-lemma).
+  - `bernoulli_laurent_bound` (`JEPA.lean:741`) — internal `h_gronwall` (Picard-Lindelöf + Gronwall + hitting time) and `h_laurent` (Littwin 2024 Thm 4.5), both named per Job J spec.
+  - `laurent_separation_dominates` (`MainTheorem.lean:173`) — Job K in flight.
+- `JEPA_dynamics_ordering` itself: **structurally proved** (no `sorry` in body — fully delegated to the three named sorries above and `actual_critical_time`).
+- Job K `47230570` submitted, awaiting Aristotle.
+- Build clean (8035 jobs).
+
+### What to do next session
+1. **Retrieve Job K `47230570`** when Aristotle emails. `cd jepa-learning-order && python ../stochastic-proofs-handbook/scripts/retrieve.py 47230570-5153-479f-8da9-7ea657f8dca2`
+2. **Audit Job K**: (a) `ε_0` is built only from `(dat, eb, L, r, s, K_r, K_s)` — no ε inside, (b) both `hrho` and `hlam` actually consumed, (c) the n=2L-2 summand extraction is genuine (not a witness trick), (d) no `decide`/`native_decide`.
+3. If genuine, cherry-pick into `MainTheorem.lean`, `lake build`, commit. JEPA sorry count drops to 2 (`bernoulli_laurent_bound` internal only).
+4. Decide on Aristotle jobs for `bernoulli_laurent_bound`'s `h_gronwall` (Picard-Lindelöf + Gronwall) and `h_laurent` (Littwin Thm 4.5), or accept as named "Mathlib infrastructure missing" placeholders for the paper.
+5. Audit `paper.tex` Section 6/7 for consistency with the now-assembled `JEPA_dynamics_ordering` (Theorem 6.1).
+
+---
+
 ## 2026-05-01 (session 37) — JEPA Job I cherry-picked; Job J submitted
 
 ### What was done
