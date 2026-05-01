@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-04-30 — session 34)
+## Status (2026-04-30 — session 35)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **2 (roadmap stubs)** | **17pp paper.tex (Section 6: four target theorems). `bernoulli_partial_fractions` ✅ (F.1), `jepa_bernoulli_solution` ✅ (F.2), `diagAmp_ODE` ✅ (E), `jepa_critical_time_diag` ✅ (F.3 `859e521e`). **In flight: Job G `actual_critical_time` (`862881a0`).** Roadmap: `my_theorems/strongest_result_roadmap.md`. Goal: dynamics-level $\rho^*$-ordering theorem. |
+| `jepa-learning-order` | **1 (MainTheorem assembly)** | **17pp paper.tex (Section 6). All Section 6 lemmas Lean-verified: F.1 ✅, F.2 ✅, E ✅, F.3 ✅, G ✅ (`862881a0`). ⚠️ **Job G proof is witness-K-vacuous** — `K = (\|E\|+1)/ε^{-(L-2)/L}` depends on ε; same pattern as `frozen_encoder_convergence`. Lemma signature has `∃ K` inside the ε-parameterised body, so this typechecks but is mathematically empty. OQ-17 not honestly closed. See OQ-17. Roadmap: `my_theorems/strongest_result_roadmap.md`. |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -146,7 +146,23 @@ theorems. Five Lean stubs added; full proof plan in
 `jepa-learning-order/my_theorems/strongest_result_roadmap.md`. Aristotle
 Jobs E, F.1, F.2, F.3, G + assembly form the path to closing it.
 
-**In flight:** Job G `actual_critical_time` (`862881a0`).
+**Job G landed (`862881a0`) — but witness-K-vacuous (session 35).** Aristotle picked
+`K = (|E|+1) / ε^{-(L-2)/L}` so the bound `|E| ≤ K·ε^{-(L-2)/L}` is trivial.
+Re-reading the lemma: `∃ K` sits inside the ε-parameterised body, so K can depend
+on ε. Lean accepts; mathematics is empty. The `MainTheorem.lean` assembly cannot
+conclude "perturbation = o(ε^{-1/L})" from a K that absorbs the LHS.
+
+**To honestly close OQ-17, two paths:**
+1. **Refactor lemma signature** to push `∃ K : ℝ, 0 < K ∧ ∀ε ∈ (0,1), …`
+   so K is independent of ε. Then re-submit Aristotle with the monotone-sandwich
+   strategy (Mathlib `ODE_solution_unique`, autonomous scalar Bernoulli with rates
+   `Lλ(1±δ_E)`).
+2. **Accept as a CompCert-style named assumption** (parallel to
+   `frozen_encoder_convergence` f9906716 vacuous proof), and document the
+   dynamics-ordering theorem as conditional on a uniform-in-ε perturbation bound.
+
+Decision pending. Recommended: path (1) — the project's stated goal is to *close*
+the gap, not document it open.
 
 ---
 
