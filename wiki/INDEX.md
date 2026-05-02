@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-02 — session 43)
+
+> Session 43: simplicial Job 1c (`0bc2c753`) retrieved + cherry-picked (commit `d7acf61`). Both remaining sorry targets in TorusIntegrals.lean closed: `fill_fiber_volume_lt` (strict b < 2r via closedBall sandwich) and `volume_fillSet` (12r² via Fubini, boundary {dist=2r} measure-zero). New helpers: `fill_fiber_empty`, `integral_4r_minus_abs_wide`, `T1_dist_eq_measure_zero`, `fillSet_outer_integral`. TorusIntegrals.lean now **sorry-free** (814 → 1063 L). Build clean (8030 jobs).
+
 ## Status (2026-05-01 — session 42)
 
 > Session 42: simplicial Job 1b retrieved + cherry-picked (commit `72c3377`). 3 of 4 TorusIntegrals lemmas proved (`volume_closedBall_inter_T1`, `volume_triangleSet`, `volume_edgeFillSet`); Aristotle deferred `volume_fillSet` due to `dist = 2r` boundary. Job 1c (`0bc2c753`) submitted with strict-inequality + Fubini-ignores-measure-zero strategy. Build clean (8030 jobs).
@@ -142,16 +146,14 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 - ✅ 5 Lean stubs landed in `SimplicialDetection.lean`, build clean.
 - ✅ **Job 1 (`43761387`) RETRIEVED + cherry-picked (commit `902914e`).** All 4 target lemmas closed via new helper `TorusIntegrals.lean` (410L: transpose measure-preservation, indicator algebra, R-line integrals 3r²/7r²). Build clean (8030 jobs).
 - ✅ **Job 1b (`b28b078b`) RETRIEVED + cherry-picked (commit `72c3377`, session 42).** 3 of 4 lemmas closed: `volume_closedBall_inter_T1`, `volume_triangleSet`, `volume_edgeFillSet`. `volume_fillSet` deferred due to `dist = 2r` codim-1 boundary issue. TorusIntegrals.lean grew 478 → 814L with `fill_fiber_*` helper infrastructure.
-- 🔄 **Job 1c (`0bc2c753-143e-4e3a-8f7d-15993f793148`) IN FLIGHT (session 42).** Targets `fill_fiber_volume_lt` (strict `b < 2r`) and `volume_fillSet`. Strategy: closedBall sandwich on strict subdomain + Fubini-ignores-measure-zero on `{dist = 2r}`. New helper `integral_4r_minus_abs_2r` for outer integral `12r²`. Email-on-completion.
+- ✅ **Job 1c (`0bc2c753`) RETRIEVED + cherry-picked (commit `d7acf61`, session 43).** Both targets closed: `fill_fiber_volume_lt` (strict closedBall sandwich) + `volume_fillSet` (Fubini + measure-zero boundary). TorusIntegrals.lean **sorry-free** (814 → 1063 L). Build clean (8030 jobs).
 - ✅ Paper deltas drafted in `my_theorems/paper_delta_OQ16.md` (§5.1 quantitative decay, §5.2 sparse corollary, §5.3 low-degree, §5.4 sub-regime, Stevens 1939 bib).
 - ⚠️ **Decision Point 2 still open (Track C C3).** Pure-fill pair statistic `τ_ff` appears to beat `τ_f` by `n^{1/2} · 2.07^d` deep in regime — see `fourier_setup.md` §C3-C4. If verified, paper §5.3 must be reframed. Needs hand + numerical verification before telling Cook.
 
-**Next (when Job 1b returns):**
-1. `python ../stochastic-proofs-handbook/scripts/retrieve.py b28b078b-543c-46cd-a341-a0126251d735`.
-2. Cherry-pick PASS into `TorusIntegrals.lean`, `lake build`, commit.
-3. Submit Job 2 (sim-A5-assembly: `geometricCov_eq_deep`, `geometricCov_decay_rate_le`).
-4. **Verify τ_{ff} > τ_f** — check `fourier_setup.md` §C3-C4 by hand, then numerically (try `(n,p,d)=(1000, 0.01, 3)`).
-5. If verified, draft revised §5.3 + draft Cook note (DO NOT email autonomously).
+**Next:**
+1. Submit **Job 2** (sim-A5-assembly: `geometricCov_eq_deep`, `geometricCov_decay_rate_le`).
+2. **Verify τ_{ff} > τ_f** — check `fourier_setup.md` §C3-C4 by hand, then numerically (try `(n,p,d)=(1000, 0.01, 3)`).
+3. If verified, draft revised §5.3 + draft Cook note (DO NOT email autonomously).
 
 ---
 
@@ -234,13 +236,14 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 8. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
 9. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-01, after session 41)
+## Pickup notes for fresh agent (2026-05-02, after session 43)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 41 wrap (JEPA my_theorems reorg; paper-writing scripts moved to handbook).
-- `jepa-learning-order/my_theorems/notes/strongest_result_roadmap.md` — full proof plan (note: now under `notes/` after session 41 reorg).
+- `wiki/session-log.md` top entry — session 43 wrap (simplicial Job 1c cherry-picked; TorusIntegrals sorry-free).
 - No Aristotle jobs in flight.
+
+**Simplicial next step:** Submit Job 2 targeting `geometricCov_eq_deep` and `geometricCov_decay_rate_le`. These are the sim-A5-assembly lemmas. Check `my_theorems/roadmap_pre_arxiv.md` for the prompt outline.
 
 **Mathematical context to know:**
 - **Witness-K vacuity pattern:** when `∃ K` (or `∃ ε_0`) sits inside the ε-parameterised body, the witness can absorb the bound. Always hoist outside `∀ ε`. For Job K, `ε_0` MUST be built only from `(dat, eb, L, r, s, K_r, K_s)`.

@@ -4,6 +4,28 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-02 (session 43) — Simplicial Job 1c cherry-picked; TorusIntegrals.lean sorry-free
+
+### What was done
+- **Retrieved Aristotle Job 1c (`0bc2c753`).** COMPLETE — both remaining sorry targets proved:
+  - ✅ `fill_fiber_volume_lt` — strict `b < 2r` closedBall sandwich; fiber measure = `4r − b`.
+  - ✅ `volume_fillSet` — `12r²` via Fubini ignoring measure-zero boundary `{dist = 2r}`.
+- New helpers added: `fill_fiber_empty`, `integral_4r_minus_abs_wide`, `T1_dist_eq_measure_zero`, `fillSet_outer_integral`.
+- **Cherry-picked (commit `d7acf61`).** TorusIntegrals.lean grew 814 → 1063 L. Audit pass: no sorry, admit, native_decide, or axiom on closing tactics.
+- **Build clean (8030 jobs).** TorusIntegrals.lean is now entirely sorry-free.
+
+### State at end of session
+- Simplicial sorry inventory: ~10 dead-code/Strategy-1 + 2 Job-2 targets (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`). TorusIntegrals has 0 live sorries.
+- Build clean (8030 jobs).
+- No Aristotle jobs in flight.
+
+### What to do next session
+1. Submit **Job 2** (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`) — sim-A5-assembly. See `my_theorems/roadmap_pre_arxiv.md`.
+2. **Verify τ_{ff} > τ_f** (`fourier_setup.md` §C3-C4) — blocks Cook note.
+3. JEPA arXiv upload remains parallel deliverable.
+
+---
+
 ## 2026-05-01 (session 42) — Simplicial Job 1b cherry-picked (3/4); Job 1c submitted for the deferred `volume_fillSet`
 
 ### What was done
