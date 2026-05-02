@@ -369,3 +369,20 @@ python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>   # target
 **Why:** Scripts are shared infrastructure; centralizing them in the handbook avoids drift. Wiki is now the knowledge layer.
 
 **Consequence:** When scripts change, update `stochastic-proofs-handbook/scripts/` and sync to project-local copies if needed. Do not re-create `docs/` in the handbook.
+
+
+---
+
+## Paper-writing style: Bubeck-Ding-Eldan-Rácz exemplar
+**Decision date:** 2026-05-01 (session 40)
+
+**Why:** Bubeck-Ding-Eldan-Rácz 2014 (1411.5713v2) is unusually well-organised among probability/learning-theory papers. The user identified it as a target style. Seven concrete patterns extracted: crisp H_0/H_1 abstract; one named object with prose intuition; theorem cluster up front (page 5); honest scope labels (tight / Conjecture / proof of concept); related work as one-line "they X, we Y" differentiation, not survey; recurring "in contrast with…" rhetoric; notation just-in-time, lemmas as compositional units.
+
+**Implication:** Future paper drafts in this workspace should follow these patterns. The first JEPA rewrite (session 40) applied them: abstract compressed, Theorem 1 (a)(b)(c) on page 3, related work consolidated into 4 thematic clusters, all Lean status moved to a single appendix.
+
+## Springboard narrative for JEPA paper
+**Decision date:** 2026-05-01 (session 40)
+
+**Why:** The recent star-power result in JEPA-world-model space is LeWorldModel (Maes et al. 2026, 2603.19312), which gives the first stable end-to-end JEPA from pixels. But it is empirical/architectural — it answers "can JEPAs be trained stably". The dynamics-level question — "once they train stably, which features do they learn first" — is what our paper closes in the linear regime.
+
+**Implication:** Frame our contribution as complementary to LeWM (and to Lejepa2025), not competing. Together they constitute the stability + dynamics inputs to a theory of JEPA-based world models.

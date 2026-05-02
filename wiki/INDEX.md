@@ -19,7 +19,7 @@
 ### Paper drafts — naming convention
 Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. Supporting docs sit alongside it.
 - `jepa-learning-order/my_theorems/paper_draft.md` — "Conditional" title, 767L source (v2)
-- `jepa-learning-order/my_theorems/paper.tex` — LaTeX, **18pp, compiles clean (session 39); `\leanverified{…}` catalog + §app:axioms (Axioms A1+A2 per CompCert)**
+- `jepa-learning-order/my_theorems/paper.tex` — LaTeX, **12pp, full rewrite (session 40, Bubeck-style); Theorem-1 cluster (a)(b)(c) on p.~3; consolidated §1.1 related work (deep-linear lineage / JEPA 2024–2026 incl. Maes2026 LeWM springboard / implicit bias / formal verification); Lean record isolated to App.~C; named axioms in App.~D**
 - `stochastic-search-bounds/my_theorems/paper_draft.md` — Manuscript v6 source
 - `stochastic-search-bounds/my_theorems/paper.tex` — LaTeX, **18pp, compiles clean (session 23: Winston-star rewrite); Appendix A Lean verification catalog + Appendix B Lean signatures**
 - `simplicial-latent-geometry/my_theorems/paper_draft.md` — Strategy 2 draft, §5 updated
@@ -31,11 +31,11 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
-## Status (2026-05-01 — session 39)
+## Status (2026-05-01 — session 40)
 
 | Project | Sorries | Status |
 |---|---|---|
-| `jepa-learning-order` | **2 (bernoulli_laurent_bound h_gronwall + h_laurent)** | **Job K `47230570` cherry-picked (`05adbd0`).** `laurent_separation_dominates` proved (n=2L-2 extraction + ε^{-(2L-2)/L} = ε^{-1}·ε^{-(L-2)/L}). New file `LaurentHelpers.lean` (5 helpers). **`JEPA_dynamics_ordering` (Theorem 6.1) is fully proved** — no `sorry` in body. Build clean (8036 jobs). Remaining sorries are both internal to `bernoulli_laurent_bound`: `h_gronwall` (Picard-Lindelöf + Gronwall + hitting time) and `h_laurent` (Littwin 2024 Thm 4.5). arXiv-ready under CompCert convention. See OQ-17. |
+| `jepa-learning-order` | **2 (bernoulli_laurent_bound h_gronwall + h_laurent)** | **paper.tex full rewrite (session 40, Bubeck-style).** 1686 → 1076 L, 18 → 12 pp. Crisp Theorem-1 cluster (a)(b)(c) on p. 3. Consolidated §1.1 related work into 4 thematic clusters: deep-linear lineage (now incl. PesmeFlammarion2023, BoixAdsera2023, SaxeNeuralRace2022), JEPA 2024–2026 (now incl. **Maes2026 / LeWM springboard**), implicit bias (Yang2021Tensor, Tian2021BYOL, Halvagal2023, Tian2024, Gunasekar2017), formal verification of learning theory (Bagnall2019, Tassarotti2021). Lean record isolated to App. C. Verified all 34 bib entries via verify_refs.py — 3 fixes applied (Bardes2024 V-JEPA actual title, Aristotle2024 IMO title, Tian2024 venue). Forward_cites only resolved Arora2019 (587 cites); 3 high-value additions surfaced. Build state unchanged (Lean: 8036 jobs, sorry inventory unchanged). |
 | `stochastic-search-bounds` | **0** ✅ | **18pp paper.tex, compiles clean (session 23). Aristotle fc0719d6 merged. lake build 8034 jobs.** arXiv-ready. |
 | `simplicial-latent-geometry` | **3 dead-code only** ✅ | 16pp paper.tex done. **arXiv held — Cook requested pre-arXiv expansion (OQ-16): optimality + sparse regime.** |
 | `stochastic-proofs-handbook` | n/a | Scripts only |
@@ -191,7 +191,7 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **JEPA — `bernoulli_laurent_bound` internals: path (b) chosen (session 39).** `h_gronwall` and `h_laurent` documented as named scalar-ODE axioms in `paper.tex` §`app:axioms` per CompCert convention (Leroy 2009). Both characterised as standard infrastructure (Picard-Lindelöf+Gronwall and Bernoulli Laurent inversion / Littwin 2024 Thm 4.5) independent of the paper's learning-theoretic content. paper.pdf clean (18pp).
+1. **JEPA — paper.tex rewritten (session 40).** 12 pp, Bubeck-style. Theorem-1 cluster up front, consolidated related work, Maes2026 LeWM integrated as springboard, Lean record in App. C, named axioms in App. D per CompCert. Verified all 34 bib entries; 3 high-value forward-cite additions integrated. **Ready for arXiv.**
 2. **JEPA — arXiv submission.** Paper ready. Confirm OQ-7 venue (ICLR theory / COLT / TMLR) before upload.
 3. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority — not required for arXiv.)
 4. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority — not required for arXiv.)
@@ -200,11 +200,11 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 8. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
 9. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-01, after session 39)
+## Pickup notes for fresh agent (2026-05-01, after session 40)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 39 wrap (Job K cherry-picked; `JEPA_dynamics_ordering` chain structurally complete).
+- `wiki/session-log.md` top entry — session 40 wrap (paper rewrite, Bubeck-style; LeWM springboard integrated; bib verified).
 - `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan.
 - No Aristotle jobs in flight.
 

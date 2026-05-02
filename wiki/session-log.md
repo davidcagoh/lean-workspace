@@ -4,6 +4,45 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-01 (session 40) — JEPA paper.tex full rewrite (Bubeck-style); Maes2026 LeWM springboard integrated; bib verified + 3 forward-cite additions
+
+### What was done
+- **Style study.** Read Bubeck-Ding-Eldan-Rácz 2014 (`simplicial-latent-geometry/literature/1411.5713v2.pdf`) as exemplar. Extracted 7 lessons: crisp H_0/H_1 abstract; one named object with prose intuition; theorem cluster up front (p. 5); honest scope labels (tight / Conjecture / proof of concept); related work as one-line differentiation; recurring "in contrast with…"; notation just-in-time.
+- **Re-read JEPA inspiration trio.** Arora 2018 (1802.06509, ODE depth-N preconditioning), Arora 2019 (1905.13655, σ_r ∝ 2-2/N exponent — direct Bernoulli ancestor), Littwin 2024 (2407.03475, ρ_i = λ_i/σ_i² regression coefficients diagonal-data analysis).
+- **Read springboard.** Maes-Le Lidec-Scieur-LeCun-Balestriero 2026 LeWorldModel (2603.19312): SIGReg anti-collapse, single-hyperparameter end-to-end JEPA from pixels, 48× faster planning. Recent star-power result.
+- **Strategy.** Stability/architecture (LeWM) ⊥ dynamics/order (us); complementary inputs to JEPA-WM theory.
+- **Full rewrite of `jepa-learning-order/my_theorems/paper.tex`.** 1686 → 1076 lines, 18 → 12 pp PDF, compiles clean. Backup at `paper.tex.session39-backup`. Structure:
+  - **Abstract** (10 sentences vs. 30+; one headline).
+  - **§1 Introduction** with `Theorem 1.1 (a)(b)(c)` cluster on p. 3.
+  - **§1.1 Related work** consolidated into 4 thematic clusters with one-line "they X, we Y" framing per cite.
+  - **§2–§5** proofs delegated to numbered sections (gradient projection / off-diagonal Grönwall / dynamics-level / bootstrap).
+  - **§6 Discussion** — explicit LeWM relation, open problems incl. Mathlib gap.
+  - **App A** classical lemmas; **App B** Bernoulli closed form; **App C** Lean verification record (table + sorry count + strength classification); **App D** named axioms A1+A2 per CompCert.
+- **Bib expansion.** Added 8 new entries: `Maes2026` (LeWM), `Gunasekar2017`, `LampinenGanguli2019`, `Tian2024`, `Tian2021BYOL`, `Halvagal2023`, `Bagnall2019`, `Tassarotti2021`, `Yang2021Tensor`.
+- **`verify_refs.py` run on bib (34 entries).** 22 VERIFIED, 8 LIKELY, 3 UNCERTAIN, 1 NOT_FOUND. Fixes applied:
+  - `Bardes2024` (V-JEPA): wrong arXiv title → corrected to "Revisiting Feature Prediction for Learning Visual Representations from Video", arXiv:2404.08471, TMLR.
+  - `Aristotle2024`: title "A System for Neural Theorem Proving" → "IMO-level Automated Theorem Proving" (per S2 lookup).
+  - `Tian2024`: changed type to inproceedings; year 2022; sole author Tian (per actual ICML/NeurIPS metadata).
+- **`forward_cites.py` run on bib.** Only `Arora2019` resolved (587 forward citations); the 32 ArXiv-ID lookups otherwise failed. From the resolved list, 3 high-value 2022–2023 additions integrated:
+  - `PesmeFlammarion2023` — Saddle-to-saddle dynamics in diagonal linear networks (NeurIPS).
+  - `BoixAdsera2023` — Transformers learn through gradual rank increase (NeurIPS) — same Littwin among authors.
+  - `SaxeNeuralRace2022` — Neural Race Reduction (ICML) — staged feature acquisition.
+- **Related work paragraph in §1.1 expanded** to mention the three; framed our work as the coupled-bilinear-flow generalisation that drops simultaneous diagonalisability.
+
+### State at end of session
+- `jepa-learning-order/my_theorems/paper.tex` clean (12 pp). `paper.pdf` regenerated.
+- Bib: 37 entries, all verified.
+- Lean state unchanged (8036 jobs, 2 named-axiom sorries inside `bernoulli_laurent_bound`).
+- arXiv-ready, pending venue confirmation.
+
+### What to do next session
+1. **JEPA — arXiv submission.** Confirm OQ-7 venue (ICLR theory / COLT / TMLR / NeurIPS). Upload paper.tex + references.bib + Lean repo link.
+2. **JEPA — defer or close `h_gronwall` / `h_laurent`.** Both are Mathlib-engineering; either submit dedicated Aristotle jobs or accept as quoted axioms (current decision: path b).
+3. **Stochastic-search-bounds — arXiv upload.** 18 pp ready (session 23).
+4. **Simplicial — Job 1b retrieve** (`b28b078b-543c-46cd-a341-a0126251d735`). Then OQ-16 expansion: τ_{ff} verification, §5.3 reframe.
+
+
+
 ## 2026-05-01 (session 39) — JEPA Job K cherry-picked; `JEPA_dynamics_ordering` chain structurally complete
 
 ### What was done
