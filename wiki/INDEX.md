@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-01 — session 41)
+
+> Session 41 was workspace housekeeping only — no code or proof changes. JEPA `my_theorems/` reorganized (`requests/`, `notes/`, `archive/` subdirs; LaTeX artifacts deleted; duplicate `.env` removed). Paper-writing scripts (`verify_refs.py`, `forward_cites.py`) consolidated under `stochastic-proofs-handbook/scripts/` with documentation in scripts/README.md. Lean state unchanged below.
+
 ## Status (2026-05-01 — session 40)
 
 | Project | Sorries | Status |
@@ -200,12 +204,12 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 8. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
 9. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-01, after session 40)
+## Pickup notes for fresh agent (2026-05-01, after session 41)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 40 wrap (paper rewrite, Bubeck-style; LeWM springboard integrated; bib verified).
-- `jepa-learning-order/my_theorems/strongest_result_roadmap.md` — full proof plan.
+- `wiki/session-log.md` top entry — session 41 wrap (JEPA my_theorems reorg; paper-writing scripts moved to handbook).
+- `jepa-learning-order/my_theorems/notes/strongest_result_roadmap.md` — full proof plan (note: now under `notes/` after session 41 reorg).
 - No Aristotle jobs in flight.
 
 **Mathematical context to know:**

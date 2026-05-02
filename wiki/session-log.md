@@ -4,6 +4,34 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-01 (session 41) — JEPA `my_theorems/` reorganized; paper-writing scripts moved to handbook
+
+### What was done
+- **JEPA `my_theorems/` cleanup.** Root previously held 24 entries mixing live deliverables, LaTeX build artifacts, 4 Aristotle job prompts, an old draft, a backup, and duplicate notes. Reorganized to:
+  - Root: `paper.tex`, `paper.pdf`, `references.bib`, `README.md`, `.gitignore`.
+  - `requests/` (renamed from `jobs/` to match handbook convention): job prompts H, I, J, K.
+  - `notes/`: current May-1 reports + roadmap + zulip draft. Older Apr-24 reports renamed `*_session37.*` instead of clobbered.
+  - `archive/`: pre-rewrite `paper_draft.{md,pdf}` + `paper.tex.session39-backup`.
+  - Deleted regeneratable LaTeX artifacts (`.aux`, `.bbl`, `.blg`, `.log`, `.out`) and `.Rhistory`.
+  - Added `.gitignore` for LaTeX outputs and `.env`.
+- **Removed duplicate `.env`.** `my_theorems/.env` held only `SEMANTIC_SCHOLAR_API_KEY`, identical to workspace-root `.env` which also has `ARISTOTLE_API_KEY`. Deleted the duplicate; scripts now read root `.env` only.
+- **Paper-writing scripts → handbook.** Moved `verify_refs.py` (root) → `stochastic-proofs-handbook/scripts/verify_refs.py`. Deleted root `forward_cites.py` (byte-identical duplicate of the handbook copy already present).
+- **Handbook scripts/README.md updated.** Fixed garbled first paragraph; added documentation block separating "Proof submission (Aristotle)" scripts from "Paper writing (bibliography tooling)" scripts. `verify_refs.py` and `forward_cites.py` documented with usage + deps.
+- Nothing was git-tracked under `my_theorems/`, so no history was rewritten.
+
+### State at end of session
+- Lean state unchanged (8036 jobs, 2 named-axiom sorries inside `bernoulli_laurent_bound`).
+- Paper sources unchanged (`paper.tex`, `paper.pdf`, `references.bib`).
+- Handbook scripts directory: now 11 files, all documented, two-section README.
+
+### What to do next session
+1. **JEPA — arXiv submission.** Confirm OQ-7 venue (ICLR theory / COLT / TMLR / NeurIPS). Upload `paper.tex` + `references.bib` + Lean repo link.
+2. **JEPA — defer or close `h_gronwall` / `h_laurent`** (current decision: path b — accept as named axioms per CompCert).
+3. **Stochastic-search-bounds — arXiv upload.** 18 pp ready (session 23).
+4. **Simplicial — OQ-16 expansion.**
+
+---
+
 ## 2026-05-01 (session 40) — JEPA paper.tex full rewrite (Bubeck-style); Maes2026 LeWM springboard integrated; bib verified + 3 forward-cite additions
 
 ### What was done

@@ -4,6 +4,31 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Paper-writing scripts live under `stochastic-proofs-handbook/scripts/`
+
+**Decision date:** 2026-05-01 (session 41)
+
+**Why:** `forward_cites.py` and `verify_refs.py` operate on `.bib` files (paper writing), not on Lean proofs. Previously they sat at workspace root duplicating the handbook copy. Consolidation removes the duplicate, and the handbook scripts dir already has shared `.env` access and a README — the natural home.
+
+**Implication:** All scripts (proof submission + paper-writing bib tooling) live in one place. `stochastic-proofs-handbook/scripts/README.md` separates them into two documented sections. Run paper-writing scripts as `python ../stochastic-proofs-handbook/scripts/verify_refs.py path/to/references.bib` from any project subdir; they read workspace-root `.env` for `SEMANTIC_SCHOLAR_API_KEY`.
+
+---
+
+## JEPA `my_theorems/` layout: `requests/`, `notes/`, `archive/`
+
+**Decision date:** 2026-05-01 (session 41)
+
+**Why:** Root had 24 mixed entries (live deliverables + LaTeX artifacts + 4 Aristotle prompts + old draft + backup + duplicate notes). Hard to find the live paper.
+
+**Implication:** Standardised structure for any project's `my_theorems/`:
+- Root: `paper.tex`, `paper.pdf`, `references.bib`, `README.md`, `.gitignore`.
+- `requests/` for Aristotle job prompts (matches the existing `requests/21_bootstrap_request.md` convention).
+- `notes/` for triage docs, citation reports, roadmap, Zulip drafts.
+- `archive/` for superseded drafts and dated backups.
+- LaTeX build artifacts gitignored, regeneratable. `.env` lives only at workspace root.
+
+---
+
 ## Hoist uniformity constants outside parameterised quantifiers
 
 **Decision date:** 2026-04-30 (session 35)
