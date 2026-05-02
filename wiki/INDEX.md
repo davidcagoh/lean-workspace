@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-02 — session 45)
+
+> Session 45: Simplicial Job 2 (`9d63166a`) submitted targeting `geometricCov_eq_deep` + `geometricCov_decay_rate_le`. τ_{ff} > τ_f verified numerically: SNR ratio ≈ 1.64 at (n,p,d)=(1000,0.01,3); corrected formula √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed — τ_f is NOT low-degree optimal; τ_{ff} (fill-pair) is strictly better. Cook note deferred pending David review. No Lean file changes.
+
 ## Status (2026-05-02 — session 44)
 
 > Session 44: No Lean changes. Publication strategy session. Logos Research reviewed — different design space (applied math / quant finance, bespoke LogosLib, not Mathlib). Venue targets confirmed: JEPA → TMLR (after Papyan endorsement); SSB → ITP/CPP 2026; methodology paper → ITP or NeurIPS/ICLR workshop. Endorsement pipeline: Papyan email pending (cs.LG); Cook deferred until OQ-16 ready.
@@ -151,13 +155,14 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 - ✅ **Job 1 (`43761387`) RETRIEVED + cherry-picked (commit `902914e`).** All 4 target lemmas closed via new helper `TorusIntegrals.lean` (410L: transpose measure-preservation, indicator algebra, R-line integrals 3r²/7r²). Build clean (8030 jobs).
 - ✅ **Job 1b (`b28b078b`) RETRIEVED + cherry-picked (commit `72c3377`, session 42).** 3 of 4 lemmas closed: `volume_closedBall_inter_T1`, `volume_triangleSet`, `volume_edgeFillSet`. `volume_fillSet` deferred due to `dist = 2r` codim-1 boundary issue. TorusIntegrals.lean grew 478 → 814L with `fill_fiber_*` helper infrastructure.
 - ✅ **Job 1c (`0bc2c753`) RETRIEVED + cherry-picked (commit `d7acf61`, session 43).** Both targets closed: `fill_fiber_volume_lt` (strict closedBall sandwich) + `volume_fillSet` (Fubini + measure-zero boundary). TorusIntegrals.lean **sorry-free** (814 → 1063 L). Build clean (8030 jobs).
-- ✅ Paper deltas drafted in `my_theorems/paper_delta_OQ16.md` (§5.1 quantitative decay, §5.2 sparse corollary, §5.3 low-degree, §5.4 sub-regime, Stevens 1939 bib).
-- ⚠️ **Decision Point 2 still open (Track C C3).** Pure-fill pair statistic `τ_ff` appears to beat `τ_f` by `n^{1/2} · 2.07^d` deep in regime — see `fourier_setup.md` §C3-C4. If verified, paper §5.3 must be reframed. Needs hand + numerical verification before telling Cook.
+- ✅ Paper deltas drafted in `my_theorems/paper_delta_OQ16.md` (§5.1 quantitative decay, §5.2 sparse corollary, §5.3 revised, §5.4 sub-regime, Stevens 1939 bib).
+- ✅ **Decision Point 2 RESOLVED (session 45).** τ_{ff} > τ_f confirmed numerically: SNR ratio ≈ 1.64 at (n,p,d)=(1000,0.01,3). Corrected formula: √(3n/2)·(12.9)^{d/2}·p^{3/2} (fourier_setup formula of n^{1/2}·2.07^d ignores combinatorial constants). §5.3 reframed in `paper_delta_OQ16.md` — τ_f is NOT optimal; τ_{ff} is strictly better. **DO NOT email Cook** until David reviews.
+- 🔄 **Job 2 (`9d63166a`) IN FLIGHT (session 45).** Targets `geometricCov_eq_deep` + `geometricCov_decay_rate_le`. Email-on-completion.
 
-**Next:**
-1. Submit **Job 2** (sim-A5-assembly: `geometricCov_eq_deep`, `geometricCov_decay_rate_le`).
-2. **Verify τ_{ff} > τ_f** — check `fourier_setup.md` §C3-C4 by hand, then numerically (try `(n,p,d)=(1000, 0.01, 3)`).
-3. If verified, draft revised §5.3 + draft Cook note (DO NOT email autonomously).
+**Next (when Job 2 returns):**
+1. Retrieve Job 2 (`9d63166a`). Audit, cherry-pick, build, commit.
+2. Review revised §5.3 with David before contacting Cook.
+3. Submit Track B job (`detection_lower_bound_sparse`) if Job 2 lands clean.
 
 ---
 
@@ -231,27 +236,27 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **Simplicial — submit Job 2** (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`). See `roadmap_pre_arxiv.md` for prompt outline.
-2. **Simplicial — verify τ_{ff} > τ_f** (`fourier_setup.md` §C3-C4) by hand then numerically at `(n,p,d)=(1000, 0.01, 3)`. Required before telling Cook.
+1. **Simplicial — retrieve Job 2** (`9d63166a`): `geometricCov_eq_deep` + `geometricCov_decay_rate_le`. Audit (no sorry/admit/native_decide), cherry-pick, build, commit.
+2. **Simplicial — review §5.3 revision** with David before contacting Cook. τ_f NOT optimal; τ_{ff} is strictly better in deep regime.
 3. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
 4. **Stochastic-search-bounds — arXiv upload + ITP/CPP 2026 submission.** Confirm deadline first.
-5. **JEPA — Aristotle job D:** `hDrift_bound` from chain rule. Lower priority — not required for arXiv.
-6. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. Lower priority.
+5. **Simplicial — Track B job** (`detection_lower_bound_sparse`) after Job 2 lands clean.
+6. **JEPA — Aristotle job D:** `hDrift_bound` from chain rule. Lower priority — not required for arXiv.
 7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-02, after session 44)
+## Pickup notes for fresh agent (2026-05-02, after session 45)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 44 wrap (publication strategy; no Lean changes).
-- No Aristotle jobs in flight.
+- `wiki/session-log.md` top entry — session 45 wrap (Job 2 submitted; τ_{ff} > τ_f verified).
+- **Job 2 (`9d63166a`) in flight** for simplicial `geometricCov_eq_deep` + `geometricCov_decay_rate_le`.
 
 **Publication pipeline state:**
 - JEPA: arXiv-ready (TMLR target). Blocked on Papyan cs.LG endorsement.
 - SSB: arXiv-ready (ITP/CPP 2026 target). Confirm deadline before upload.
-- Simplicial: held on OQ-16 Cook expansion. Cook endorsement deferred.
+- Simplicial: held on OQ-16 Cook expansion. §5.3 revised (τ_{ff} > τ_f finding). Cook deferred.
 
-**Simplicial next step:** Submit Job 2 targeting `geometricCov_eq_deep` and `geometricCov_decay_rate_le`. Check `my_theorems/roadmap_pre_arxiv.md` for the prompt outline. Also verify τ_{ff} > τ_f before contacting Cook.
+**τ_{ff} finding (Decision Point 2, session 45):** τ_f is NOT low-degree optimal. Fill-pair statistic τ_{ff} = Σ_{shared-edge (t,t')} (F_t-q)(F_{t'}-q) achieves SNR/SNR(τ_f) ≈ 1.64 at (n=1000,p=0.01,d=3). Formula: √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed in `paper_delta_OQ16.md`. DO NOT email Cook until David reviews.
 
 **Mathematical context to know:**
 - **Witness-K vacuity pattern:** when `∃ K` (or `∃ ε_0`) sits inside the ε-parameterised body, the witness can absorb the bound. Always hoist outside `∀ ε`. For Job K, `ε_0` MUST be built only from `(dat, eb, L, r, s, K_r, K_s)`.

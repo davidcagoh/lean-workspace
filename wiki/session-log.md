@@ -4,6 +4,31 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-02 (session 45) — Job 2 submitted; τ_{ff} > τ_f verified numerically; §5.3 reframed
+
+### What was done
+- **Submitted Aristotle Job 2 (`9d63166a`)** targeting `geometricCov_eq_deep` (8-term binomial collapse) and `geometricCov_decay_rate_le` (upper bound). Prompt in `requests/prompt_geometricCov_eq_deep.md`. Email-on-completion.
+- **Verified τ_{ff} > τ_f numerically** at $(n,p,d) = (1000, 0.01, 3)$:
+  - SNR(τ_f) ≈ 10649, SNR(τ_{ff}) ≈ 17465, ratio ≈ **1.64**.
+  - Corrected formula (with combinatorial constants): ratio ≈ √(3n/2)·(12.9)^{d/2}·p^{3/2}.
+  - The fourier_setup formula n^{1/2}·2.07^d = 282 overcounts by ~170× due to missing C(n,3)/n^3 and n^4/4 constants. The qualitative conclusion (τ_{ff} > τ_f) holds.
+- **Revised `paper_delta_OQ16.md` §5.3** — τ_f is NOT low-degree optimal. The pure-fill pair statistic τ_{ff} is strictly better in the deep regime. Section reframed as "new simplicial phenomenon"; Theorem 6.1 dropped; DO NOT email Cook until David reviews.
+- **No Lean file changes this session.** Job 2 is in flight.
+
+### State at end of session
+- Simplicial sorry inventory: `geometricCov_eq_deep` and `geometricCov_decay_rate_le` still open (Job 2 in flight); TorusIntegrals sorry-free.
+- Build clean (8030 jobs).
+- Job 2 (`9d63166a`) in flight.
+- Decision Point 2 (τ_{ff} > τ_f) resolved analytically + numerically; paper §5.3 must be rewritten before arXiv. Cook note deferred.
+
+### What to do next session
+1. **Retrieve Job 2** (`9d63166a`). Audit (no sorry/admit/native_decide), cherry-pick, build, commit.
+2. **Review revised §5.3** with David — decide whether τ_{ff} section is ready to show Cook.
+3. If Job 2 lands clean: submit **Track B** job (`detection_lower_bound_sparse` + Paley-Zygmund parameterisation).
+4. JEPA arXiv upload remains a parallel deliverable (pending Papyan endorsement).
+
+---
+
 ## 2026-05-02 (session 44) — Publication strategy + landscape review; no Lean changes
 
 ### What was done
