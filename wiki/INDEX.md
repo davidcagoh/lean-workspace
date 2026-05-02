@@ -33,7 +33,7 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ## Status (2026-05-01 — session 41)
 
-> Session 41 was workspace housekeeping only — no code or proof changes. JEPA `my_theorems/` reorganized (`requests/`, `notes/`, `archive/` subdirs; LaTeX artifacts deleted; duplicate `.env` removed). Paper-writing scripts (`verify_refs.py`, `forward_cites.py`) consolidated under `stochastic-proofs-handbook/scripts/` with documentation in scripts/README.md. Lean state unchanged below.
+> Session 41 was workspace housekeeping + scoping. JEPA `my_theorems/` reorganized (`notes/`, `rho_recovery/`, `archive/` subdirs; LaTeX artifacts deleted; duplicate `.env` removed). Aristotle job prompts H/I/J/K moved out of `my_theorems/` to project-level `jepa-learning-order/requests/` alongside the existing 37 submission records. Paper-writing scripts (`verify_refs.py`, `forward_cites.py`) consolidated under `stochastic-proofs-handbook/scripts/` with documentation. Read the `rho_recovery/` handoff docs and recorded a feasibility verdict (OQ-17 below). Lean state unchanged.
 
 ## Status (2026-05-01 — session 40)
 
@@ -47,6 +47,31 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 ---
 
 ## Open Questions
+
+### OQ-17: JEPA — $\rho^*$-recovery extension (feasibility verdict, session 41)
+
+Roadmap (`jepa-learning-order/my_theorems/rho_recovery/rho_recovery_roadmap.md`, March 2026 by David) defines 5 layers and 9 gaps from the current $\rho^*$-ordering paper to a full recovery theorem (sign + magnitude + finite-sample rates). Honest assessment after a session-41 read:
+
+**Likely tractable (Layers 1–2):**
+- **1.1 / 1.2** — quasi-static ODE rigorous statement + non-vacuous feature ordering. These overlap heavily with what's already in `paper.tex` and the `actual_critical_time` / `JEPA_dynamics_ordering` / `bernoulli_laurent_bound` lineage (Jobs G/I/J/K). The math is in hand; mostly Lean-engineering. **High odds.**
+- **2.1** — generalised diagonal ODE in the $(\mathbf{u}_r^*, \mathbf{v}_r^*)$ basis. Already informally in the proof lecture; reduces to Lemma 3.1 + Theorem 7.3 + Arora 2019 balancedness. **Medium-high odds** (likely a single Aristotle job once 1.1/1.2 are clean).
+- **2.2** — identifiability / inversion formula. Algebraic inversion of Corollary 6.2. **High odds** as a paper result; Lean formalisation requires the leading-order asymptotic, which is the same flavour as `laurent_separation_dominates`.
+
+**Plausible with effort (Layer 3):**
+- **3.1** — Davis–Kahan / Wedin perturbation for the *non-symmetric* generalised eigenproblem under sample noise. Standard but Mathlib's coverage of generalised / non-self-adjoint perturbation theory is limited. **Medium odds** for paper-level; **low odds** for Lean within a reasonable horizon — would likely need new Mathlib infrastructure (which David should not block on).
+- **3.2** — end-to-end finite-sample rate. Combines 2.2 + 3.1 by union bound. **Medium odds** as paper; depends on 3.1.
+
+**Hard / structurally novel (Layers 4–5):**
+- **4.1** — signed-$\rho$ ODE analysis. The $\rho^* < 0$ case changes the qualitative picture: Bernoulli ODE coefficient flips sign, fixed-point analysis is different. Genuinely new dynamics work. **Medium odds** as paper, **low odds** for Lean (the existing `bernoulli_laurent_bound` would not transfer; need a separate suppression-timescale argument).
+- **4.2 / 5.1** — signed-$\rho$ recovery + mixed-sign ordering. Statement (iii) of 4.2 already concedes $|\rho^*|$ for negative features is *not* recoverable from JEPA dynamics alone; it falls back to direct covariance estimation. So the headline "JEPA recovers $\rho^*$" is qualified — half the result is just classical covariance estimation, not a JEPA result. This weakens the framing.
+
+**Verdict.** Layers 1–2 are the natural next paper after the current $\rho^*$-ordering submission; **strong probability of getting it done within a session arc** (likely 4–8 sessions, assuming Aristotle keeps cooperating on the leading-order asymptotic lemmas). Layer 3 is reasonable as a paper but the Lean version stalls on Mathlib gaps. Layer 4 is genuinely new mathematics — feasible but a real research project, not formalisation. Layer 5 is mostly bookkeeping after 4.
+
+**Strategic call.** Treat the current paper as one deliverable; treat **Layers 1–2 of recovery as the natural sequel** (a targeted second paper, "$\rho^*$-Recovery for Linear JEPA"). Layers 3–5 should be flagged as future work in that paper's discussion, not promised. Don't conflate the recovery roadmap into the current submission — the ordering result stands on its own and is what's actually proved.
+
+**Action:** none yet. Revisit after the current paper is on arXiv. When ready, draft a new request prompt deriving Theorem 2.2 (identifiability via leading-order $\tilde t_r^*$ inversion) — likely the smallest new Aristotle target that yields a publishable advance.
+
+---
 
 ### OQ-14: JEPA — Job B `pd_lower_from_offDiag` ✅ DONE (session 28)
 

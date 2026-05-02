@@ -4,7 +4,7 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
-## 2026-05-01 (session 41) — JEPA `my_theorems/` reorganized; paper-writing scripts moved to handbook
+## 2026-05-01 (session 41) — JEPA `my_theorems/` reorganized; paper-writing scripts moved to handbook; rho-recovery feasibility audit
 
 ### What was done
 - **JEPA `my_theorems/` cleanup.** Root previously held 24 entries mixing live deliverables, LaTeX build artifacts, 4 Aristotle job prompts, an old draft, a backup, and duplicate notes. Reorganized to:
@@ -17,6 +17,8 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 - **Removed duplicate `.env`.** `my_theorems/.env` held only `SEMANTIC_SCHOLAR_API_KEY`, identical to workspace-root `.env` which also has `ARISTOTLE_API_KEY`. Deleted the duplicate; scripts now read root `.env` only.
 - **Paper-writing scripts → handbook.** Moved `verify_refs.py` (root) → `stochastic-proofs-handbook/scripts/verify_refs.py`. Deleted root `forward_cites.py` (byte-identical duplicate of the handbook copy already present).
 - **Handbook scripts/README.md updated.** Fixed garbled first paragraph; added documentation block separating "Proof submission (Aristotle)" scripts from "Paper writing (bibliography tooling)" scripts. `verify_refs.py` and `forward_cites.py` documented with usage + deps.
+- **Job prompts moved to project-level `requests/`.** The four prompts I had put under `my_theorems/requests/` (H, I, J, K) actually belong with the rest of the Aristotle submission records under `jepa-learning-order/requests/` (which already holds 37 numbered request files + `proof_decisions_log.md`). Renamed to `jobH_…`, `jobI_…`, `jobJ_…`, `jobK_…` (matching the existing `jobE_/jobF_/jobG_` pattern at #24–28). `my_theorems/requests/` deleted.
+- **Rho-recovery feasibility audit.** Read `my_theorems/rho_recovery/{rho_recovery_roadmap.md, JEPA_rho_recovery_proof.md, prompt_2_full_recovery_proof.md}` (March 2026 handoff docs by David). Roadmap defines 5 layers / 9 gaps from current $\rho^*$-ordering paper to a full $\rho^*$-recovery theorem (sign + magnitude + finite-sample rates). Honest assessment recorded under decisions.md and OQ-17 (see INDEX).
 - Nothing was git-tracked under `my_theorems/`, so no history was rewritten.
 
 ### State at end of session
