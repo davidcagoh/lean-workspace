@@ -4,6 +4,26 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-02 (session 47) — arXiv endorsement strategy; venue deadlines confirmed; Cook email plan
+
+### What was done
+- Looked up current arXiv endorsement rules (Jan 21 2026 change: institutional email no longer auto-qualifies; personal endorsement required for all first-time submitters).
+- Confirmed endorsement domain structure: one `cs.*` endorser covers cs.LG + cs.LO + cs.AI; one `math.*` endorser covers math.PR + math.ST etc.
+- Confirmed ITP 2026 (deadline Feb 19) and CPP 2026 (held Jan 2026) are both missed. Next targets: CPP 2027 / ITP 2027 (CFPs not yet announced). ITP Lean Workshop (July 25, FLoC'26 Lisbon) worth checking. CICM 2026 worth checking.
+- Endorsement pipeline settled: **Papyan (UofT) → cs.*** (email already sent); **Cook (Duke) → math.*** (email to send separately from OQ-16 update — short, independent ask).
+- Agreed Cook email framing: "I know we're still in progress on the simplicial expansion, but I want to post a different paper to arXiv — would you endorse me in math.PR?"
+
+### State at end of session
+No Lean changes. Job 2 (`9d63166a`) still in flight (from session 45). Endorsement emails: Papyan pending, Cook to send.
+
+### What to do next session
+1. Send Cook endorsement email (short, independent of OQ-16 update).
+2. Get Cook's Overleaf export and triage his simplicial comments.
+3. Retrieve Job 2 when email arrives.
+4. Check CICM 2026 and ITP Lean Workshop CFP deadlines.
+
+---
+
 ## 2026-05-02 (session 46) — Cook Overleaf noted; workflow agreed; memory saved
 
 ### What was done

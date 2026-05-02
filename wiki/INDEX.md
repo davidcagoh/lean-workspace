@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-02 — session 47)
+
+> Session 47: arXiv endorsement rules confirmed (Jan 2026 change: institutional email no longer auto-qualifies). Endorsement pipeline: Papyan (cs.*) pending; Cook (math.*) to email — short independent ask, not tied to OQ-16. ITP 2026 + CPP 2026 both missed; next formal verification venue targets are CPP/ITP 2027 + CICM 2026 / ITP Lean Workshop (FLoC'26, July 25) to check. No Lean changes.
+
 ## Status (2026-05-02 — session 46)
 
 > Session 46: Cook Overleaf document (purple comments + formatting) noted but not yet retrieved. Workflow agreed: export → triage → apply → draft Cook note. τ_{ff} framing deferred until his comments are read. Memory saved.
@@ -240,26 +244,31 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **Simplicial — retrieve Job 2** (`9d63166a`): `geometricCov_eq_deep` + `geometricCov_decay_rate_le`. Audit (no sorry/admit/native_decide), cherry-pick, build, commit.
-2. **Simplicial — review §5.3 revision** with David before contacting Cook. τ_f NOT optimal; τ_{ff} is strictly better in deep regime.
-3. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
-4. **Stochastic-search-bounds — arXiv upload + ITP/CPP 2026 submission.** Confirm deadline first.
-5. **Simplicial — Track B job** (`detection_lower_bound_sparse`) after Job 2 lands clean.
-6. **JEPA — Aristotle job D:** `hDrift_bound` from chain rule. Lower priority — not required for arXiv.
+1. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement so SSB can go on arXiv.
+2. **Simplicial — retrieve Job 2** (`9d63166a`): `geometricCov_eq_deep` + `geometricCov_decay_rate_le`. Audit, cherry-pick, build, commit.
+3. **Get Cook's Overleaf export** and triage his simplicial comments.
+4. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
+5. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
+6. **Simplicial — review §5.3** (τ_{ff} > τ_f) with David before contacting Cook on math content.
 7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-02, after session 46)
+## Pickup notes for fresh agent (2026-05-02, after session 47)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 46 wrap (Cook Overleaf workflow agreed).
+- `wiki/session-log.md` top entry — session 47 wrap (arXiv endorsement rules; Cook email plan).
 - **Job 2 (`9d63166a`) in flight** for simplicial `geometricCov_eq_deep` + `geometricCov_decay_rate_le`.
-- **Ask David for Cook's Overleaf export** (`.tex` or tracked-changes PDF) before doing any paper editing.
+- **Ask David for Cook's Overleaf export** before doing any paper editing.
+
+**Endorsement pipeline:**
+- Papyan (UofT) → cs.* — email already sent. Covers JEPA (cs.LG).
+- Cook (Duke) → math.* — email NOT yet sent. Short ask: "working on a separate paper, please endorse me in math.PR." Independent of OQ-16 simplicial update.
+- arXiv Jan 2026 rule: institutional email no longer auto-qualifies. Personal endorsement required for all first-time submitters.
 
 **Publication pipeline state:**
-- JEPA: arXiv-ready (TMLR target). Blocked on Papyan cs.LG endorsement.
-- SSB: arXiv-ready (ITP/CPP 2026 target). Confirm deadline before upload.
-- Simplicial: held on OQ-16 Cook expansion. §5.3 revised (τ_{ff} > τ_f finding). Cook deferred.
+- JEPA: arXiv-ready (TMLR). Waiting on Papyan.
+- SSB: arXiv-ready. Waiting on Cook math.* endorsement. ITP/CPP 2026 missed; target CPP/ITP 2027 or CICM 2026.
+- Simplicial: held on OQ-16 + Cook expansion. τ_{ff} > τ_f finding confirmed (session 45).
 
 **τ_{ff} finding (Decision Point 2, session 45):** τ_f is NOT low-degree optimal. Fill-pair statistic τ_{ff} = Σ_{shared-edge (t,t')} (F_t-q)(F_{t'}-q) achieves SNR/SNR(τ_f) ≈ 1.64 at (n=1000,p=0.01,d=3). Formula: √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed in `paper_delta_OQ16.md`. DO NOT email Cook until David reviews.
 
