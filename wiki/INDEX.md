@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-02 — session 46)
+
+> Session 46: Cook Overleaf document (purple comments + formatting) noted but not yet retrieved. Workflow agreed: export → triage → apply → draft Cook note. τ_{ff} framing deferred until his comments are read. Memory saved.
+
 ## Status (2026-05-02 — session 45)
 
 > Session 45: Simplicial Job 2 (`9d63166a`) submitted targeting `geometricCov_eq_deep` + `geometricCov_decay_rate_le`. τ_{ff} > τ_f verified numerically: SNR ratio ≈ 1.64 at (n,p,d)=(1000,0.01,3); corrected formula √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed — τ_f is NOT low-degree optimal; τ_{ff} (fill-pair) is strictly better. Cook note deferred pending David review. No Lean file changes.
@@ -244,12 +248,13 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 6. **JEPA — Aristotle job D:** `hDrift_bound` from chain rule. Lower priority — not required for arXiv.
 7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-02, after session 45)
+## Pickup notes for fresh agent (2026-05-02, after session 46)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 45 wrap (Job 2 submitted; τ_{ff} > τ_f verified).
+- `wiki/session-log.md` top entry — session 46 wrap (Cook Overleaf workflow agreed).
 - **Job 2 (`9d63166a`) in flight** for simplicial `geometricCov_eq_deep` + `geometricCov_decay_rate_le`.
+- **Ask David for Cook's Overleaf export** (`.tex` or tracked-changes PDF) before doing any paper editing.
 
 **Publication pipeline state:**
 - JEPA: arXiv-ready (TMLR target). Blocked on Papyan cs.LG endorsement.

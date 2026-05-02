@@ -4,6 +4,26 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-02 (session 46) — Cook Overleaf noted; workflow agreed; memory saved
+
+### What was done
+- Discussed how to handle Nick Cook's Overleaf document (purple comments + formatting changes on simplicial paper).
+- Agreed workflow: export .tex → triage (accept/decide/questions) → apply clean edits → draft Cook note → save his style prefs to wiki.
+- Deferred τ_{ff} §5.3 framing until Cook's comments are read — he may have views.
+- Saved memory: `project_cook_overleaf.md` in agent memory store.
+- No Lean or wiki state changes.
+
+### State at end of session
+Identical to session 45. Job 2 (`9d63166a`) still in flight.
+
+### What to do next session
+1. **Get Cook's Overleaf export** (`.tex` or PDF with tracked changes) from David — ask at session start.
+2. Triage his comments; apply accept-immediately edits to `paper.tex`.
+3. Draft Cook note covering τ_{ff} finding + any open scope questions.
+4. Retrieve Job 2 when email arrives.
+
+---
+
 ## 2026-05-02 (session 45) — Job 2 submitted; τ_{ff} > τ_f verified numerically; §5.3 reframed
 
 ### What was done
