@@ -4,6 +4,32 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-02 (session 44) — Publication strategy + landscape review; no Lean changes
+
+### What was done
+- Reviewed Logos Research (SOSV article) against the Aristotle/Lean workflow. Verdict: different part of the design space — they target applied math for quant finance via a bespoke AI-friendly graph DB (LogosLib), not pure math / Mathlib / research-grade proofs.
+- Clarified publication strategy across all three papers and the methodology paper concept.
+- Identified Vardan Papyan (JEPA) and Nick Cook (simplicial) as the two natural arXiv endorsers.
+
+### Decisions
+- **JEPA paper first** — most relevant to the AI/ML audience (Logos Research crowd). Target: TMLR (no deadline, transaction reviewing) after Papyan endorsement lands.
+- **stochastic-search-bounds** → ITP/CPP 2026 as a formal verification contribution (0 sorries, arXiv-ready).
+- **Methodology paper** ("Aristotle-Assisted Formalization") is the long-term answer to "what are you building" — uses all three projects as case studies, targets ITP or an NeurIPS/ICLR workshop on formal methods / math-AI. Write after first arXiv ID is assigned.
+- **NeurIPS main track** judged too competitive for first submission; NeurIPS workshops or TMLR are the right entry points.
+- Cook endorsement request deferred until OQ-16 simplicial expansion is ready to share.
+
+### State at end of session
+No Lean state changed. No Aristotle jobs in flight.
+Papers: JEPA (12pp, arXiv-ready, 2 named sorries), SSB (18pp, arXiv-ready, 0 sorries), simplicial (held on OQ-16).
+Endorsements: Papyan email pending (cs.LG for JEPA); Cook deferred.
+
+### What to do next session
+1. Submit simplicial Job 2 (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`) — see `roadmap_pre_arxiv.md`.
+2. Verify τ_{ff} > τ_f claim (`fourier_setup.md` §C3-C4) by hand, then numerically at `(n,p,d)=(1000, 0.01, 3)`.
+3. If Papyan responds positively, upload JEPA paper.tex to arXiv (cs.LG).
+
+---
+
 ## 2026-05-02 (session 43) — Simplicial Job 1c cherry-picked; TorusIntegrals.lean sorry-free
 
 ### What was done

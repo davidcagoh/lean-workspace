@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-02 — session 44)
+
+> Session 44: No Lean changes. Publication strategy session. Logos Research reviewed — different design space (applied math / quant finance, bespoke LogosLib, not Mathlib). Venue targets confirmed: JEPA → TMLR (after Papyan endorsement); SSB → ITP/CPP 2026; methodology paper → ITP or NeurIPS/ICLR workshop. Endorsement pipeline: Papyan email pending (cs.LG); Cook deferred until OQ-16 ready.
+
 ## Status (2026-05-02 — session 43)
 
 > Session 43: simplicial Job 1c (`0bc2c753`) retrieved + cherry-picked (commit `d7acf61`). Both remaining sorry targets in TorusIntegrals.lean closed: `fill_fiber_volume_lt` (strict b < 2r via closedBall sandwich) and `volume_fillSet` (12r² via Fubini, boundary {dist=2r} measure-zero). New helpers: `fill_fiber_empty`, `integral_4r_minus_abs_wide`, `T1_dist_eq_measure_zero`, `fillSet_outer_integral`. TorusIntegrals.lean now **sorry-free** (814 → 1063 L). Build clean (8030 jobs).
@@ -118,12 +122,12 @@ Retrieve: `python scripts/retrieve.py`. On success: upgrade Prop 4.15 to sharp f
 
 ---
 
-### OQ-7: Publication strategy — venue targets for all three papers
+### OQ-7: Publication strategy — venue targets for all three papers (updated session 44)
 
-1. **JEPA** → ICLR theory / COLT / TMLR (arXiv-ready; 1 sorry remaining in JEPA.lean)
-2. **Stochastic-search-bounds** → ITP / CPP 2026 (0 sorries; confirm deadline first)
-3. **Simplicial** → RSA via Wiley ScholarOne after arXiv ID assigned
-4. **Methodology paper** ("Aristotle-Assisted Formalization") → NeurIPS / ITP (all three as case studies)
+1. **JEPA** → **TMLR** (no deadline, transaction reviewing; right fit for careful theory work). arXiv-ready. Blocked on Papyan endorsement (cs.LG email pending).
+2. **Stochastic-search-bounds** → **ITP / CPP 2026** (0 sorries; formal verification is the contribution; confirm deadline before uploading).
+3. **Simplicial** → RSA via Wiley ScholarOne after arXiv ID assigned. arXiv held on OQ-16 Cook expansion. Cook endorsement deferred until expansion is ready.
+4. **Methodology paper** ("Aristotle-Assisted Formalization") → **ITP** (prestige in the formalization community) or NeurIPS/ICLR workshop on formal methods / math-AI. Uses all three projects as case studies. Write after first arXiv ID is assigned.
 
 ---
 
@@ -227,23 +231,27 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **JEPA — paper.tex rewritten (session 40).** 12 pp, Bubeck-style. Theorem-1 cluster up front, consolidated related work, Maes2026 LeWM integrated as springboard, Lean record in App. C, named axioms in App. D per CompCert. Verified all 34 bib entries; 3 high-value forward-cite additions integrated. **Ready for arXiv.**
-2. **JEPA — arXiv submission.** Paper ready. Confirm OQ-7 venue (ICLR theory / COLT / TMLR) before upload.
-3. **JEPA — Aristotle job D:** Derive `hDrift_bound` from chain rule on `quasiStaticDecoder` + `hWbar_slow`. (Lower priority — not required for arXiv.)
-4. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. (Lower priority — not required for arXiv.)
-6. **Stochastic-search-bounds — arXiv upload:** 18pp ready. Confirm OQ-7 (ITP/CPP 2026 deadline) first.
-7. **Simplicial — OQ-16 expansion (pre-arXiv):** see roadmap. Start with Track A (geomCov decay rate, A1–A3 pen-and-paper) + Track C steps C1–C2 in parallel.
-8. **Simplicial — RSA submission:** PDF via Wiley ScholarOne after OQ-16 lands and arXiv ID assigned.
-9. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
+1. **Simplicial — submit Job 2** (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`). See `roadmap_pre_arxiv.md` for prompt outline.
+2. **Simplicial — verify τ_{ff} > τ_f** (`fourier_setup.md` §C3-C4) by hand then numerically at `(n,p,d)=(1000, 0.01, 3)`. Required before telling Cook.
+3. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
+4. **Stochastic-search-bounds — arXiv upload + ITP/CPP 2026 submission.** Confirm deadline first.
+5. **JEPA — Aristotle job D:** `hDrift_bound` from chain rule. Lower priority — not required for arXiv.
+6. **JEPA — wire `hPhaseA`:** Apply `frozen_encoder_convergence` inside `JEPA_rho_ordering'`. Lower priority.
+7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-02, after session 43)
+## Pickup notes for fresh agent (2026-05-02, after session 44)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 43 wrap (simplicial Job 1c cherry-picked; TorusIntegrals sorry-free).
+- `wiki/session-log.md` top entry — session 44 wrap (publication strategy; no Lean changes).
 - No Aristotle jobs in flight.
 
-**Simplicial next step:** Submit Job 2 targeting `geometricCov_eq_deep` and `geometricCov_decay_rate_le`. These are the sim-A5-assembly lemmas. Check `my_theorems/roadmap_pre_arxiv.md` for the prompt outline.
+**Publication pipeline state:**
+- JEPA: arXiv-ready (TMLR target). Blocked on Papyan cs.LG endorsement.
+- SSB: arXiv-ready (ITP/CPP 2026 target). Confirm deadline before upload.
+- Simplicial: held on OQ-16 Cook expansion. Cook endorsement deferred.
+
+**Simplicial next step:** Submit Job 2 targeting `geometricCov_eq_deep` and `geometricCov_decay_rate_le`. Check `my_theorems/roadmap_pre_arxiv.md` for the prompt outline. Also verify τ_{ff} > τ_f before contacting Cook.
 
 **Mathematical context to know:**
 - **Witness-K vacuity pattern:** when `∃ K` (or `∃ ε_0`) sits inside the ε-parameterised body, the witness can absorb the bound. Always hoist outside `∀ ε`. For Job K, `ε_0` MUST be built only from `(dat, eb, L, r, s, K_r, K_s)`.
