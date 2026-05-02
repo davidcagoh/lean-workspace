@@ -4,6 +4,31 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-01 (session 42) — Simplicial Job 1b cherry-picked (3/4); Job 1c submitted for the deferred `volume_fillSet`
+
+### What was done
+- **Retrieved Aristotle Job 1b (`b28b078b`).** COMPLETE_WITH_ERRORS — Aristotle proved 3 of 4 target lemmas in `SimplicialLatentGeometry/TorusIntegrals.lean`:
+  - ✅ `volume_closedBall_inter_T1` — closed-ball intersection volume `2r − dist`.
+  - ✅ `volume_triangleSet` — 1D triangle probability `3r²`.
+  - ✅ `volume_edgeFillSet` — 1D edge-fill probability `7r²`.
+  - ❌ `volume_fillSet` — deferred. Aristotle's diagnosis: closedBall sandwich technique fails at the boundary `dist = 2r` (codim-1 set when `r = 1/4`).
+- **Cherry-picked file (commit `72c3377`).** TorusIntegrals.lean grew 478 → 814 lines via Aristotle's helper infrastructure (`fill_fiber_*` family, `T1_norm_mk_of_abs_le`, etc.). Audit pass: only the 2 documented sorries remain (`fill_fiber_volume_lt`, `volume_fillSet`); no axioms, `admit`, `decide`/`native_decide` on closing tactics. Build clean (8030 jobs).
+- **Drafted Job 1c prompt** (`requests/prompt_volume_fillSet.md`). Strategy: prove `fill_fiber_volume_lt` for strict `b < 2r` (closedBall sandwich works), then `volume_fillSet` by Fubini ignoring the measure-zero boundary `{dist = 2r}`. Outer integral `∫_{-2r}^{2r}(4r − |x|)dx = 12r²` via a new `integral_4r_minus_abs_2r` helper mirroring the existing `integral_4r_minus_abs`.
+- **Submitted Aristotle Job 1c `0bc2c753-143e-4e3a-8f7d-15993f793148`.** Email-on-completion.
+
+### State at end of session
+- Simplicial sorry inventory: 2 live (TorusIntegrals: `fill_fiber_volume_lt`, `volume_fillSet`) + ~10 dead-code/Strategy-1 + 2 Job-2 targets (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`).
+- Build clean (8030 jobs).
+- Job 1c in flight; Job 2 (sim-A5 assembly) blocked on Job 1c.
+
+### What to do next session
+1. **Retrieve Job 1c** (`0bc2c753`). Audit, cherry-pick, build, commit.
+2. If 1c lands: submit **Job 2** (`geometricCov_eq_deep`, `geometricCov_decay_rate_le`) per OQ-16 next-step list.
+3. **Verify τ_{ff} > τ_f** (`fourier_setup.md` §C3-C4) — still open from session 34, blocks Cook note.
+4. JEPA arXiv upload remains the parallel deliverable (paper.tex done since session 40).
+
+---
+
 ## 2026-05-01 (session 41) — JEPA `my_theorems/` reorganized; paper-writing scripts moved to handbook; rho-recovery feasibility audit
 
 ### What was done

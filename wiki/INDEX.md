@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-01 — session 42)
+
+> Session 42: simplicial Job 1b retrieved + cherry-picked (commit `72c3377`). 3 of 4 TorusIntegrals lemmas proved (`volume_closedBall_inter_T1`, `volume_triangleSet`, `volume_edgeFillSet`); Aristotle deferred `volume_fillSet` due to `dist = 2r` boundary. Job 1c (`0bc2c753`) submitted with strict-inequality + Fubini-ignores-measure-zero strategy. Build clean (8030 jobs).
+
 ## Status (2026-05-01 — session 41)
 
 > Session 41 was workspace housekeeping + scoping. JEPA `my_theorems/` reorganized (`notes/`, `rho_recovery/`, `archive/` subdirs; LaTeX artifacts deleted; duplicate `.env` removed). Aristotle job prompts H/I/J/K moved out of `my_theorems/` to project-level `jepa-learning-order/requests/` alongside the existing 37 submission records. Paper-writing scripts (`verify_refs.py`, `forward_cites.py`) consolidated under `stochastic-proofs-handbook/scripts/` with documentation. Read the `rho_recovery/` handoff docs and recorded a feasibility verdict (OQ-17 below). Lean state unchanged.
@@ -137,7 +141,8 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 **Status (2026-05-01, session 34):**
 - ✅ 5 Lean stubs landed in `SimplicialDetection.lean`, build clean.
 - ✅ **Job 1 (`43761387`) RETRIEVED + cherry-picked (commit `902914e`).** All 4 target lemmas closed via new helper `TorusIntegrals.lean` (410L: transpose measure-preservation, indicator algebra, R-line integrals 3r²/7r²). Build clean (8030 jobs).
-- 🔄 **Job 1b (`b28b078b-543c-46cd-a341-a0126251d735`) IN FLIGHT.** Targets the 4 deferred sorries that Aristotle pushed down to `TorusIntegrals.lean`: `volume_closedBall_inter_T1`, `volume_triangleSet`, `volume_edgeFillSet`, `volume_fillSet` — pure 1D AddCircle↔ℝ measure-bridge, PROVIDED SOLUTION blocks attached. Email-on-completion.
+- ✅ **Job 1b (`b28b078b`) RETRIEVED + cherry-picked (commit `72c3377`, session 42).** 3 of 4 lemmas closed: `volume_closedBall_inter_T1`, `volume_triangleSet`, `volume_edgeFillSet`. `volume_fillSet` deferred due to `dist = 2r` codim-1 boundary issue. TorusIntegrals.lean grew 478 → 814L with `fill_fiber_*` helper infrastructure.
+- 🔄 **Job 1c (`0bc2c753-143e-4e3a-8f7d-15993f793148`) IN FLIGHT (session 42).** Targets `fill_fiber_volume_lt` (strict `b < 2r`) and `volume_fillSet`. Strategy: closedBall sandwich on strict subdomain + Fubini-ignores-measure-zero on `{dist = 2r}`. New helper `integral_4r_minus_abs_2r` for outer integral `12r²`. Email-on-completion.
 - ✅ Paper deltas drafted in `my_theorems/paper_delta_OQ16.md` (§5.1 quantitative decay, §5.2 sparse corollary, §5.3 low-degree, §5.4 sub-regime, Stevens 1939 bib).
 - ⚠️ **Decision Point 2 still open (Track C C3).** Pure-fill pair statistic `τ_ff` appears to beat `τ_f` by `n^{1/2} · 2.07^d` deep in regime — see `fourier_setup.md` §C3-C4. If verified, paper §5.3 must be reframed. Needs hand + numerical verification before telling Cook.
 
