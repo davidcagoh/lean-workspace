@@ -54,7 +54,7 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ### OQ-17: JEPA — $\rho^*$-recovery extension (feasibility verdict, session 41)
 
-Roadmap (`jepa-learning-order/my_theorems/rho_recovery/rho_recovery_roadmap.md`, March 2026 by David) defines 5 layers and 9 gaps from the current $\rho^*$-ordering paper to a full recovery theorem (sign + magnitude + finite-sample rates). Honest assessment after a session-41 read:
+Roadmap (`jepa-learning-order/my_theorems/paper2_recovery/roadmap.md`, March 2026 by David; moved from `rho_recovery/` mid-session 41) defines 5 layers and 9 gaps from the current $\rho^*$-ordering paper to a full recovery theorem (sign + magnitude + finite-sample rates). Honest assessment after a session-41 read:
 
 **Likely tractable (Layers 1–2):**
 - **1.1 / 1.2** — quasi-static ODE rigorous statement + non-vacuous feature ordering. These overlap heavily with what's already in `paper.tex` and the `actual_critical_time` / `JEPA_dynamics_ordering` / `bernoulli_laurent_bound` lineage (Jobs G/I/J/K). The math is in hand; mostly Lean-engineering. **High odds.**
