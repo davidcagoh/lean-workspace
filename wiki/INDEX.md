@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-03 — session 49)
+
+> Session 49: Job 3 (`c00e2fe7`) retrieved + cherry-picked (commit `53aaec7`). Both targets proved: `centered_edge_moment` (∫(A₁₂-p)(A₁₃-p)(A₂₃-p) = γ^d − p³) and `centered_edge_moment_fill` (∫(A₁₂-p)(A₁₃-p)(A₂₃-p)·F = γ^d − 3p³ + 3p²μ^d − p³q). Strategy: expand product by multilinearity, reduce by symmetry via measure-preserving Fin 3 permutations; use `wedge_implies_fill` for fill term. 7 helper lemmas added (edge_integral_02/12, wedge_integral_1center/2center, mu_e_pow_eq_02/12, integrand_fill_rewrite). Build clean (8028 jobs). **OQ-16 Track A is complete** — all Lean targets for the geometric covariance expansion are closed.
+
 ## Status (2026-05-03 — session 48)
 
 > Session 48: Job 2 (`9d63166a`) retrieved + cherry-picked (commit `8fc1417`). Aristotle found `geometricCov_eq_deep` formula was WRONG: wedge terms do NOT cancel; corrected from `+(7r/2)^d − q` to `+(7r/2)^d − 1`. paper_delta_OQ16.md §5.1 formula updated. `geometricCov_decay_rate_le` fully proved. Two new named sorries: `centered_edge_moment` + `centered_edge_moment_fill`. Job 3 (`c00e2fe7`) submitted for these two lemmas. Stray `aristotle/` directory deleted. Build clean (8028 jobs).
@@ -170,13 +174,15 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 - ✅ Paper deltas drafted in `my_theorems/paper_delta_OQ16.md` (§5.1 quantitative decay, §5.2 sparse corollary, §5.3 revised, §5.4 sub-regime, Stevens 1939 bib).
 - ✅ **Decision Point 2 RESOLVED (session 45).** τ_{ff} > τ_f confirmed numerically: SNR ratio ≈ 1.64 at (n,p,d)=(1000,0.01,3). Corrected formula: √(3n/2)·(12.9)^{d/2}·p^{3/2} (fourier_setup formula of n^{1/2}·2.07^d ignores combinatorial constants). §5.3 reframed in `paper_delta_OQ16.md` — τ_f is NOT optimal; τ_{ff} is strictly better. **DO NOT email Cook** until David reviews.
 - ✅ **Job 2 (`9d63166a`) RETRIEVED + cherry-picked (commit `8fc1417`, session 48).** Formula correction: `geometricCov_eq_deep` had `+(7r/2)^d − q` in last term; correct is `+(7r/2)^d − 1` (wedge contributions don't cancel — `wedge_implies_fill` gives A_S·F = A_S, so E[A_S·(F-q)] = (1-q)·E[A_S] ≠ 0). New helpers proved: `edge_integral`, `wedge_integral`, `p_sq_mu_eq`. `geometricCov_decay_rate_le` fully proved. Two new named sorries: `centered_edge_moment` + `centered_edge_moment_fill`. paper_delta_OQ16.md §5.1 formula corrected. Build clean (8028 jobs).
-- 🔄 **Job 3 (`c00e2fe7`) IN FLIGHT (session 48).** Targets `centered_edge_moment` + `centered_edge_moment_fill`. Strategy: expand 3-factor product by multilinearity, reduce all index variants to proved helpers via `Fin 3` permutation symmetry of the product measure.
+- ✅ **Job 3 (`c00e2fe7`) RETRIEVED + cherry-picked (commit `53aaec7`, session 49).** Both targets proved: `centered_edge_moment` + `centered_edge_moment_fill`. Strategy: multilinear expansion → symmetry reduction via measure-preserving permutations → `wedge_implies_fill` for fill term. 7 helper lemmas. Build clean (8028 jobs).
 
-**Next (when Job 3 returns):**
-1. Retrieve Job 3 (`c00e2fe7`). Audit, cherry-pick, build, commit.
-2. If clean: OQ-16 Track A is complete. Update Appendix A Lean catalog in paper.tex.
-3. Review revised §5.3 with David before contacting Cook on math content.
-4. Submit Track B job (`detection_lower_bound_sparse`) once Track A is fully closed.
+**OQ-16 Track A is COMPLETE.** All geometric covariance Lean targets closed.
+
+**Next:**
+1. Update Appendix A Lean catalog in paper.tex with new helpers.
+2. Review revised §5.3 (τ_{ff} > τ_f) with David before contacting Cook on math content.
+3. Get Cook's Overleaf export and triage his simplicial comments.
+4. Submit Track B job (`detection_lower_bound_sparse`) for sparse regime.
 
 ---
 
@@ -251,20 +257,21 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 ## Next Priorities
 
 1. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement so SSB can go on arXiv.
-2. **Simplicial — retrieve Job 3** (`c00e2fe7`): `centered_edge_moment` + `centered_edge_moment_fill`. Audit, cherry-pick, build, commit.
-3. **Get Cook's Overleaf export** and triage his simplicial comments.
-4. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
-5. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
-6. **Simplicial — review §5.3** (τ_{ff} > τ_f) with David before contacting Cook on math content.
+2. **Simplicial — update paper.tex Appendix A** with new Lean helpers from Job 3.
+3. **Simplicial — review §5.3** (τ_{ff} > τ_f) with David before contacting Cook on math content.
+4. **Get Cook's Overleaf export** and triage his simplicial comments.
+5. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
+6. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
 7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-03, after session 48)
+## Pickup notes for fresh agent (2026-05-03, after session 49)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 48 wrap.
-- **Job 3 (`c00e2fe7`) in flight** for `centered_edge_moment` + `centered_edge_moment_fill`.
+- `wiki/session-log.md` top entry — session 49 wrap.
+- **OQ-16 Track A is complete.** All Lean targets for geometric covariance closed. Paper.tex Appendix A update is next.
 - **Ask David for Cook's Overleaf export** before doing any paper editing.
+- **DO NOT email Cook on math content** until David reviews §5.3 (τ_{ff} > τ_f finding).
 
 **Endorsement pipeline:**
 - Papyan (UofT) → cs.* — email already sent. Covers JEPA (cs.LG).

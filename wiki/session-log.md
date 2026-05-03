@@ -4,6 +4,30 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-03 (session 49) — Job 3 retrieved; centered_edge_moment + centered_edge_moment_fill proved; OQ-16 Track A complete
+
+### What was done
+- Extracted Job 3 (`c00e2fe7`) from manually downloaded tarball: `c00e2fe7-db34-421c-87db-6da7e4c7e134-aristotle.tar.gz`.
+- Audited proof — clean: no sorry/admit/native_decide in new content; all sorries at lines 199/386/418/441/477/485/492/650 are pre-existing dead-code (Strategy 1 + commented-out `geometricCov_eq_deep`).
+- Cherry-picked into `SimplicialLatentGeometry/SimplicialDetection.lean` (+681 lines). Build clean (8028 jobs, commit `53aaec7`).
+- Proved lemmas:
+  - `centered_edge_moment`: ∫(A₁₂-p)(A₁₃-p)(A₂₃-p) = γ^d − p³ (expand product, apply gamma/wedge/edge integrals + symmetric variants)
+  - `centered_edge_moment_fill`: ∫(A₁₂-p)(A₁₃-p)(A₂₃-p)·F = γ^d − 3p³ + 3p²μ^d − p³q (use `integrand_fill_rewrite` via `wedge_implies_fill`, then linearity)
+- 7 helpers added: `edge_integral_02`, `edge_integral_12`, `wedge_integral_1center`, `wedge_integral_2center`, `mu_e_pow_eq_02`, `mu_e_pow_eq_12`, `integrand_fill_rewrite`.
+- **OQ-16 Track A complete** — all Lean targets for geometric covariance expansion are now closed.
+
+### State at end of session
+Build clean (8028 jobs). No active Aristotle jobs. Wiki updated.
+
+### What to do next session
+1. Update paper.tex Appendix A Lean catalog with new helpers.
+2. David to review §5.3 (τ_{ff} > τ_f) before contacting Cook on math content.
+3. Get Cook's Overleaf export.
+4. Send Cook endorsement email (math.*) — short, independent of OQ-16.
+5. Submit Track B job (`detection_lower_bound_sparse`) for sparse regime.
+
+---
+
 ## 2026-05-02 (session 47) — arXiv endorsement strategy; venue deadlines confirmed; Cook email plan
 
 ### What was done
