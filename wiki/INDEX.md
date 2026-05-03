@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-03 — session 50)
+
+> Session 50: paper.tex Appendix A updated with OQ-16 Track A Lean catalog entries (10 new items, Jobs 43761387/b28b078b/0bc2c753/9d63166a/c00e2fe7). §5.3 (τ_ff > τ_f finding) presented to David for review — decision pending on option (a) include / (b) defer / (c) drop. Two Track B sorry stubs added: `geometricCov_lower_bound` and `geometricCov_lower_bound_explicit`. **Job 4 (`133c7aac`) submitted** targeting both sparse-regime lower bound lemmas. Build clean (8028 jobs). Commit `5edfb32`.
+
 ## Status (2026-05-03 — session 49)
 
 > Session 49: Job 3 (`c00e2fe7`) retrieved + cherry-picked (commit `53aaec7`). Both targets proved: `centered_edge_moment` (∫(A₁₂-p)(A₁₃-p)(A₂₃-p) = γ^d − p³) and `centered_edge_moment_fill` (∫(A₁₂-p)(A₁₃-p)(A₂₃-p)·F = γ^d − 3p³ + 3p²μ^d − p³q). Strategy: expand product by multilinearity, reduce by symmetry via measure-preserving Fin 3 permutations; use `wedge_implies_fill` for fill term. 7 helper lemmas added (edge_integral_02/12, wedge_integral_1center/2center, mu_e_pow_eq_02/12, integrand_fill_rewrite). Build clean (8028 jobs). **OQ-16 Track A is complete** — all Lean targets for the geometric covariance expansion are closed.
@@ -178,11 +182,17 @@ Roadmap: `simplicial-latent-geometry/my_theorems/roadmap_pre_arxiv.md`.
 
 **OQ-16 Track A is COMPLETE.** All geometric covariance Lean targets closed.
 
-**Next:**
-1. Update Appendix A Lean catalog in paper.tex with new helpers.
-2. Review revised §5.3 (τ_{ff} > τ_f) with David before contacting Cook on math content.
-3. Get Cook's Overleaf export and triage his simplicial comments.
-4. Submit Track B job (`detection_lower_bound_sparse`) for sparse regime.
+- ✅ **Appendix A updated (session 50).** paper.tex Appendix A now has full OQ-16 Track A catalog (10 new items from Jobs 43761387/b28b078b/0bc2c753/9d63166a/c00e2fe7). Compile clean, 16pp. Commit `5edfb32`.
+- ⏳ **§5.3 review pending (session 50).** David to choose option (a) include τ_ff now / (b) defer / (c) drop optimality claim. DO NOT email Cook until resolved.
+- ⏳ **Job 4 (`133c7aac`) in flight (session 50).** Track B lower bounds: `geometricCov_lower_bound` + `geometricCov_lower_bound_explicit`. Awaiting Aristotle email.
+
+**OQ-16 Track B: in progress.**
+
+**Next (after Job 4 returns):**
+1. David decides §5.3 option; apply §5.3 text to paper.tex.
+2. Retrieve Job 4 (`133c7aac`); audit + cherry-pick if clean.
+3. Get Cook's Overleaf export; triage comments.
+4. Send Cook endorsement email (math.*) — short, independent of OQ-16.
 
 ---
 
@@ -256,34 +266,40 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement so SSB can go on arXiv.
-2. **Simplicial — update paper.tex Appendix A** with new Lean helpers from Job 3.
-3. **Simplicial — review §5.3** (τ_{ff} > τ_f) with David before contacting Cook on math content.
+1. **David decides §5.3 option** — (a) include τ_ff section / (b) defer / (c) drop optimality claim. Apply text to paper.tex. Only then email Cook on math content.
+2. **Retrieve Job 4 (`133c7aac`)** when email arrives — audit + cherry-pick the two lower bound lemmas.
+3. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement (SSB arXiv).
 4. **Get Cook's Overleaf export** and triage his simplicial comments.
 5. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
 6. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
 7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-03, after session 49)
+## Pickup notes for fresh agent (2026-05-03, after session 50)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 49 wrap.
-- **OQ-16 Track A is complete.** All Lean targets for geometric covariance closed. Paper.tex Appendix A update is next.
-- **Ask David for Cook's Overleaf export** before doing any paper editing.
-- **DO NOT email Cook on math content** until David reviews §5.3 (τ_{ff} > τ_f finding).
+- `wiki/session-log.md` top entry — session 50 wrap.
+- **OQ-16 Track A complete.** Appendix A updated (session 50, commit `5edfb32`).
+- **Job 4 (`133c7aac`) in flight** — Track B lower bounds; retrieve when email arrives.
+- **§5.3 decision pending** — David has not yet chosen (a)/(b)/(c). DO NOT email Cook on math content until resolved.
+- **Ask David for Cook's Overleaf export** before any paper editing.
+
+**§5.3 options (presented session 50):**
+- (a) Include τ_ff section now: adds "fill-pair statistic" §5.3 from paper_delta_OQ16.md.
+- (b) Defer τ_ff to follow-up: drop §5.3, keep sparse corollary in §5.2.
+- (c) Drop optimality claim entirely: remove mention of optimality from current arXiv version.
 
 **Endorsement pipeline:**
 - Papyan (UofT) → cs.* — email already sent. Covers JEPA (cs.LG).
-- Cook (Duke) → math.* — email NOT yet sent. Short ask: "working on a separate paper, please endorse me in math.PR." Independent of OQ-16 simplicial update.
-- arXiv Jan 2026 rule: institutional email no longer auto-qualifies. Personal endorsement required for all first-time submitters.
+- Cook (Duke) → math.* — email NOT yet sent. Short ask: "please endorse me in math.PR for a separate paper." Independent of OQ-16 simplicial update.
+- arXiv Jan 2026 rule: personal endorsement required.
 
 **Publication pipeline state:**
 - JEPA: arXiv-ready (TMLR). Waiting on Papyan.
-- SSB: arXiv-ready. Waiting on Cook math.* endorsement. ITP/CPP 2026 missed; target CPP/ITP 2027 or CICM 2026.
-- Simplicial: held on OQ-16 + Cook expansion. τ_{ff} > τ_f finding confirmed (session 45).
+- SSB: arXiv-ready. Waiting on Cook math.* endorsement.
+- Simplicial: held on OQ-16 + Cook expansion. §5.3 decision blocking Cook contact.
 
-**τ_{ff} finding (Decision Point 2, session 45):** τ_f is NOT low-degree optimal. Fill-pair statistic τ_{ff} = Σ_{shared-edge (t,t')} (F_t-q)(F_{t'}-q) achieves SNR/SNR(τ_f) ≈ 1.64 at (n=1000,p=0.01,d=3). Formula: √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed in `paper_delta_OQ16.md`. DO NOT email Cook until David reviews.
+**τ_{ff} finding (session 45):** τ_f is NOT low-degree optimal. τ_{ff} achieves SNR ratio ≈ 1.64 at (n=1000,p=0.01,d=3); ratio = √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed in `paper_delta_OQ16.md`. DO NOT email Cook on math until David reviews.
 
 **Mathematical context to know:**
 - **Witness-K vacuity pattern:** when `∃ K` (or `∃ ε_0`) sits inside the ε-parameterised body, the witness can absorb the bound. Always hoist outside `∀ ε`. For Job K, `ε_0` MUST be built only from `(dat, eb, L, r, s, K_r, K_s)`.
@@ -297,6 +313,6 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 `JEPA_dynamics_ordering` (Theorem 6.1) and `laurent_separation_dominates` are **fully proved** — bodies have no `sorry`.
 
-**Build status:** `lake build` succeeds (8036 jobs).
+**Build status:** `lake build` succeeds (8028 jobs for simplicial; 8036 for JEPA).
 
 A Sonnet agent can run the workflow autonomously: retrieve → audit → cherry-pick → commit → repeat.

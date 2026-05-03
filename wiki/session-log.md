@@ -4,6 +4,31 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-03 (session 50) — Appendix A updated; §5.3 reviewed; Track B Job 4 submitted
+
+### What was done
+- **paper.tex Appendix A updated**: added OQ-16 Track A Lean catalog entries under a new "OQ-16 Track A" block — 10 lemma items covering Jobs 43761387 / b28b078b / 0bc2c753 / 9d63166a / c00e2fe7: `fillingProb_eq_low_r`, `gamma_pow_eq`, `mu_e_pow_eq`, `wedge_implies_fill`, volume helpers (TorusIntegrals.lean), `centered_edge_moment`, `centered_edge_moment_fill`, `geometricCov_eq_deep`, `geometricCov_decay_rate_le`. Compile clean, 16pp.
+- **§5.3 presented to David for review**: the revised §5.3 ("fill-pair statistic beats τ_f; τ_ff confirmed SNR ratio ≈ 1.64") was laid out with the three options: (a) include τ_ff section now, (b) defer to follow-up, (c) drop optimality claim. **Decision pending** — David has not yet chosen.
+- **Track B sorry stubs added to SimplicialDetection.lean**:
+  - `geometricCov_lower_bound`: geomCov ≥ (1−q)·γ^d − 3p³
+  - `geometricCov_lower_bound_explicit`: geomCov ≥ (1−q)·(3/4)^d·p² − 3p³
+- **Wrote `my_theorems/job4_trackB_prompt.md`** with full proof strategy for both lemmas.
+- **Submitted Aristotle Job 4 (`133c7aac`)** targeting both Track B lower bound lemmas. Build clean (8028 jobs). Committed: `5edfb32`.
+
+### State at end of session
+- Active Aristotle job: `133c7aac` (Track B lower bounds) — awaiting email.
+- §5.3 decision: pending David's choice among (a)/(b)/(c).
+- Cook Overleaf export: not yet retrieved.
+- Cook endorsement email (math.*): not yet sent.
+
+### What to do next session
+1. David decides on §5.3 option (a)/(b)/(c); apply §5.3 edits to paper.tex accordingly.
+2. Retrieve Job 4 (`133c7aac`) when email arrives; audit + cherry-pick if clean.
+3. Get Cook's Overleaf export and triage his simplicial comments.
+4. Send Cook endorsement email (math.*) — short, independent of OQ-16.
+
+---
+
 ## 2026-05-03 (session 49) — Job 3 retrieved; centered_edge_moment + centered_edge_moment_fill proved; OQ-16 Track A complete
 
 ### What was done
