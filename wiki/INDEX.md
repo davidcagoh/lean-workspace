@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-04 — session 51)
+
+> Session 51: Cook's Overleaf export (`cook-review/cook-export-may4.tex`) triaged — 6 comment categories, all light. Key finding: Cook reviewed an older version (without OQ-16 Appendix A). Applied all comments to `paper.tex` (commit `cc6c196` in simplicial repo): TikZ Figure 1 (PC vs Čech schematic), Björner 1995 nerve criterion citation, `\paragraph`→`\subsubsection*` throughout, "critical dimension threshold" terminology (5 places), d* wording fix, Prop 3.2 Lean annotation scoped to part (a) only, `align*` for variance calc, Cook's author formatting. Compile clean, 16pp. Job 4 (`133c7aac`) still in flight (500 error). §5.3 decision still pending.
+
 ## Status (2026-05-03 — session 50)
 
 > Session 50: paper.tex Appendix A updated with OQ-16 Track A Lean catalog entries (10 new items, Jobs 43761387/b28b078b/0bc2c753/9d63166a/c00e2fe7). §5.3 (τ_ff > τ_f finding) presented to David for review — decision pending on option (a) include / (b) defer / (c) drop. Two Track B sorry stubs added: `geometricCov_lower_bound` and `geometricCov_lower_bound_explicit`. **Job 4 (`133c7aac`) submitted** targeting both sparse-regime lower bound lemmas. Build clean (8028 jobs). Commit `5edfb32`.
@@ -266,23 +270,24 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **David decides §5.3 option** — (a) include τ_ff section / (b) defer / (c) drop optimality claim. Apply text to paper.tex. Only then email Cook on math content.
-2. **Retrieve Job 4 (`133c7aac`)** when email arrives — audit + cherry-pick the two lower bound lemmas.
-3. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement (SSB arXiv).
-4. **Get Cook's Overleaf export** and triage his simplicial comments.
+1. **David decides §5.3 option** — (a) include τ_ff section / (b) defer / (c) drop optimality claim. Apply OQ-16 expansion from `paper_delta_OQ16.md` to paper.tex. Only then email Cook on math content.
+2. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement (SSB arXiv). Can go now.
+3. **Retrieve Job 4 (`133c7aac`)** when email arrives — audit + cherry-pick the two lower bound lemmas.
+4. **Send Cook expanded paper** after §5.3 applied.
 5. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
 6. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
 7. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-03, after session 50)
+## Pickup notes for fresh agent (2026-05-04, after session 51)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 50 wrap.
-- **OQ-16 Track A complete.** Appendix A updated (session 50, commit `5edfb32`).
-- **Job 4 (`133c7aac`) in flight** — Track B lower bounds; retrieve when email arrives.
+- `wiki/session-log.md` top entry — session 51 wrap.
+- **Cook's Overleaf comments fully applied** (session 51, commit `cc6c196` in simplicial repo). Paper compiles clean, 16pp. Cook was reviewing an older version without OQ-16 Appendix A.
+- **Job 4 (`133c7aac`) still in flight** — Track B lower bounds; retrieve when Aristotle email arrives.
 - **§5.3 decision pending** — David has not yet chosen (a)/(b)/(c). DO NOT email Cook on math content until resolved.
-- **Ask David for Cook's Overleaf export** before any paper editing.
+- **Cook endorsement email** (math.*) can go any time — short ask, independent of OQ-16 math.
+- **OQ-16 expansion** (`paper_delta_OQ16.md` §§5.1–5.3) not yet applied to paper.tex — waiting on §5.3 decision.
 
 **§5.3 options (presented session 50):**
 - (a) Include τ_ff section now: adds "fill-pair statistic" §5.3 from paper_delta_OQ16.md.

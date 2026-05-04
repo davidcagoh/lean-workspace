@@ -4,6 +4,39 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-04 (session 51) — Cook's Overleaf comments triaged and applied to paper.tex
+
+### What was done
+- **Checked Aristotle Job 4 (`133c7aac`)**: returned 500 (still in flight). No action.
+- **Triaged Cook's Overleaf export** (`cook-review/cook-export-may4.tex`): 6 comment categories identified — figure request, "nerve criterion" provenance, "dimension→threshold" terminology (5 places), d* wording, Lean annotation scope on Prop 3.2, section restructuring. All light/constructive; no substantive pushback. **Key finding: Cook reviewed an older version without the OQ-16 Appendix A catalog.**
+- **Assessed old PRUV artifacts** (`artifacts/Cech.png`, `Rips.png`, etc.): Euclidean/Strategy 1 geometry diagrams — not suitable for current torus/sup-norm paper. TikZ schematic used instead.
+- **Applied all Cook comments to `paper.tex`** (commit `cc6c196` in simplicial repo):
+  - TikZ Figure 1: PC vs Čech schematic (5 vertices, schematic circles, fills contrasted)
+  - Björner 1995 citation for "nerve criterion"; added to `references.bib`
+  - `\paragraph` → `\subsubsection*` in §1.2 Related Work (3 entries) and §5 Open Problems (4 entries)
+  - "Critical dimension threshold" throughout: contributions item (3), §2.3 inline, Lemma 2.4 proof, Definition 4.2 name+body, Conjecture item (c)
+  - "infimum of $d>0$" → "smallest positive real number $d$" in Definition 4.2
+  - Prop 3.2 Lean annotation: `leanverified` on part (a) only; part (b) now flagged "(pen-and-paper; see Appendix B)"
+  - `\[...\]` → `align*` for variance calculation in Prop 3.1 proof
+  - Cook's author formatting: superscripts, his email, NSF grant DMS-2154029, Durham NC address
+  - Compile clean, 16pp.
+- **Strategic discussion**: §5.3 decision deferred until after Cook's comments processed. Advice: option (a) framed as "new result, full analysis future work" is defensible and consistent with Cook's engagement style. Endorsement email (math.*) can go independently any time.
+- **Lean verification of §5.3 assessed**: numerical check (specific SNR values) is trivial with `norm_num`; full symbolic verification of τ_ff dominance is Track C (substantial), not recommended pre-Cook.
+
+### State at end of session
+- Active Aristotle job: `133c7aac` (Track B lower bounds) — still in flight, 500 error.
+- §5.3 decision: still pending David's choice among (a)/(b)/(c).
+- Cook comments: fully applied. Paper ready for OQ-16 main-text expansion once §5.3 decided.
+- Cook endorsement email (math.*): not yet sent.
+
+### What to do next session
+1. Decide §5.3 option (a)/(b)/(c); apply expansion from `paper_delta_OQ16.md` to `paper.tex`.
+2. Send Cook endorsement email (math.*) — short, independent of OQ-16.
+3. Retrieve Job 4 (`133c7aac`) when Aristotle email arrives; audit + cherry-pick if clean.
+4. After §5.3 applied, send Cook the expanded paper.
+
+---
+
 ## 2026-05-03 (session 50) — Appendix A updated; §5.3 reviewed; Track B Job 4 submitted
 
 ### What was done
