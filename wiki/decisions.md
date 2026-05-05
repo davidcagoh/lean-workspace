@@ -4,6 +4,26 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Lean file organization: three-level hierarchy for fast subset builds
+
+**Decision date:** 2026-05-05 (session 52)
+
+**Why:** A monolithic `SimplicialDetection.lean` (4868 lines) means every Aristotle cherry-pick attempt triggers a 5-minute full build, even when only a small infrastructure section changed. During session 52, a fixable namespace mistake cost ~15 min of redundant build time because the error → fix → verify cycle couldn't be short-circuited.
+
+SSB already demonstrates the right pattern: `Defs.lean` (shared types) + one file per theorem cluster (100–275 lines each, rebuild in seconds). JEPA has a similar helper-file structure. Both allow fast checks on isolated changes.
+
+**Rule for all future projects and major additions:**
+
+- **Level 0 (infrastructure):** pure math — only imports Mathlib. File names: `*Helpers.lean`, `*Integrals.lean`, `*Lemmas.lean`. Check with `lake build ProjectName.LevelZeroModule` (~60 s) before touching the main file.
+- **Level 1 (types/defs):** project-specific structures and shared helpers. One file; imports Level 0.
+- **Level 2 (theorems):** one file per theorem cluster. Import Level 0 + Level 1. Rebuild in seconds when only Level 2 changes.
+
+**When NOT to split:** file is <400 lines, content is stable, no Aristotle jobs in flight (jobs reference file names).
+
+**Implication:** New proofs that will live in a dedicated module should have that module created BEFORE the Aristotle job is submitted, so returned code targets the right file name. See `wiki/lean4-reference.md §File Organization for Fast Builds` for the full reference.
+
+---
+
 ## Paper-writing scripts live under `stochastic-proofs-handbook/scripts/`
 
 **Decision date:** 2026-05-01 (session 41)
