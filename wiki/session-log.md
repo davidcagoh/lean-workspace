@@ -4,6 +4,53 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-05 (session 52) — Jobs 4+5 cherry-picked; paper updated; Cook emails drafted
+
+### What was done
+- **Retrieved Job 4 (`133c7aac`) + Job 5 (`12474171`)** — both COMPLETE on Aristotle.
+- **Audited both jobs** — clean; pre-existing dead-code sorries only; no native_decide/admit.
+- **Cherry-picked Job 4 (Track B)** into `SimplicialDetection.lean`:
+  - `geometricCov_lower_bound`: geomCov ≥ (1−q)·γ^d − 3p³ via `geometricCov_eq_deep` + nlinarith + positivity.
+  - `geometricCov_lower_bound_explicit`: geomCov ≥ (1−q)·(3/4)^d·p² − 3p³ via matchRadius identity.
+- **Cherry-picked Job 5 (Track C)** into `SimplicialDetection.lean` + `TorusIntegrals.lean`:
+  - `doubleFill_joint_prob`: E_Čech[F_t·F_t'] = (112r³/3)^d for adjacent triangles, via Fubini + d-coordinate factorisation.
+  - New 365-line `TorusIntegrals.lean` section: `doubleFillSet`, `integral_fill_fiber_sq_line`, `volume_doubleFillSet`, `doubleFillSet_torus_eq`, `volume_coordFactored4_eq_pow`, + supporting infrastructure.
+  - Build fix required: `/-- doc -/` → `/- doc -/` for Track C lemma (Lean 4 disallows `open ... in` between a doc comment and its declaration).
+- **Build clean (8028 jobs).** Commits `e29ba20` (Lean), `40db751` (§5.3 Lean status), `d157ae4` (Appendix A catalog).
+- **Paper.tex updates:**
+  - §5.3 Lean status updated: `doubleFill_joint_prob` formally verified (Job 5, May 2026).
+  - Appendix A: Track B+C Lean catalog entries added (4 new lemmas, new TorusIntegrals infrastructure).
+  - Compile clean, 16pp.
+- **Cook emails drafted** (see below).
+
+### Cook email drafts
+
+**Email 1 — Paper update:**
+To: nicholas.cook@duke.edu
+Subject: Updated draft — simplicial detection paper (OQ-16 expansion)
+
+Nick, thank you for the Overleaf comments — all applied (TikZ Fig 1, Björner citation, subsubsection* throughout, terminology, Prop 3.2 annotation, align*, author block). Note: you reviewed an older version without the OQ-16 Appendix A. Current draft adds §5.1 (quantitative geomCov decay, Stevens 1939, Lean-verified formula), §5.2 (sparse corollary p_n ≫ n^{-3/4}), §5.3 (fill-pair statistic τ_ff beats τ_f, ratio ≈ 1.64 at (n,p,d)=(1000,0.01,3), growing as (12.9)^{d/2} — a new simplicial phenomenon with no graph analogue), and extended Appendix A Lean catalog. Attaching updated PDF.
+
+**Email 2 — Endorsement:**
+To: nicholas.cook@duke.edu
+Subject: arXiv endorsement request — math.PR
+
+Nick, I have a separate paper on tree-search probability ("Tight Stochastic Search Bounds") I'd like to post under math.PR. Since Jan 2026, arXiv requires personal endorsement for math.* regardless of affiliation. Would you be willing to endorse me? Takes ~2 min. Happy to send the draft first if helpful.
+
+### State at end of session
+- OQ-16 Track A+B+C: **COMPLETE**. All Lean targets proved.
+- Paper: compiles clean, 16pp, all sections present.
+- Cook emails: **ready to send** (David to send).
+- Endorsement pipeline: Papyan (cs.*) pending; Cook (math.*) pending.
+
+### What to do next session
+1. Send Cook paper-update email with PDF attachment.
+2. Send Cook math.* endorsement email.
+3. Once Papyan responds: upload JEPA to arXiv (TMLR target).
+4. Once Cook endorses math.*: upload SSB to arXiv; check CICM 2026 / ITP Lean Workshop deadlines.
+
+---
+
 ## 2026-05-04 (session 51) — Cook's Overleaf comments triaged and applied to paper.tex
 
 ### What was done
