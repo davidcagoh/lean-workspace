@@ -12,6 +12,20 @@ Consolidated knowledge for writing, debugging, and formalizing Lean 4 proofs wit
 2. **Check signatures** — `#check @lemma_name` shows the full type with implicit arguments.
 3. **Build incrementally** — `lake build Module.Name` after each meaningful change.
 4. **Isolate errors** — if a file has multiple errors, `sorry` out later lemmas to fix the first one first.
+5. **Avoid double builds** — use `tee` so output is captured once and can be re-examined without re-running. Standard pattern:
+   ```bash
+   lake build SimplicialLatentGeometry.SimplicialDetection 2>&1 \
+     | tee /tmp/lean_build.log \
+     | grep -E "^error:|Build completed"
+   # Re-examine without rebuilding:
+   tail -20 /tmp/lean_build.log
+   grep -E "^error:" /tmp/lean_build.log
+   ```
+6. **Fast module check** — when editing only `TorusIntegrals.lean`, build that module first (~60 s) before the full 5-min `SimplicialDetection` build:
+   ```bash
+   lake build SimplicialLatentGeometry.TorusIntegrals
+   ```
+   Only run the full `SimplicialDetection` build before committing.
 
 ---
 
@@ -216,6 +230,20 @@ exact ⟨0, (L : ℝ) / (projectedCovariance dat eb r * ...), by simp, by simp�
 **`"Imports are out of date"` in VS Code** — LSP cache stale after adding an import. Not a code error. Fix: `lake build` or "Restart File" in editor.
 
 **`corollary` keyword** — does not exist in Lean 4. Use `theorem`.
+
+**Doc comment + `open ... in` incompatibility** — a `/-- doc -/` doc comment must be immediately followed by a declaration keyword (`lemma`, `theorem`, `def`, `instance`). Placing `open Foo in` between a doc comment and the declaration causes a parse error: `unexpected token 'open'; expected 'lemma'`. Two fixes:
+- **(a) Change `/--` to `/-`** (block comment, not doc comment) — simpler:
+  ```lean
+  /- description -/
+  open Foo in
+  lemma bar ...
+  ```
+- **(b) Place `open ... in` before the doc comment** — keeps doc comment on the declaration:
+  ```lean
+  open Foo in
+  /-- doc -/
+  lemma bar ...
+  ```
 
 ---
 
