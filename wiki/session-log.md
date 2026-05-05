@@ -4,6 +4,29 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-05 (session 53) — Lean workflow improvements; file organization policy
+
+### What was done
+- **Doc-comment pitfall documented** in `lean4-reference.md`: `/-- doc -/` + `open ... in` incompatibility (session 52 mistake). Two fixes recorded: change to `/-`, or place `open` before the doc comment.
+- **Tee build pattern added** to `lean4-reference.md` (Core Workflow step 5) and `simplicial-latent-geometry/CLAUDE.md`: single build captures output, grep/tail read from log without re-running.
+- **Fast subset build added** to `lean4-reference.md` (Core Workflow step 6) and simplicial CLAUDE.md: `lake build SimplicialLatentGeometry.TorusIntegrals` (~60 s) for infrastructure-only changes before committing to the 5-min full build.
+- **Three-level file organization policy** written to `lean4-reference.md §File Organization for Fast Builds` and `decisions.md`: Level 0 (pure math infra) → Level 1 (types/defs) → Level 2 (theorem files). SSB is the model (one file per theorem). New projects and major new sections should follow this. Key rule: create the target module before submitting Aristotle job (Aristotle references file names).
+- **Cook confirmed** both emails sent (paper update with OQ-16 expansion + math.* endorsement request).
+- Commits: `0fe7fd0` (lean4-reference pitfall+tee), `9794110` (simplicial CLAUDE.md), `9108470` (file-org policy in lean4-reference + decisions).
+
+### State at end of session
+- All Lean proofs: stable. No open Aristotle jobs. Build clean.
+- Simplicial paper: 16pp, Cook emails sent, awaiting response.
+- Endorsement pipeline: Papyan (cs.*) + Cook (math.*) both pending.
+
+### What to do next session
+1. Check for Cook and Papyan replies.
+2. If Papyan endorses: upload JEPA to arXiv.
+3. If Cook endorses math.*: upload SSB to arXiv.
+4. Check CICM 2026 / ITP Lean Workshop (FLoC'26, July 25) CFP deadlines for SSB.
+
+---
+
 ## 2026-05-05 (session 52) — Jobs 4+5 cherry-picked; paper updated; Cook emails drafted
 
 ### What was done

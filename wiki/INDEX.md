@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-05 — session 53)
+
+> Session 53: Workflow-only session. Added doc-comment + `open ... in` incompatibility pitfall to `lean4-reference.md` (the mistake that cost ~15 min of redundant builds in session 52). Added tee-based build pattern (avoid double builds). Added three-level file organization policy for fast subset builds to `lean4-reference.md` + `decisions.md`. Added `lake build TorusIntegrals` fast-check command to simplicial CLAUDE.md. Also: Cook confirmed he sent the paper-update and math.* endorsement emails. Commits `0fe7fd0`, `9794110`, `9108470`, `9108470`.
+
 ## Status (2026-05-05 — session 52)
 
 > Session 52: Retrieved Job 4 (`133c7aac`) and Job 5 (`12474171`) — both COMPLETE. Audited both clean. Cherry-picked: Track B (`geometricCov_lower_bound` + `geometricCov_lower_bound_explicit`, via `geometricCov_eq_deep` + nlinarith) and Track C (`doubleFill_joint_prob` = (112r³/3)^d, via Fubini + coordinate factorisation; new 365-line TorusIntegrals section). Build clean (8028 jobs). Commits `e29ba20`, `40db751`, `d157ae4`. Updated §5.3 Lean status in paper.tex and Appendix A with Track B+C catalog entries. Paper.tex compiles clean, 16pp. Cook email drafted (paper update + endorsement request).
@@ -278,44 +282,28 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 4. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
 5. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-05, after session 52)
+## Pickup notes for fresh agent (2026-05-05, after session 53)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.
-- `wiki/session-log.md` top entry — session 52 wrap.
-- **OQ-16 fully complete.** Track A+B+C all proved. Paper.tex includes §§5.1–5.3 expansion + full Lean catalog in Appendix A. Compiles clean, 16pp. Commits `e29ba20`, `40db751`, `d157ae4` in simplicial repo.
-- **Cook emails ready to send** — paper update (with OQ-16 expansion) and math.* endorsement request. Drafts in session 52 session-log.
-- **Endorsement pipeline:** Papyan (cs.*) pending for JEPA; Cook (math.*) pending for SSB.
+- `wiki/session-log.md` top entry — session 53 wrap.
 
-**§5.3 options (presented session 50):**
-- (a) Include τ_ff section now: adds "fill-pair statistic" §5.3 from paper_delta_OQ16.md.
-- (b) Defer τ_ff to follow-up: drop §5.3, keep sparse corollary in §5.2.
-- (c) Drop optimality claim entirely: remove mention of optimality from current arXiv version.
+**Publication pipeline:**
+- Simplicial: OQ-16 fully complete (Track A+B+C). Paper 16pp, compiles clean. Cook sent both emails (paper update + math.* endorsement). Awaiting Cook reply.
+- JEPA: arXiv-ready (TMLR). Awaiting Papyan cs.* endorsement.
+- SSB: arXiv-ready. Awaiting Cook math.* endorsement.
 
-**Endorsement pipeline:**
-- Papyan (UofT) → cs.* — email already sent. Covers JEPA (cs.LG).
-- Cook (Duke) → math.* — email NOT yet sent. Short ask: "please endorse me in math.PR for a separate paper." Independent of OQ-16 simplicial update.
-- arXiv Jan 2026 rule: personal endorsement required.
+**Sorry inventory (JEPA, 2 named, intentional):**
+1. `JEPA.lean` `bernoulli_laurent_bound` — `h_gronwall` (Picard-Lindelöf + Gronwall)
+2. `JEPA.lean` `bernoulli_laurent_bound` — `h_laurent` (Littwin 2024 Thm 4.5)
+`JEPA_dynamics_ordering` body is sorry-free.
 
-**Publication pipeline state:**
-- JEPA: arXiv-ready (TMLR). Waiting on Papyan.
-- SSB: arXiv-ready. Waiting on Cook math.* endorsement.
-- Simplicial: held on OQ-16 + Cook expansion. §5.3 decision blocking Cook contact.
+**Build commands (use tee to avoid double builds):**
+```bash
+# Simplicial
+lake build SimplicialLatentGeometry.TorusIntegrals 2>&1 | tee /tmp/lean_build.log | grep -E "^error:|Build completed"  # ~60 s
+lake build SimplicialLatentGeometry.SimplicialDetection 2>&1 | tee /tmp/lean_build.log | grep -E "^error:|Build completed"  # ~5 min
+# JEPA: lake build (8036 jobs)
+```
 
-**τ_{ff} finding (session 45):** τ_f is NOT low-degree optimal. τ_{ff} achieves SNR ratio ≈ 1.64 at (n=1000,p=0.01,d=3); ratio = √(3n/2)·(12.9)^{d/2}·p^{3/2}. Paper §5.3 reframed in `paper_delta_OQ16.md`. DO NOT email Cook on math until David reviews.
-
-**Mathematical context to know:**
-- **Witness-K vacuity pattern:** when `∃ K` (or `∃ ε_0`) sits inside the ε-parameterised body, the witness can absorb the bound. Always hoist outside `∀ ε`. For Job K, `ε_0` MUST be built only from `(dat, eb, L, r, s, K_r, K_s)`.
-- **`bernoulli_laurent_bound` structure (session 37–38):** Gronwall step (`h_gronwall` sorry; K₁ genuine, contains C_ode) + Laurent step (`h_laurent` named sorry — Littwin 2024 Thm 4.5) + triangle on hitting times. K = K₁ + K₂ is ε-free.
-- **`JEPA_dynamics_ordering` assembly (session 38):** Composes `actual_critical_time` × 2 + `laurent_separation_dominates`. Key identity: ε^{-(2L-2)/L} = ε^{-1} · ε^{-(L-2)/L}, so the Laurent gap dominates the perturbation error iff ε < M/(K_r+K_s).
-- **`jepa_critical_time_diag` is vacuous:** K = (|LHS|+1)/|log ε| — K depends on ε. Do not use it as a genuine black box.
-
-**Current sorry inventory (2 total, both intentional, both named):**
-1. `JEPA.lean` `bernoulli_laurent_bound` — internal `h_gronwall` (Picard-Lindelöf + Gronwall + hitting time comparison).
-2. `JEPA.lean` `bernoulli_laurent_bound` — internal `h_laurent` (Littwin 2024 Thm 4.5 — pure calculus).
-
-`JEPA_dynamics_ordering` (Theorem 6.1) and `laurent_separation_dominates` are **fully proved** — bodies have no `sorry`.
-
-**Build status:** `lake build` succeeds (8028 jobs for simplicial; 8036 for JEPA).
-
-A Sonnet agent can run the workflow autonomously: retrieve → audit → cherry-pick → commit → repeat.
+**Lean pitfall (session 52):** `/-- doc -/` must be immediately followed by a declaration keyword — `open ... in` between a doc comment and `lemma` causes a parse error. Fix: use `/-` (block comment) instead of `/--`, or place `open ... in` before the doc comment. See `lean4-reference.md §Common Pitfalls`.
