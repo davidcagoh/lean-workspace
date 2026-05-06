@@ -31,6 +31,10 @@ Each lean project has a canonical paper draft at `my_theorems/paper_draft.md`. S
 
 ---
 
+## Status (2026-05-05 — session 54)
+
+> Session 54: Housekeeping + SSB evaluation. Simplicial git: deleted `cook-review/`, tracked `artifacts/` (commit `e3881f4`). Venue audit: CICM 2026 presentation-only (June 15) still open — viable for SSB or simplicial; ITP 2026 fully closed; OQ-7 updated (commit `83ec0d0`). SSB paper evaluated: `hcorrect_better` insight is genuine, rest is thin; best as methodology paper case study + CPP/ITP 2027. OQ-12 resolved via prose — paragraph added to SSB paper.tex §4.1 connecting `hcorrect_better` to Chrestien et al. ranking-based training; greediness-based weakening is non-trivial (commit `91bd4ce`). No Lean changes.
+
 ## Status (2026-05-05 — session 53)
 
 > Session 53: Workflow-only session. Added doc-comment + `open ... in` incompatibility pitfall to `lean4-reference.md` (the mistake that cost ~15 min of redundant builds in session 52). Added tee-based build pattern (avoid double builds). Added three-level file organization policy for fast subset builds to `lean4-reference.md` + `decisions.md`. Added `lake build TorusIntegrals` fast-check command to simplicial CLAUDE.md. Also: Cook confirmed he sent the paper-update and math.* endorsement emails. Commits `0fe7fd0`, `9794110`, `9108470`, `9108470`.
@@ -276,19 +280,19 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ---
 
-*Resolved: OQ-15 (uniform_pd_lower_from_compactness Job C, session 30), OQ-14 (pd_lower_from_offDiag Job B, session 28), OQ-13 (Job A offDiag_ftc + tracking_bound, session 26), OQ-10 (chebyshev_ratio, session 19), OQ-9 (geomCov, session 11), OQ-8 (fillingProb, session 9), OQ-5 (frozen_encoder_convergence, session 20), OQ-3 (matchRadius, session 6), OQ-2 (SSB sorry count, session early) — see session-log for details.*
+*Resolved: OQ-15 (uniform_pd_lower_from_compactness Job C, session 30), OQ-14 (pd_lower_from_offDiag Job B, session 28), OQ-13 (Job A offDiag_ftc + tracking_bound, session 26), OQ-12 (hcorrect_better weakening — closed via prose, session 54: no clean Lean weakening exists; added Chrestien et al. connection to SSB paper §4.1), OQ-10 (chebyshev_ratio, session 19), OQ-9 (geomCov, session 11), OQ-8 (fillingProb, session 9), OQ-5 (frozen_encoder_convergence, session 20), OQ-3 (matchRadius, session 6), OQ-2 (SSB sorry count, session early) — see session-log for details.*
 
 ---
 
 ## Next Priorities
 
 1. **Check Cook + Papyan replies.**
-2. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
-3. **SSB — arXiv upload** once Cook math.* endorsement confirmed.
-4. **CICM 2026 presentation-only** (deadline June 15) — consider submitting SSB or simplicial as a presentation-only paper. No full paper required.
+2. **If Cook endorses:** upload simplicial + SSB to arXiv.
+3. **If Papyan endorses:** upload JEPA to arXiv (TMLR target).
+4. **CICM 2026 presentation-only** (deadline June 15) — needs arXiv ID first; viable for SSB or simplicial.
 5. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
-## Pickup notes for fresh agent (2026-05-05, after session 53)
+## Pickup notes for fresh agent (2026-05-05, after session 54)
 
 **Context to load on session start:**
 - This file (`wiki/INDEX.md`) — status + open questions + next priorities.

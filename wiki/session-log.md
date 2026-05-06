@@ -4,6 +4,28 @@ Entries are newest-first. Add a new entry at the top of this file at the end of 
 
 ---
 
+## 2026-05-05 (session 54) — SSB evaluation; venue audit; git cleanup; OQ-12 closed via prose
+
+### What was done
+- **Simplicial git cleanup**: deleted `cook-review/` (Cook's comments fully applied in session 51); tracked `artifacts/` directory (Čech/Rips diagrams, comparison plots used for Figure 1). Commits `e3881f4` in simplicial repo.
+- **Venue deadline audit** updated in `wiki/INDEX.md` (OQ-7): CICM 2026 full paper passed; **presentation-only track June 15 still open** (SSB or simplicial viable); ITP 2026 all deadlines passed; "ITP Lean Workshop" name unverified — removed from priorities. Commit `83ec0d0` in lean-workspace.
+- **SSB paper evaluated in full**: one genuine contribution (`hcorrect_better` insight — flat-MDP policy improvement fails in hypertree setting, explicit ordering condition required); other three results thin. Verdict: mathematically solid but best positioned as methodology paper case study + CPP/ITP 2027 formal verification venue. No rewrites needed.
+- **OQ-12 scoped and closed**: weakening `hcorrect_better` to a greedy-wrt-value condition is non-trivial — combining policy dominance with greediness still requires assumption on old policy π, not a genuine weakening. Resolved via prose addition to SSB paper.tex §4.1 discussion: paragraph connecting `hcorrect_better` to Chrestien et al. ranking-based training objective. Commit `91bd4ce` in SSB repo.
+
+### State at end of session
+- All projects clean. No open Aristotle jobs. All three papers arXiv-ready.
+- Simplicial: awaiting Cook math.* endorsement reply.
+- JEPA: awaiting Papyan cs.* endorsement reply.
+- SSB: arXiv-ready; CICM 2026 presentation-only (June 15) viable target.
+
+### What to do next session
+1. Check Cook + Papyan replies.
+2. If Cook endorses: upload simplicial + SSB to arXiv.
+3. If Papyan endorses: upload JEPA to arXiv (TMLR target).
+4. Consider CICM 2026 presentation-only submission (June 15) — needs arXiv ID first.
+
+---
+
 ## 2026-05-05 (session 53) — Lean workflow improvements; file organization policy
 
 ### What was done
