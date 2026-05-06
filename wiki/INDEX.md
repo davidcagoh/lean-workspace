@@ -158,12 +158,18 @@ Retrieve: `python scripts/retrieve.py`. On success: upgrade Prop 4.15 to sharp f
 
 ---
 
-### OQ-7: Publication strategy — venue targets for all three papers (updated session 44)
+### OQ-7: Publication strategy — venue targets for all three papers (updated session 53)
 
 1. **JEPA** → **TMLR** (no deadline, transaction reviewing; right fit for careful theory work). arXiv-ready. Blocked on Papyan endorsement (cs.LG email pending).
-2. **Stochastic-search-bounds** → **ITP / CPP 2026** (0 sorries; formal verification is the contribution; confirm deadline before uploading).
-3. **Simplicial** → RSA via Wiley ScholarOne after arXiv ID assigned. arXiv held on OQ-16 Cook expansion. Cook endorsement deferred until expansion is ready.
-4. **Methodology paper** ("Aristotle-Assisted Formalization") → **ITP** (prestige in the formalization community) or NeurIPS/ICLR workshop on formal methods / math-AI. Uses all three projects as case studies. Write after first arXiv ID is assigned.
+2. **Stochastic-search-bounds** → **CPP 2027 or ITP 2027** (0 sorries; formal verification is the contribution). ITP 2026 deadlines all passed (paper submission was Feb 19, 2026). CPP 2026 — check deadline separately.
+3. **Simplicial** → RSA via Wiley ScholarOne after arXiv ID assigned. arXiv held pending Cook math.* endorsement (email sent session 52).
+4. **Methodology paper** ("Aristotle-Assisted Formalization") → target after first arXiv ID assigned.
+
+**Venue deadline audit (2026-05-05):**
+- **CICM 2026** (Ljubljana, Sept 21–25): Full paper deadline April 1 — passed. **Presentation-only track deadline June 15, 2026 — still open.** Could submit SSB or simplicial as a presentation-only paper.
+- **ITP 2026** (July 26–29, FLoC): Paper submission February 19 — passed. All deadlines closed.
+- **"ITP Lean Workshop" July 25 (FLoC)**: Cannot be confirmed under this name. FLoC 2026 workshop slots are July 18–19 and July 24–25. Lean community events at FLoC exist but no specifically named "ITP Lean Workshop" found. Do not rely on this until a verified CFP URL is found.
+- **Next real targets**: CICM 2026 presentation-only (June 15), CPP/ITP 2027.
 
 ---
 
@@ -276,10 +282,10 @@ is also vacuous — K = (|LHS|+1)/|log ε|, depends on ε. Do not build on it.
 
 ## Next Priorities
 
-1. **Send Cook paper-update email** — updated paper with OQ-16 expansion (§§5.1–5.3, Track B+C Lean catalog). Draft ready.
-2. **Send Cook endorsement email** — short, independent of OQ-16. Ask for math.* endorsement (SSB arXiv). Draft ready.
-3. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
-4. **SSB — arXiv upload** once Cook math.* endorsement confirmed. Check CICM 2026 + ITP Lean Workshop (FLoC'26) CFP deadlines.
+1. **Check Cook + Papyan replies.**
+2. **JEPA — arXiv upload** once Papyan endorsement confirmed. Venue: TMLR.
+3. **SSB — arXiv upload** once Cook math.* endorsement confirmed.
+4. **CICM 2026 presentation-only** (deadline June 15) — consider submitting SSB or simplicial as a presentation-only paper. No full paper required.
 5. **Forward-cites triage (SSB):** Boige-Boumaza-Scherrer, Ito-Suzuki 2024, Chrestien-Pevný-Edelkamp 2023 flagged.
 
 ## Pickup notes for fresh agent (2026-05-05, after session 53)
