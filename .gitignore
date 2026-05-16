@@ -16,10 +16,27 @@ stochastic-search-bounds/
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Python
 __pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Editor / OS noise
+.idea/
+.vscode/
+*.swp
 
 # Session artifacts
 *.log
 qna.md
 qna.pdf
 *.docx
+
+# Wiki — running state kept local; pedagogical files are tracked
+wiki/INDEX.md
+wiki/session-log.md
+
+# Local planning notes — not part of the public artifact
+website-brief.md
