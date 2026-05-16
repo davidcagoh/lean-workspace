@@ -4,6 +4,38 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
+
+**Decision date:** 2026-05-16 (session 57)
+
+**Why:** After the Rips reframe (next decision below) it became clear that the project decomposes naturally into three settings, each with a distinct headline:
+1. **L∞ Rips on torus** (current Lean) — quantitative detection threshold $d \asymp \log n$.
+2. **Sphere $S^{d-1}$** — sharp Čech ≠ Rips threshold via Anderson–Cook spherical cap asymptotics. Recovers the "elegant collapse" headline lost in the Rips reframe.
+3. **L² Euclidean torus** — finishes the thesis's hyperspherical-cap asymptotics.
+
+Plus a methodology paper that writes itself once two instances exist: "We solved three concrete instances of a unifying problem, and here's the Lean framework that captures the abstraction."
+
+§4.4 sanity check this session confirmed that the Rips paper alone is the weakest of the three (soft $\log n$ threshold; the sharp algebraic collapse was, in retrospect, an artifact of Helly-2 saturation on $\ell_\infty$, not a genuine geometric phenomenon). Shipping L∞ standalone would anchor the public version of this work to the weakest setting. Bundling reframes the L∞ result as a diagnostic case study within a larger framework.
+
+Three architectural options considered:
+1. **Three parallel sibling Lean projects** — pragmatic, ships papers; no abstraction.
+2. **Abstract `MetricMeasureSpace` typeclass via explicit group action** — clean but Mathlib's measure-theory abstraction support is thin; design risk.
+3. **Core + per-geometry instances, axiomatic homogeneity** — refactor `SimplicialDetection.lean` into `Core/Statistic.lean`, `Core/Detection.lean`, `Core/Variance.lean` (geometry-agnostic) + `Geometry/Common.lean` typeclass + `Geometry/*.lean` per setting + `Instances/*.lean` for concrete detection theorems.
+
+Picked option 3 after design pass. Axiomatic homogeneity over explicit group action — cleaner Lean, faster to ship, refactor cost later is bounded (localized to `Common.lean`).
+
+**Implication:**
+- **Phase plan A1–A7:** A1 (`Core/Statistic.lean`) done this session (commit `a899904`). A2 (typeclass + L∞ instance) next. A3 (Detection), A4 (Variance), A5 (L∞ finalization + Paper 1 ready) follow. A6 (sphere), A7 (L²) are per-paper instances.
+- **Paper 1 reframe** (§4.4 narrative flip: quantitative decay, not sharp collapse) **deferred to A5 milestone.** Don't touch paper.tex until the architecture stabilizes.
+- **Aristotle stubs queued but not dispatched** — concrete signatures depend on whether targets are stated at the abstract or instance level. A2 decides.
+- **Checkpoint discipline:** each milestone keeps Paper 1 publication-ready. If the program stalls 4 months in, "ship L∞ standalone" is ~1 week of paper writing, no Lean rework. The extraction work is non-destructive.
+- **Methodology paper** is the eventual headline. Strictly benefits from having three instances.
+- Sphere sequel direction stashed in `simplicial-latent-geometry/my_theorems/proof_strategy.md`. Anderson–Cook 1986 is the entry point for cap asymptotics.
+
+**Tracked in:** OQ-18 in `wiki/INDEX.md` (full phase plan + status). Nick reply deferred until A5.
+
+---
+
 ## Simplicial paper: reframe as Rips vs 2PC (not Čech vs 2PC)
 
 **Decision date:** 2026-05-16 (session 56)
