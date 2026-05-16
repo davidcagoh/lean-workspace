@@ -486,3 +486,10 @@ python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>   # target
 **Why:** The recent star-power result in JEPA-world-model space is LeWorldModel (Maes et al. 2026, 2603.19312), which gives the first stable end-to-end JEPA from pixels. But it is empirical/architectural — it answers "can JEPAs be trained stably". The dynamics-level question — "once they train stably, which features do they learn first" — is what our paper closes in the linear regime.
 
 **Implication:** Frame our contribution as complementary to LeWM (and to Lejepa2025), not competing. Together they constitute the stability + dynamics inputs to a theory of JEPA-based world models.
+
+## `geometricCov` definition: Rips clique fill (not Čech existential)
+**Decision date:** 2026-05-16 (session 62, commit `8118793`)
+
+**Why:** Pre-OQ-18, `geometricCov` was defined with fill indicator `∃ z : Torus d, dist x_i z ≤ r` (Čech nerve). `fillingProb` had already been redefined to the Rips clique form `dist x_i x_j ≤ r ∀ i,j` (session 56), but `geometricCov` was not updated — leaving the two inconsistent. This blocked `geometricCov_eq_deep` proof (Aristotle could not unify the two indicators). Aristotle Job `db044b91` updated the definition to the clique form as part of proving the lemma.
+
+**Implication:** `geometricCov_eq_deep` now states `geomCov = q · ((1-p)^3 + p^3) − q^2` under Rips, holding in the deep regime `matchRadius ≤ 1/4`. Three downstream lemmas built on the old ∃-form definition (`geometricCov_eq_when_fill_always'`, `geometricCov_tendsto_zero`, `geometricCov_eventually_zero`) are sorry'd — none cited externally. The `geometricCov_eventually_zero` conclusion is structurally false under Rips (`q` is smooth, never hits 0 for finite `d`); the other two are recoverable once `fillingProb_tendsto_zero` lands.
