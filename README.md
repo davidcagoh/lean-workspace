@@ -1,5 +1,7 @@
 # lean-workspace
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20225881.svg)](https://doi.org/10.5281/zenodo.20225881)
+
 A workflow for using **Aristotle** (Harmonic's automated theorem prover) on **original mathematical research**, not as a benchmark or as an autoformalizer for known theorems.
 
 > Three independent projects — linear-JEPA dynamics, simplicial latent geometry, stochastic search bounds — each consisting of a paper draft plus a Lean 4 formalization. Sorries are submitted to Aristotle as scoped jobs. Returned proofs are audited before being merged. The same workflow has driven all three projects toward submission. One of them (stochastic-search-bounds) currently has zero sorries in its Lean formalization.
