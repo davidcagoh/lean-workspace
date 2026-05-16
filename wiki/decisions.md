@@ -4,6 +4,29 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Simplicial paper: reframe as Rips vs 2PC (not Čech vs 2PC)
+
+**Decision date:** 2026-05-16 (session 56)
+
+**Why:** Nick Cook flagged that the existing Def 2.3 (nerve-only with $B(x_i, r)$) is not a simplicial complex — triple intersection forces only pairwise $d \le 2r$ while edges require $\le r$, so downward closure fails. Investigation surfaced a deeper structural problem: on the sup-norm $\ell_\infty$ flat torus, $\ell_\infty$-balls are axis-aligned boxes ⇒ Helly number 2 ⇒ Kahle K10 Def 1.4 Čech complex (nerve of $\{B(x_i, r/2)\}$) coincides with the Vietoris–Rips complex at parameter $r$. Per-coordinate, both "all pairwise $\le r$" and "$\exists z, \forall i\ |x_i - z| \le r/2$" reduce to "range $\le r$." Cannot simultaneously have (i) sup-norm metric, (ii) Kahle nerve, (iii) Čech ≠ Rips on this ambient space.
+
+Three options considered:
+1. **Rips reframe** — accept the Helly-2 collapse, present the model as Rips. Preserves all factorization machinery and the Tracks A/B/C catalog. Cost: ~3 days.
+2. **Euclidean port** — switch metric to Euclidean to genuinely separate Čech from Rips. Preserves the original thesis intent. Cost: ~3 months. Architect stress-test surfaced a load-bearing risk: `geometricCov_lower_bound_explicit` routes through `geometricCov_eq_deep`, which under Euclidean has no closed form in high $d$; a direct signed lower bound on triple-Euclidean-ball intersection volume in high $d$ is open mathematics.
+3. **Status quo (relaxed nerve)** — keep the $r$-ball convention, document it as a deliberate choice. Cheap but doesn't survive standard-convention scrutiny from any reviewer who knows Kahle.
+
+Picked option 1 after architect's option-2 risk assessment. Rips is what the existing Lean already analyzes; the thesis itself names Rips as a target; the reframe is honest narrative, not a retreat.
+
+**Implication:**
+- Paper: title + §2.2 + §4.4 + §6 + Appendix A change. The "Čech vs 2PC" detection theorem becomes "Rips vs 2PC." Sphere $S^{d-1}$ with closed-form spherical caps (Anderson–Cook 1986) becomes the natural sequel for genuine Čech ≠ Rips — stashed in `simplicial-latent-geometry/my_theorems/proof_strategy.md`.
+- Lean: `CechSample.hasFill` becomes the clique predicate `∀ i j ∈ t.val, dist ≤ r`. `fillingProb` becomes the triangle product integral, equal to $(3 r^2)^d$ via `gamma_pow_eq`. `centered_edge_moment_fill`, `geometricCov_eq_deep`, `geometricCov_lower_bound_explicit` all re-derive via $X_e A_e = (1-p) A_e$ on 0/1 indicators — pure algebra, Aristotle target.
+- **`fillingProb_tendsto_one` becomes `fillingProb_tendsto_zero`** under Rips. Story for §4.4 inverts: under both Rips and 2PC, fill becomes rare as $d \to \infty$; the models differ in correlation structure, not in marginal $q$ asymptotics. Detection theorem (TV → 1) survives because SNR routes through covariance.
+- Do NOT attempt to retrofit Čech ≠ Rips into this paper. That's the sphere sequel.
+
+**Tracked in:** OQ-18 in `wiki/INDEX.md` (full state + 11-lemma next-session checklist). Reply to Nick drafted in `simplicial-latent-geometry/cook-review/nick-reply-cech-convention.md`, held until refactor lands.
+
+---
+
 ## Lean file organization: three-level hierarchy for fast subset builds
 
 **Decision date:** 2026-05-05 (session 52)
