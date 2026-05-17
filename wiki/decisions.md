@@ -59,6 +59,27 @@ Plugging into Cauchy-Schwarz: $|\text{geomCov}_{\text{Čech}}| \le e^{-cd/2}$. P
 
 Paper 1's no-barrier result becomes a *load-bearing contrast* against Paper 2: it shows concentration alone doesn't create the barrier; the obstruction is the *Čech-Rips gap* preserved by Helly-$d$. Methodology paper has a cleaner punchline than the original three-instance framing.
 
+**Session-63 follow-up #3 — rate tightened to super-exponential.** The Wendel-tail estimate $e^{-cd}$ was wrong; conflated LDP with small-deviation at the singular boundary $\det G = 0$. The joint density of Gram entries $(y_{12}, y_{13}, y_{23})$ on three iid sphere points is $\propto (\det G)^{(d-4)/2}$ (Wishart-type, derivation via fixing $x_1$ and using sphere coords). For $d \ge 5$ density vanishes at the boundary, giving $\Pr[\det G \le t] \sim t^{(d-2)/2}$. Hence:
+
+$$1 - q_{\text{Čech}}(p, d) \sim \left(\frac{3 z_p^2}{d}\right)^{(d-2)/2}, \quad z_p := \Phi^{-1}(1-p).$$
+
+Super-exponential decay $\sim d^{-d/2}$.
+
+GeomCov closed form (linear in fluctuation, NO Cauchy-Schwarz cancellation):
+$$\text{geomCov}_{\text{Čech}} \approx -2 p^3 (1 - q_{\text{Čech}}).$$
+
+The two terms $q_{\text{Rips}}(1-q_{\text{Čech}}) = p^3 \cdot (1-q)$ and $3p^2(\beta-p) = -3p^3(1-q)$ REINFORCE (sign flip), giving a $-2p^3$ coefficient.
+
+Detection threshold $n^{3/2}|\text{geomCov}_{\text{Čech}}| \to \infty$ becomes $d \log d < 3 \log n$ at leading order:
+
+$$\boxed{d^*(n, p) = \frac{3 \log n}{\log\log n} + O(\log n/(\log\log n)^2).}$$
+
+**Sub-logarithmic**, universal leading constant $3$ (independent of $p$). $p$-dependence enters at next order through $z_p^2$ inside the log.
+
+This is **sharper than both the original audit's $\Theta(\log n)$ claim and the Wendel-tail $\Theta(\log n)$ estimate**. The methodology paper headline strengthens: "the dimensional threshold on Helly-$d$ ambient spaces is $\Theta(\log n / \log\log n)$, driven by the joint Gram density's singular boundary."
+
+Tracked in `simplicial-latent-geometry/my_theorems/paper2_sphere_scoping.md` "Tightened rate analysis (third pass)".
+
 ---
 
 ## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
