@@ -42,6 +42,23 @@ This kills Paper 1's headline. The "$d^* \asymp \log n$ threshold" was an artifa
 
 **Tracked in:** `simplicial-latent-geometry/my_theorems/paper2_sphere_scoping.md` (gitignored) — full precheck derivation, comparison table, concrete next steps with reference list (Wendel 1962, Anderson-Cook 1986, Cover-Efron 1967, Reitzner 2010).
 
+**Session-63 follow-up #2 — Wendel tail asymptotic computed.** The "smallest enclosing cap" score $M := \max_z \min_i \langle z, x_i\rangle$ for three iid points on $S^{d-1}$ concentrates at $1/\sqrt{3}$ (= cosine of $54.7°$). The event $M < \cos\theta_d = z_p/\sqrt{d}$ requires a constant-order deviation from typical, corresponding to "three points near a great circle" (each pairwise inner product near $-1/2$). Large-deviation rate:
+
+$$1 - q_{\text{Čech}}(p, d) = \Theta(e^{-c \cdot d}), \quad c \approx \log(4/3) \approx 0.288.$$
+
+Plugging into Cauchy-Schwarz: $|\text{geomCov}_{\text{Čech}}| \le e^{-cd/2}$. Plausibly $\Theta(e^{-cd})$ without cancellation. Detection criterion $n^{3/2} |\text{geomCov}_{\text{Čech}}| \to \infty$ gives **$d^*(n,p) = \Theta(\log n)$** — the original headline survives on sphere/Čech.
+
+**Multi-paper thread status: INTACT, sharpened.** The discriminator across papers is now the **Helly number** of the ambient space:
+
+| Paper | Helly | Barrier |
+|---|---|---|
+| 1 ($\ell_\infty$ torus) | 2 | NO (Rips ≡ Čech, no fill gap to exploit) |
+| 2 ($S^{d-1}$) | $d$ | YES, $d^* \asymp \log n$ |
+| 3 (L² Euclidean torus) | $d{+}1$ | ? — needs precheck |
+| Methodology | — | "Helly number controls dimensional detection threshold" |
+
+Paper 1's no-barrier result becomes a *load-bearing contrast* against Paper 2: it shows concentration alone doesn't create the barrier; the obstruction is the *Čech-Rips gap* preserved by Helly-$d$. Methodology paper has a cleaner punchline than the original three-instance framing.
+
 ---
 
 ## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
