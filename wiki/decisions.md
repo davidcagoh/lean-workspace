@@ -94,6 +94,22 @@ Tracked in `simplicial-latent-geometry/my_theorems/paper2_sphere_scoping.md` "Ti
 
 **Multi-paper thread fully verified at scaling level.** Paper 2 ($S^{d-1}$ + Čech) has a real $\Theta(\log n / \log\log n)$ barrier; the precise leading constant for $|\text{geomCov}_{\text{Čech}}|$ is $p^3$ not $2p^3$. The sub-leading rate of $c_d \to 0$ (likely polynomial in $1/d$) affects the next-order constant but not the leading scaling.
 
+**Session-63 follow-up #5 — Paper 3 precheck (L² Euclidean torus, Helly-(d+1)).** Concentration regime: matched radius $r_d \sim \sqrt{d/12}$, at typical pairwise distance. $q_{\text{Rips}} \to p^3$ (same concentration collapse). For Čech: smallest enclosing ball of three iid points has radius $\sim \sqrt{d/18} < r_d$, so $q_{\text{Čech}} \to 1$. Rate of $1 - q_{\text{Čech}}^{L^2}$: standard exponential $e^{-cd}$ (NOT super-exponential — no $\det G$-density-singularity analogue; the Euclidean enclosing-ball event has standard Gaussian-tail concentration). Detection: $d^*(n,p) = \Theta(\log n)$.
+
+**Trilogy is triangulated, three distinct mechanisms:**
+
+| Paper | Ambient | Helly | $1 - q_{\text{Čech}}$ tail | $d^*(n,p)$ |
+|---|---|---|---|---|
+| 1 | $\ell_\infty$ torus | 2 | n/a (Čech ≡ Rips collapses) | $\infty$ (no barrier) |
+| 2 | $S^{d-1}$ | $d$ | $(3 z_p^2/d)^{(d-2)/2}$ super-exp | $3 \log n / \log\log n$ |
+| 3 | L² Euclidean torus | $d{+}1$ | $e^{-cd}$ exp | $\Theta(\log n)$ |
+
+Methodology paper punchline: **dimensional detection threshold scaling depends on the Helly number of the ambient space.** Helly-2 collapses Čech to Rips and removes the gap entirely; Helly-$d$ preserves the gap but concentration of measure forces super-exponential tail via singular Gram density; Helly-$(d{+}1)$ preserves the gap with standard exponential tail. Three load-bearing instances unified.
+
+**Sphere Lean S1 done.** `SimplicialLatentGeometry/Geometry/Sphere.lean` skeleton committed on `oq-18-rips` (commit `0ab0549`). SphereSetting, uniform measure, edge predicate, Čech fill predicate, matched cosine threshold, geomCov closed-form theorems stubbed. HomogeneousGeometricModel instance hookup BLOCKED on typeclass refactor (Rips closed form doesn't apply to Čech-fill). Aristotle dispatch plan S2-S6 documented. Next: typeclass generalization OR ad-hoc sphere detection theorem.
+
+**Paper 1 paper.tex revision (gitignored, local).** Added "Note added in revision (session 63)" before §1 flagging convention-specificity per N. Cook; Theorem 3.2(b) tagged with "Convention-specificity" remark; §5.5 "Beyond the flat torus" extended with sphere sequel summary + trilogy framing. The paper itself stays internally consistent under David's original same-radius Čech convention; the note clarifies what's a Helly-2 case study vs structural conclusion.
+
 ---
 
 ## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
