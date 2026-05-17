@@ -601,3 +601,15 @@ python ../stochastic-proofs-handbook/scripts/retrieve.py <project-id>   # target
 **Why:** Pre-OQ-18, `geometricCov` was defined with fill indicator `∃ z : Torus d, dist x_i z ≤ r` (Čech nerve). `fillingProb` had already been redefined to the Rips clique form `dist x_i x_j ≤ r ∀ i,j` (session 56), but `geometricCov` was not updated — leaving the two inconsistent. This blocked `geometricCov_eq_deep` proof (Aristotle could not unify the two indicators). Aristotle Job `db044b91` updated the definition to the clique form as part of proving the lemma.
 
 **Implication:** `geometricCov_eq_deep` now states `geomCov = q · ((1-p)^3 + p^3) − q^2` under Rips, holding in the deep regime `matchRadius ≤ 1/4`. Three downstream lemmas built on the old ∃-form definition (`geometricCov_eq_when_fill_always'`, `geometricCov_tendsto_zero`, `geometricCov_eventually_zero`) are sorry'd — none cited externally. The `geometricCov_eventually_zero` conclusion is structurally false under Rips (`q` is smooth, never hits 0 for finite `d`); the other two are recoverable once `fillingProb_tendsto_zero` lands.
+
+## Typeclass split: `HomogeneousGeometricModel` + `CechSphereModel` (option ii)
+**Decision date:** 2026-05-17 (session 65, commit `6a0c6ae`)
+
+**Why:** The Rips closed form `geomCov = q[(1-p)³ + p³] − q²` is an *exact algebraic* identity that depends on `F^{Rips} = A₁₂·A₁₃·A₂₃`. Under Čech fill on $S^{d-1}$ (Helly-$d$ > Helly-2), the Rips identity fails: three points can have Čech-fill = 1 without all pairwise edges. The Čech moment structure needs **four** quantities ($q_{\text{Rips}}$, $q_{\text{Čech}}$, $\beta$, $p$) versus three under Rips, and the resulting geomCov has only an *asymptotic* form $\sim p^3 (1 - q_{\text{Čech}})$ with no algebraic shortcut.
+
+Considered three options:
+- (i) parametric closed form (single typeclass with `f p q`): rejected — four moments don't reduce to `(p, q)`.
+- (ii) split typeclasses (Rips + Čech kept distinct): **adopted**.
+- (iii) drop closed form, axiomatize only SNR: rejected — too abstract; can't derive explicit $d^*(n,p)$.
+
+**Implication:** `HomogeneousGeometricModel` retains the exact Rips axiom (L∞ instance untouched). New `CechSphereModel` carries the asymptotic axiom `Tendsto (geomCovCech / (p³ (1 - cechFillProb))) atTop (𝓝 1)`. No shared superclass — `Core/Detection.lean` already abstracts over the signal sequence, so detection theorems consume either model via a common abstract SNR criterion. `Geometry/Sphere.lean` instance compiles (sorry'd at Aristotle stubs). Paper 3 (L² torus) will add a third instance class when its asymptotic form is settled.
