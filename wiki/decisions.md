@@ -4,6 +4,31 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Simplicial OQ-18: Paper 1's $d^* \asymp \log n$ threshold is structurally wrong on $\ell_\infty$
+
+**Decision date:** 2026-05-16 (session 63)
+
+**Why:** Preparing the Aristotle dispatch for `fillingProb_tendsto_zero` surfaced a math error in `my_theorems/oq18_math_audit.md`. The audit derived $q = (3r^2)^d = (3/4)^d p^2$ in the "deep regime $r \le 1/4$" and then applied that formula to the $d \to \infty$ limit at fixed $p$. But $r_d = p^{1/d}/2$ is *increasing* in $d$ — the $r \le 1/4$ regime corresponds to **small** $d$ (specifically $d \le \log p / \log(1/2)$), not the asymptotic limit.
+
+Independent computation of the per-coord 3-clique probability $\gamma(r)$ on $\mathbb{T}^1$ for $r \in (1/3, 1/2]$ (wraparound regime, $\gamma(r) = 3r^2 + (3r-1)^2$) gives $\gamma(r_d)^d \to p^3$ as $d \to \infty$. Hence:
+
+- $\text{fillingProb}(p, d) \to p^3$ (not $0$)
+- $\text{geomCov}(p, d) \to p^3(1-p)^3$ (positive constant, not $0$)
+- SNR $n^{3/2} \cdot \text{geomCov} \to \infty$ for *any* fixed $d$ — **no dimensional barrier on $\ell_\infty$ Rips**.
+
+This kills Paper 1's headline. The "$d^* \asymp \log n$ threshold" was an artifact of using the small-$r$ formula outside its regime.
+
+**Implication:**
+- Stub lemmas `fillingProb_tendsto_zero`, `geometricCov_tendsto_zero`, `geometricCov_eventually_zero` are all **false as stated**. Do not dispatch to Aristotle. Replace with `fillingProb_tendsto_pcubed` and `geometricCov_tendsto (p^3(1-p)^3)`.
+- The closed form $\text{geomCov} = q[(1-p)^3 + p^3] - q^2$ and `geometricCov_eq_deep` survive (algebraic / regime-bounded; both unaffected).
+- Paper 1 needs a new headline. Two candidates: (a) "no-barrier" framing (Paper 1 becomes a Lean-verified instance, Paper 2 (sphere) recovers a real threshold via cap asymptotics); (b) pivot to $\tau_{ff}$ or higher-order statistic where dimensional structure survives under Rips/$\ell_\infty$.
+- Strategic decision deferred. Paper 2 (sphere) becomes structurally more important.
+- A5 work (TorusLInf circular-import split) continues regardless — the Lean module structure is orthogonal to which asymptotic statement is true.
+
+**Tracked in:** addendum at bottom of `simplicial-latent-geometry/my_theorems/oq18_math_audit.md` (full derivation with $\gamma(r)$ table and what-survives/breaks ledger).
+
+---
+
 ## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
 
 **Decision date:** 2026-05-16 (session 57)
