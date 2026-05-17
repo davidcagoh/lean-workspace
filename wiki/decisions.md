@@ -80,6 +80,20 @@ This is **sharper than both the original audit's $\Theta(\log n)$ claim and the 
 
 Tracked in `simplicial-latent-geometry/my_theorems/paper2_sphere_scoping.md` "Tightened rate analysis (third pass)".
 
+**Session-63 follow-up #4 — MC verification (corrected coefficient and sign).** Three claims tested at $p=0.3$, $N=10^6$ samples:
+
+1. ✓ Gram density tail $\Pr[\det G \le t] \sim t^{(d-2)/2}$ verified (slope ratio ~95% for $d \in [5, 20]$).
+2. ✓ Exact closed form $\text{geomCov} = q_R(1-q_C) + 3p^2(\beta-p)$ matches MC to 3 digits.
+3. ✗ Asymptotic "$-2 p^3 (1-q_C)$" was **wrong sign and wrong coefficient**. MC reveals geomCov is positive.
+
+**Diagnosis:** I claimed $\Pr[A_{12} \mid F=0] \to p$ as $d \to \infty$. Wrong — it goes to **0**. Conditional on the rare event $F=0$, the dominant configuration is near-equilateral with $y_{ij} \approx -1/2$, in which $A_{12} = 0$ (since $y_{12} \approx -1/2 < $ threshold). MC trend at $p=0.3$: $\Pr[A_{12} \mid F=0]$ goes from $0.176$ at $d=4$ down to $0.066$ at $d=12$, consistent with $\to 0$.
+
+**Corrected asymptotic:** $\text{geomCov}_{\text{Čech}} \sim p^3 (1 - q_{\text{Čech}}) \sim p^3 (3z_p^2/d)^{(d-2)/2}$. Sign positive, coefficient $+p^3$ not $-2p^3$.
+
+**Headline scaling unchanged:** detection $n^{3/2} \cdot p^3 \cdot (3z_p^2/d)^{(d-2)/2} \to \infty$ still gives $d^*(n,p) = 3 \log n / \log\log n + $ lower order. The intermediate sign error didn't propagate.
+
+**Multi-paper thread fully verified at scaling level.** Paper 2 ($S^{d-1}$ + Čech) has a real $\Theta(\log n / \log\log n)$ barrier; the precise leading constant for $|\text{geomCov}_{\text{Čech}}|$ is $p^3$ not $2p^3$. The sub-leading rate of $c_d \to 0$ (likely polynomial in $1/d$) affects the next-order constant but not the leading scaling.
+
 ---
 
 ## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
