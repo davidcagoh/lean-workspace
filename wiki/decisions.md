@@ -27,6 +27,21 @@ This kills Paper 1's headline. The "$d^* \asymp \log n$ threshold" was an artifa
 
 **Tracked in:** addendum at bottom of `simplicial-latent-geometry/my_theorems/oq18_math_audit.md` (full derivation with $\gamma(r)$ table and what-survives/breaks ledger).
 
+**Session-63 follow-up (sphere precheck + bundling).** Pencil-and-paper derivation of $q_{\text{Rips}}$ and $q_{\text{Čech}}$ on $S^{d-1}$ at matched $\theta(p,d) = \pi/2 - z_p/\sqrt{d}$ confirmed:
+
+| Setting | $q_{\text{Rips}}$ | $q_{\text{Čech}}$ | $\text{geomCov}_{\text{Rips}}$ | $\text{geomCov}_{\text{Čech}}$ |
+|---|---|---|---|---|
+| $\ell_\infty$ torus | $\to p^3$ | $= q_{\text{Rips}}$ (Helly-2) | $\to p^3(1-p)^3 > 0$ | same |
+| $S^{d-1}$ | $\to p^3$ | $\to 1$ (caps near-hemisphere; Wendel ⇒ 3 iid points fit in some hemisphere a.s. for $d\ge3$) | $\to p^3(1-p)^3 > 0$ | $\to 0$ (rate $\sim 1 - q_{\text{Čech}}$) |
+
+**Implications:**
+- Paper 1 ($\ell_\infty$ + Rips) no-barrier framing stands. Ready to bundle.
+- **Paper 2 ($S^{d-1}$ + Čech) is the genuine dimensional-threshold paper.** Čech-Rips gap is $\Theta(1)$ on sphere because Helly-$d$ preserves the existential vs clique distinction. The vanishing rate of $\text{geomCov}_{\text{Čech}}$ — driven by Wendel-type tail $1 - q_{\text{Čech}}(p, d)$ — gives the threshold.
+- **Bundling decision locked:** ship Paper 1 + Paper 2 together. Paper 1 standalone would only tell the no-barrier half of the story; the methodology punchline ("we solved three concrete instances") needs at least one genuine-barrier instance.
+- Algebraic closed form $\text{geomCov} = q[(1-p)^3 + p^3] - q^2$ does **not** apply on Čech (requires Rips identity $F = A_{12}A_{13}A_{23}$). Paper 2 needs Wendel/Anderson-Cook asymptotic for $1 - q_{\text{Čech}}(p, d)$. Math precheck verified the path; ~1-2 sessions of careful asymptotic before Lean.
+
+**Tracked in:** `simplicial-latent-geometry/my_theorems/paper2_sphere_scoping.md` (gitignored) — full precheck derivation, comparison table, concrete next steps with reference list (Wendel 1962, Anderson-Cook 1986, Cover-Efron 1967, Reitzner 2010).
+
 ---
 
 ## Simplicial: multi-paper research program (Option C, core-extracted Lean library)
