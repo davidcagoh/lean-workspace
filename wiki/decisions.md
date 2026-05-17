@@ -21,8 +21,8 @@ This kills Paper 1's headline. The "$d^* \asymp \log n$ threshold" was an artifa
 **Implication:**
 - Stub lemmas `fillingProb_tendsto_zero`, `geometricCov_tendsto_zero`, `geometricCov_eventually_zero` are all **false as stated**. Do not dispatch to Aristotle. Replace with `fillingProb_tendsto_pcubed` and `geometricCov_tendsto (p^3(1-p)^3)`.
 - The closed form $\text{geomCov} = q[(1-p)^3 + p^3] - q^2$ and `geometricCov_eq_deep` survive (algebraic / regime-bounded; both unaffected).
-- Paper 1 needs a new headline. Two candidates: (a) "no-barrier" framing (Paper 1 becomes a Lean-verified instance, Paper 2 (sphere) recovers a real threshold via cap asymptotics); (b) pivot to $\tau_{ff}$ or higher-order statistic where dimensional structure survives under Rips/$\ell_\infty$.
-- Strategic decision deferred. Paper 2 (sphere) becomes structurally more important.
+- Paper 1 headline: **"no-barrier" framing** chosen (session 63). $\ell_\infty$ Rips detection works at every $d$; Paper 1 becomes a Lean-verified instance of the abstract detection theorem; Paper 2 (sphere) recovers a real dimensional threshold via Anderson–Cook cap asymptotics. Multi-paper program (Paper 1 → 2 → methodology) is cleaner under this framing.
+- Paper 2 (sphere) becomes structurally more important — it now carries the "real threshold" story.
 - A5 work (TorusLInf circular-import split) continues regardless — the Lean module structure is orthogonal to which asymptotic statement is true.
 
 **Tracked in:** addendum at bottom of `simplicial-latent-geometry/my_theorems/oq18_math_audit.md` (full derivation with $\gamma(r)$ table and what-survives/breaks ledger).
