@@ -175,6 +175,16 @@ div_le_div_of_nonneg_right (hab : a ≤ b) (hc : 0 ≤ c) : a / c ≤ b / c
 integral_one : ∫ _ in a..b, (1 : ℝ) = b - a
 -- Connect Ioo set integrals via:
 -- MeasureTheory.integral_Ioc_eq_integral_Ioo → intervalIntegral.integral_of_le
+
+-- Decide-bridge for `if-then-else` congr (session 74):
+-- When `cechObservation` (or any Bool-valued function defined via `decide`) appears
+-- inside `if ... then ... else ...`, the `congr 1` goal lands at
+--   (decide A = true) = (decide B = true)
+-- rather than the cleaner `A ↔ B`. Close with:
+exact congrArg (· = true) (decide_eq_decide.mpr h_iff)
+-- where `h_iff : A ↔ B`. Requires both A and B to be Decidable (Classical suffices).
+-- Used in `triangleIndicator'_translate` to close translation invariance of
+-- Rips edge/fill indicators on `Torus d`.
 ```
 
 ---
