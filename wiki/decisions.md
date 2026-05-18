@@ -4,6 +4,26 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## JEPA OQ-17: spin off `jepa-rho-recovery` as option-2 moonshot (all 5 layers, signed framing)
+
+**Decision date:** 2026-05-17 (session 67)
+
+**Why:** Option 1 (Layers 1–2 only — TMLR fast follow-up) shipped a positive-$\rho$-only inversion formula but conceded Layer-4.2(iii) (negative magnitudes unrecoverable from JEPA dynamics) as a gap. Option 2 reframes that concession as the **headline result** — JEPA training performs a *signed decomposition* of the regression structure: positive features learned with recoverable magnitude, negative features identified by suppression timescale + sign. The "weakness" of option 1 becomes the contribution of option 2.
+
+**Scope:** new repo `jepa-rho-recovery/` (sibling of `jepa-learning-order/`), all 9 gaps across 5 layers. No Lake dep on `jepa-learning-order` initially — definitions re-derived locally so the spinoff can change them freely. Re-evaluate cross-project import after Layer 2.1.
+
+**Sequencing:** 1.1 → 1.2 → 2.2 → 4.1 → 4.2 (moonshot lock-in), then fill in 2.1 / 3.1 / 3.2 / 5.1. Front-loads the risky signed-dynamics work (Layer 4.1) before sinking effort into finite-sample machinery.
+
+**Fallback:** if Layer 4.1 (signed ODE physics) stalls for >4 sessions, demote to paper-3 and ship paper-2 as Layers 1–2 + positive-branch finite-sample (option 1, salvaged).
+
+**Headline target:** `signed_decomposition` theorem at statement level, sorry-free in headline-A/B/C lemmas. Without it, paper-2 does not ship.
+
+**Architectural invariant (do not violate):** every Lean structure in the spinoff carries *signed* $\rho^*$ from the start. `SignedGenEigenpair` has no `0 < rho` axiom — positivity is a derived predicate, never a structure hypothesis. Vacuity is forbidden: `HasDerivAt` (not `deriv`), positive-witness existentials (no `epsilon_0 = 0`).
+
+**Filed in:** `jepa-rho-recovery/CLAUDE.md`, `jepa-rho-recovery/paper/outline.md`, `jepa-rho-recovery/requests/01_layer1_1_quasi_static.md`. OQ-17 status update at top of `wiki/INDEX.md`.
+
+---
+
 ## Simplicial OQ-18: Paper 1's $d^* \asymp \log n$ threshold is structurally wrong on $\ell_\infty$
 
 **Decision date:** 2026-05-16 (session 63)
