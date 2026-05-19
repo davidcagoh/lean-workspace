@@ -4,6 +4,46 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## DEFERRED — JEPA-rho Laurent spec mismatch: CriticalTime (paper-1, raw hitting time) ≠ Inversion (Aristotle a65a98a3, purified)
+
+**Decision date:** 2026-05-19 (session 78) — diagnosis only; resolution pending
+
+**Why this is on the decisions page:** the mismatch was discovered while attempting to wire `actual_critical_time_signed` into a concrete `signed_recovery_pos_magnitude_jepa`. It blocks the wire. The fix requires a paper-design call, not a Lean tactic.
+
+**The mismatch:**
+
+`CriticalTime.bernoulli_laurent_bound` (transplanted from paper-1 `jepa-learning-order/JepaLearningOrder/JEPA.lean:741`) gives:
+- Laurent sum: $(1/\lambda) \sum_{n=1}^{2L-1} L/(n \cdot \rho^{2L-n-1} \cdot \epsilon^{n/L})$
+- Envelope: $K \cdot \epsilon^{-(L-2)/L}$
+- Leading order: $\epsilon^{-(2L-1)/L}$ — ρ-INDEPENDENT (n=2L-1 term has $\rho^0 = 1$)
+
+`Inversion.rho_hat_rate` (proved by Aristotle a65a98a3) expects:
+- Laurent sum: $(1/\lambda) \sum_{n=1}^{2L-1} L/(n \cdot \rho^{2L-n-1}) \cdot \epsilon^{(n-2)/L}$
+- Envelope: $K_{\log} \cdot |\log \epsilon|$
+- Leading order: $\epsilon^{-1/L}$ — ρ-DEPENDENT (n=1 term has coefficient $L/\rho^{2L-2}$)
+
+These are different mathematical objects. The estimator $(L/(\lambda \cdot t_{\text{crit}} \cdot \epsilon^{1/L}))^{1/(2L-2)}$ in `rho_hat_rate` only recovers ρ if t_crit ≈ the ρ-distinguishing piece (n=1 only); fed the raw hitting time (which is dominated by ρ-independent n=2..2L-1 terms), it returns 0 not ρ.
+
+**Cross-check against paper-1's paper.tex** (`jepa-learning-order/my_theorems/paper.tex` lines 626–646, Theorem "bernoulli-closed"): explicitly states "the leading term is n = 2L-1, of order $\epsilon^{-(2L-1)/L}$, depending only on λ, not on ρ. The first ρ-distinguishing summand is n = 1, of order $\epsilon^{-1/L}$." So paper-1's `t^* \sim \epsilon^{-(2L-1)/L}` is canonical and `CriticalTime.lean` is faithful to it.
+
+The jepa-rho-recovery paper draft §5 (`my_theorems/paper_draft.md:76`) writes the estimator inversion formula as if `t̃_r^* = O(\epsilon^{-1/L})` — i.e., silently assumes the purification, without explicating where the n=2..2L-1 terms go.
+
+**Resolution paths (all require ≥1 new Aristotle dispatch and a paper-side amendment):**
+
+- **Path A** — Add a Purification bridge lemma: `purified_hitting_time` takes paper-1's full Laurent, subtracts the n=2..2L-1 terms, returns Inversion-shape Laurent. Paper §5 footnoted to clarify $t̃_r^* \neq$ raw $\hat T_r$. Inversion proof preserved. Cleanest separation of concerns but adds a layer.
+
+- **Path B** — Reject Aristotle a65a98a3, re-derive inversion from raw Laurent. Estimator must extract n=1 piece by explicit subtraction of the closed-form dominant prefix. Heaviest path; rewrites Inversion.lean entirely. Re-dispatch needed.
+
+- **Path C** (RECOMMENDED) — Update CriticalTime to give Inversion's purified Laurent directly. Re-spec `bernoulli_laurent_bound` to return $(1/\lambda) \sum L/(n \cdot \rho^{2L-n-1}) \cdot \epsilon^{(n-2)/L}$ with $|\log \epsilon|$ envelope. The purification is a Laurent re-arrangement done inside the (already named-sorried) proof obligation. Paper-1's paper.tex Thm "bernoulli-closed" needs an addendum showing the purification. Smallest spec drift; preserves Inversion proof; preserves paper draft §5 as written.
+
+**Implication for current Lean state:** `signed_recovery_pos_magnitude` (in `SignedRecovery.lean:144`) takes `t_crit` + `h_laurent` abstractly. It cannot be concretised against `bernoulli_laurent_bound` until the wire is fixed. The theorem itself is provable in the abstract form (Aristotle a65a98a3 proved `rho_hat_rate` and `signed_recovery_pos_magnitude` re-exports it) — it just isn't *applicable* to the actual JEPA dynamics until the bridge exists.
+
+**No urgency:** none of the in-flight Aristotle dispatches (3.1 `e71b355e`, 5.1 `5f4d94e1`) depend on this resolution. The wire is a paper-2 closing step, not a blocking dependency.
+
+**Filed in:** this entry; flagged in session-78 log; will block any future attempt to write `signed_recovery_pos_magnitude_jepa`.
+
+---
+
 ## Sphere OQ-18: concretise `uniformOnSphere`, `cechFillProb`, `ripsFillProb`, `geomCovCech` via mathlib's `Measure.toSphere`
 
 **Decision date:** 2026-05-19 (session 77 follow-up)
