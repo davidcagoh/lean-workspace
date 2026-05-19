@@ -4,6 +4,22 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Sphere OQ-18: concretise `uniformOnSphere`, `cechFillProb`, `ripsFillProb`, `geomCovCech` via mathlib's `Measure.toSphere`
+
+**Decision date:** 2026-05-19 (session 77 follow-up)
+
+**Why:** The previous axiomatic approach (17 axioms) was intentionally conservative pending a clean Mathlib formalization of the sphere measure. Mathlib's `MeasureTheory.Constructions.HaarToSphere` (`Measure.toSphere : Measure E → Measure (sphere (0 : E) 1)`) supplies exactly the radial pushforward needed — sufficient to define `uniformOnSphere d` as the normalized `toSphere` of the standard Lebesgue measure on `EuclideanSpace ℝ (Fin d)`. Concretising `uniformOnSphere` cascades into the 3 fill-probability defs (`cechFillProb`, `ripsFillProb`, `geomCovCech`) as iid product-measure integrals, dropping 5 axioms (17 → 12) with no change to downstream Paper 2 typeclass hookup or to the structural Paper 2 axioms.
+
+**Architectural change:** `SpherePoint d` was redefined from `{x : EuclideanSpace ℝ (Fin d) // ‖x‖ = 1}` to `Metric.sphere (0 : EuclideanSpace ℝ (Fin d)) 1` (the standard mathlib subtype) to make `Measure.toSphere` apply directly. Audit confirmed zero downstream use of `.property` / `.2 : ‖x‖ = 1`, so the swap is transparent for all consumers (`sphereEdge`, `sphereCechFill`, the `CechSphereModel` typeclass instance).
+
+**Implication:** Paper 2 (sphere/Čech) headlines (`cechFillProb_tail_asymptotic`, `geomCovCech_asymptotic`) remain Lean-verified, now modulo only 3 *structural* Paper 2 axioms (`cechFillProb_compl_le_gram_tail` — Wishart Gram tail, `cechFillProb_le_one` — sub-probability bound, provable but deferred, `geomCovCech_decomp_ratio_tendsto` — algebraic decomposition + surface concentration). The 5 removed axioms (`uniformOnSphere`, `uniformOnSphere_isProb`, `cechFillProb`, `ripsFillProb`, `geomCovCech`) had been **load-bearing only by virtue of opacity**; concretising them means downstream proofs now work against actual mathematical objects rather than black boxes.
+
+**Future work:** the `capProb` cluster (6 axioms) is the next candidate — `capProb d r := (uniformOnSphere d {x | ⟨x, pole⟩ ≥ r}).toReal` would cascade to making the 5 endpoint/continuity axioms provable from sphere-measure properties.
+
+**Filed in:** `SimplicialLatentGeometry/Geometry/Sphere.lean` commits `b63fc28`, `51fa5ff`; this entry.
+
+---
+
 ## Simplicial OQ-18: delete legacy `geometricCov_lower_bound{_explicit}` rather than re-derive under Rips
 
 **Decision date:** 2026-05-19 (session 77)
