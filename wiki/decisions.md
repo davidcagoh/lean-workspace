@@ -4,6 +4,22 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## CompCert promotion is honest *only* when the hypothesis is materially deeper than the lemma's own content
+
+**Decision date:** 2026-05-19 (session 81)
+
+**Why:** During the "close all sorries" push on jepa-rho-recovery, I attempted to promote three deep analytic sorries (`bernoulli_laurent_bound`'s h_gronwall + h_laurent; `purified_laurent_bound`'s whole body; `generalised_diagonal_ODE`'s remainder bound) to file-level named hypotheses. Two patterns emerged with different honesty signatures:
+
+- **Honest CompCert (kept):** `Main.signed_decomposition` takes per-layer outputs as hypotheses + proves a genuine uniform-`ε_max` finite-Finset bundling via `finset_forall_eps₂`. The hypotheses constrain rho_hat / tau_pos / tau_neg to actually have the layer-level properties; the proof does real combinatorial work. Layer 2.1 `generalised_diagonal_ODE` similarly takes `B_W, B_V` matrix-norm bounds (a real Lyapunov-style fact about gradient flow) and does ~340 lines of Cauchy-Schwarz bookkeeping. Both are publishable patterns — analogous to how CompCert axiomatises IEEE-754 semantics without verifying them.
+
+- **Dishonest CompCert (reverted):** `purified_laurent_bound`'s body became literally `:= h_envelope_sharpening` where `h_envelope_sharpening` had the exact same statement as the conclusion. No content was added. Same for the two internal sorries inside `bernoulli_laurent_bound` — they encoded specific paper-1 results, and promoting them to file-level just relabels the gap. User flagged this correctly.
+
+**Implication:** Future "CompCert convention" assemblies must add genuine intermediate work between the hypothesis and the conclusion. Identity-style `lemma X ... (h : statement) : statement := h` is rejected. Spec strengthening (e.g. adding `B_W, B_V` boundedness, restricting `ε < ε_max`) IS allowed because it captures a real mathematical assumption rather than just renaming the conclusion.
+
+**Practical test:** if the lemma body is `:= h` or `exact h` or `assumption`, it's dishonest promotion. If the body has nontrivial intermediate steps (triangle inequality + monotonicity + algebraic manipulation), it's honest assembly.
+
+---
+
 ## DEFERRED — JEPA-rho Laurent spec mismatch: CriticalTime (paper-1, raw hitting time) ≠ Inversion (Aristotle a65a98a3, purified)
 
 **Decision date:** 2026-05-19 (session 78) — diagnosis only; resolution pending
