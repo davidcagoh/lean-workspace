@@ -728,3 +728,37 @@ Considered three options:
 **Why:** Paper-1's `quasiStatic_approx` was proved by Aristotle (`1ccc1ab8`) using a hypothesis bundle that includes Phase-A initial bound (`hPhaseA`), contraction–drift ODE bound (`hContraction`), continuity, and non-negativity. The spinoff CLAUDE.md says "do not Lake-depend on `../jepa-learning-order` initially; re-derive shared definitions locally." Two paths: (a) port `contractive_gronwall_bound` + all auxiliary lemmas verbatim (~500 lines), or (b) restate `quasiStatic_rigorous` against the signed eigenbasis with the same hypothesis bundle and port only the proof body + `contractive_gronwall_bound`. Chose (b): faithful (no fake content — every hypothesis is non-vacuously constraining; `C_track = C_A + D₀/c₀` is provably ε-independent), short, and avoids cross-project coupling.
 
 **Implication:** Layer 1.1 is sorry-free in the spinoff with no Lake dependency on `jepa-learning-order`. Same architectural pattern available for future layers (4.1(a) positive convergence, 3.x perturbation) where paper-1 has machinery we can either port verbatim or wrap as hypothesis bundles. Default: wrap as bundles unless the hypothesis becomes vacuous; then port. Apply to 4.1(a) positive-branch convergence: state the Laurent hitting-time bound as a hypothesis (same shape used by `rho_hat_rate`), not by porting `bernoulli_laurent_bound`.
+
+## Path C resolution for jepa-rho-recovery CriticalTime ↔ Inversion Laurent spec mismatch
+
+**Decision date:** 2026-05-19 (session 79, agent commit `1441a15` + closure commit `0b5cdc4` on `jepa-rho-recovery/master`)
+
+**Why:** Session 78 flagged that `CriticalTime.bernoulli_laurent_bound` (paper-1, raw hitting time, leading $\varepsilon^{-(2L-1)/L}$, ρ-independent) and `Inversion.rho_hat_rate` (Aristotle `a65a98a3`, expects $t_{\text{crit}} \sim \varepsilon^{-1/L}$, ρ-dependent) are different mathematical objects — Inversion's is the *purified* ρ-distinguishing piece. Three paths considered:
+  (A) **Strengthen bridge** to a universal Laurent (per-ε simulate Wbar from ε initial amplitude): heavy new Lean infrastructure.
+  (B) **Weaken `rho_hat_rate`** to accept a conditional Laurent: re-dispatches Aristotle on already-verified `Inversion.lean`.
+  (C) **Update CriticalTime to output purified Laurent**: new `purified_hitting_time` transform that subtracts the divergent $n \ge 2$ prefix and adds Inversion-shape subleading terms.
+Chose (C): keeps both `Inversion.lean` untouched (Aristotle-verified, sorry-free) and `bernoulli_laurent_bound` intact (paper-1 named sorries preserved). Adds 2 sorries (`purified_hitting_time_residual_eq` — pure rpow algebra; `purified_laurent_bound` — envelope sharpening, Littwin Thm 4.5 with full error tracking).
+
+**Subsequent finding (session 79 wire-up):** the bridge output is per-ε conditional (`∀ ε, (init at ε ∧ ODE) → Laurent at ε`), but `rho_hat_rate` requires unconditional universal Laurent. **Resolved by per-Wbar `t_aux` piecewise construction** in `signed_recovery_pos_magnitude_jepa`: `t_aux Wbar ε := if (JEPA-window at ε) then t_crit Wbar ε else asymptotic_sum`; universal Laurent holds (in-window via bridge, out-of-window via zero residual); apply `rho_hat_rate` to `t_aux`; at JEPA-window ε the inversion formula in `t_aux Wbar ε` equals the formula in `t_crit Wbar ε` by definitional unfolding.
+
+**Implication:** Path C is the right pattern when an existing Aristotle-verified asymptotic spec doesn't directly match a paper-1 transplant — wrap a closed-form transform around the transplant rather than re-proving. The `t_aux` piecewise pattern generalizes: any time we need to feed a conditional bound to a lemma requiring an unconditional one, build a piecewise function that's the conditional value where the condition holds and the trivially-satisfying value elsewhere. The "function value at out-of-window ε" doesn't matter because the consuming theorem's hypotheses also rule out out-of-window ε.
+
+## Layer 4.2(i) refactor: drop iff, split into trichotomy forwards
+
+**Decision date:** 2026-05-19 (session 79, commit `ec04fee` on `jepa-rho-recovery/master`)
+
+**Why:** Session 76 flagged the iff form `0 < (eb.pairs r).rho ↔ HasPositiveAsymptote σ σ_r*` as structurally unprovable: ρ=0 gives σ ≡ σ(0) > 0 (positive constant trajectory by `sigma_zero_branch_constant`) and ρ<0 with even L gives σ_r* = ρ^L > 0 (positive asymptote value not constrained by negative-branch behavior). User chose Path (b) (one-directional + split) over Path (a) (concrete `Tendsto` + restrict to ρ ≥ 0). Three sorry-free wrappers: `sign_identification_pos_forward` (over `sigma_positive_branch_converges`), `sign_identification_zero_forward` (over `sigma_zero_branch_constant`), `sign_identification_neg_forward` (over `sigma_negative_branch_le_init`).
+
+**Implication:** Headline signed-decomposition theorem (`Main.lean`) consumes the trichotomy by case-analysis on `sign (eb.pairs r).rho`, not by feeding a single iff. This is structurally honest — each regime has its own asymptotic behavior, and there is no single predicate that admits an iff with positive-ρ. Pattern: when an iff bridges asymmetric regimes, prefer separate forward statements over invented predicates that force the iff to hold.
+
+## Simplicial paper bundle: Instance naming + paper rewrite per Nick reframe
+
+**Decision date:** 2026-05-19 (session 79, commits `cc3128d` + `10b6c88` + others on `simplicial-latent-geometry/oq-18-rips`)
+
+**Why:** Audit revealed paper.tex contradicted Lean across abstract + §2 Def 3 + Theorem 4 + Appendix A (5 dead Lean citations, false `geomCov → 0` claims, broken finite-`d^*` Theorem 4). Lean was reframed (Helly-2 collapse on L∞ torus → Rips clique fill; sphere/Čech preserved as Paper 2) but paper narrative had not caught up. PR-ing `oq-18-rips → master` with paper in pre-rewrite state would have shipped a contradiction; sending Nick the message with that paper attached would have appeared as if the fix were still incomplete. Required full rewrite first.
+
+**Naming choice:** "Instance 1 / Instance 2 / Instance 3" throughout, matching the §6.2 / §6.3 structure rather than "Paper 1 / Paper 2". Reads as one paper exploring three ambients via the Helly-discriminator framing.
+
+**Higher-k conjecture:** softened to qualitative — agent introduced `d^*_k = \binom{k+1}{2} \log n / \log\log n` formula that had never been discussed with Nick. Dropped closed form; left precise formulation as open problem.
+
+**Implication:** Paper now reads as bundled Helly-discriminator study (Instance 1 = L∞/Rips no-barrier; Instance 2 = sphere/Čech sub-log; Instance 3 = ℓ^p centered Euclidean trivialisation). Nick credited explicitly in §1 acknowledgment paragraph. Standardise on this Instance naming for future expansions. **Hold rule:** do not PR a Lean refactor that invalidates the paper's headline claims without also rewriting the paper in the same branch. The branch represents the *paper + Lean state* as a unit, not just code.
