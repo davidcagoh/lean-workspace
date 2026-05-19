@@ -4,6 +4,18 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Simplicial OQ-18: delete legacy `geometricCov_lower_bound{_explicit}` rather than re-derive under Rips
+
+**Decision date:** 2026-05-19 (session 77)
+
+**Why:** Both lemmas were derived from the OLD Čech-nerve closed form `geomCov = (1−q)·(3r²)^d + 3p³·((7r/2)^d − 1)`. Under the new Rips closed form `geomCov = q·((1−p)^3 + p^3) − q²` (sorry-free as of session 75's `geometricCov_eq`), the lower bound `(1−q)·(3r²)^d − 3p^3 ≤ geomCov` is no longer derivable: the RHS's leading `(3r²)^d` term doesn't appear anywhere in the Rips closed form. Audit confirmed **zero downstream Lean callers** — only doc-level references in `my_theorems/job4_trackB_prompt.md` (originally written to spec these lemmas) and one informational sentence in `my_theorems/proof_strategy.md` already flagging the proof-path loss.
+
+**Implication:** The sparse-regime $n^{3/2} \cdot \text{geomCov} \to \infty$ corollary (Track B, Corollary~\ref{cor:sparse}) loses its Lean-verified path until a Rips-native sparse-regime lower bound is derived. This is a separate research item (mid-regime asymptotics with $p \to 0$ jointly with $d \to \infty$), not just a porting task. Deferred indefinitely; flagged in `my_theorems/proof_strategy.md`. The `SimplicialDetection.lean` file is now sorry-free outside dead-code blocks; no live theorem depends on the deleted lemmas.
+
+**Filed in:** tombstone comment at the deletion site in `SimplicialDetection.lean`; this entry.
+
+---
+
 ## JEPA OQ-17: spin off `jepa-rho-recovery` as option-2 moonshot (all 5 layers, signed framing)
 
 **Decision date:** 2026-05-17 (session 67)
