@@ -29,7 +29,8 @@ lean-workspace/
 | Session history | `wiki/session-log.md` |
 | Architectural decisions | `wiki/decisions.md` |
 | Lean/Mathlib API reference | `wiki/lean4-reference.md` |
-| Aristotle submission patterns | `wiki/aristotle-strategy.md` |
+| Aristotle submission patterns AND ops protocol (CLI, API key, scripts) | `wiki/aristotle-strategy.md` — read **Operational protocol** before running any aristotle command |
+| Shared script reference (submit/status/retrieve/watch) | `stochastic-proofs-handbook/scripts/README.md` |
 | File maps, pitfalls, build commands | Each project's `CLAUDE.md` |
 
 > **Rule:** project CLAUDE.md files contain architecture only — not status or roadmaps.

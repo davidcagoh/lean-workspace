@@ -4,6 +4,47 @@ Everything learned about getting good results from Aristotle. Merges the submiss
 
 ---
 
+## Operational protocol (READ FIRST)
+
+> If you're about to submit, poll, or retrieve a job — use this section. Don't reinvent the wheel with the raw `aristotle` CLI.
+
+**API key.** Lives in workspace-root `.env`:
+```bash
+# /Users/davidgoh/LocalFiles/lean-workspace/.env
+ARISTOTLE_API_KEY=arstl_...
+```
+The handbook scripts auto-load it via `_common.load_env()`. For the raw `aristotle` CLI, either `source ../.env && export ARISTOTLE_API_KEY` or pass `--api-key "$(grep ARISTOTLE_API_KEY ../.env | cut -d= -f2)"`.
+
+**Canonical interface = handbook scripts.** Always prefer these over the raw CLI — they handle tarball extraction, annotation, and metadata bookkeeping.
+
+| Operation | Command (run from project subdir, e.g. `jepa-rho-recovery/`) |
+|---|---|
+| Submit | `python ../stochastic-proofs-handbook/scripts/submit.py requests/<file>.md "<prompt>"` |
+| Poll status | `python ../stochastic-proofs-handbook/scripts/status.py` |
+| Watch one job | `python ../stochastic-proofs-handbook/scripts/watch.py <project-id>` |
+| Retrieve + annotate | `python ../stochastic-proofs-handbook/scripts/retrieve.py [<project-id>]` |
+
+`retrieve.py` with no args scans `results/` metadata and downloads any newly-completed jobs; with an ID it fetches that specific one. Both paths drop the tarball at `results/<id>.tar.gz` and write `reports/<Paper>_annotated.md`.
+
+**Raw CLI fallback** (only when handbook scripts are unavailable):
+```bash
+export ARISTOTLE_API_KEY=$(grep ARISTOTLE_API_KEY /Users/davidgoh/LocalFiles/lean-workspace/.env | cut -d= -f2)
+aristotle list                                       # most recent jobs
+aristotle result <project-id> --destination <path>   # downloads a GZIPPED tarball (not a directory!)
+tar -xzf <path>                                      # extract; gives ./aristotle/{ARISTOTLE_SUMMARY.md,JepaRhoRecovery/...}
+```
+Gotcha: the CLI's `--destination` writes a single `.tar.gz` file even when the path has no extension. Always `tar -xzf` it before reading.
+
+**Status semantics:**
+- `COMPLETE` → all targets proved, no new sorries
+- `COMPLETE_WITH_ERRORS` → some targets proved, some left as sorry / errored — still useful, cherry-pick what works
+- `OUT_OF_BUDGET` → ran out; partial result still downloaded
+- `IN_PROGRESS` with stalled % over multiple hours → cancel and resubmit
+
+**Cherry-pick rule.** Never wholesale-copy Aristotle's file over yours. Diff first, copy the proved bodies only, preserve your docstrings (Aristotle sometimes truncates the `PROVIDED SOLUTION` block when it inlines the proof).
+
+---
+
 ## Submission Sizing
 
 - **≤ 5 sorries per job** — jobs with more than 5 rarely close all of them. Split by logical cluster.
