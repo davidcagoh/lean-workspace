@@ -4,6 +4,22 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## jepa-rho-recovery paper 3 (LeWM/SIGReg spinoff): framed as gradient-flow acceleration, not symmetry-breaking
+
+**Decision date:** 2026-05-20 (session 86)
+
+**Why:** Empirical scaffolding in `jepa-rho-recovery/experiments/` (probe + multiple sweeps + 100k-step d=300 budget probe + metric-sensitivity check) produced a sequence of conjectures that were retracted in turn: (i) "SIGReg monotonically destroys ρ*-ordering" — wrong, non-monotonic at high d; (ii) "info-theoretic floor at d=300, λ*=1.0, Spearman=-0.10" — wrong, was a training-budget artifact; (iii) "two-basin attractor with unregularised λ=0 → inverted-ordering basin" — wrong, was a metric artifact of relative-threshold critical-time on un-converged training (absolute-threshold gives Spearman = −1.00 on the same trajectory). The final picture: at d ≥ 100, unregularised JEPA is too slow to reach its theoretical plateau in any reasonable budget; SIGReg accelerates approach-to-plateau by ~7× at d=300. Pareto λ*(d) ≈ 0.001·d (linear) with d=100 → 0.1 and d=300 → 0.3. Three claims for paper 3: (i) acceleration theorem (~ d·λ for λ < λ*); (ii) over-regularisation penalty for λ > λ*; (iii) linear λ*(d) scaling.
+
+**How to apply:** Frame paper 3 as a JEPA-acceleration story, not a basin-discovery or info-bound story. Headline conjecture is the linear Pareto λ*(d) scaling derivation from first principles — gradient pressure ~ λ·d balances against something in the unregularised dynamics; the something that gives the linear scaling is the open theoretical question. Do NOT cite the "two-basin" or "info-floor" interpretations from earlier session-86 writeups — they are superseded by the metric check in `RESULTS_session86_final.md`. Do NOT use relative-threshold critical-time as the load-bearing observable in any paper-3 claim; use the plateau-estimator (paper 2's design) or an absolute-threshold variant, both of which are metric-invariant on un-converged trajectories.
+
+## jepa-rho-recovery: critical-time metric sensitivity — prefer plateau-based observables
+
+**Decision date:** 2026-05-20 (session 86)
+
+**Why:** Session-86 metric-sensitivity check revealed that relative-threshold critical-time (first step where |σ_r(t)| ≥ frac · |σ_r(t_final)|) gives the WRONG SIGN for Spearman(ρ*, t_crit) on un-converged trajectories. At d=300, λ=0 (training stuck at ~10% of theoretical plateau), relative-threshold gives Spearman = +1.0 (apparent inversion) while absolute-threshold gives Spearman = −1.0 on the SAME trajectory. The artifact mechanism: high-ρ features have larger absolute targets that take longer to reach 50% of, even with faster absolute growth. Plateau-based observables (σ_r(T)^{1/L} from paper-2's plateau estimator) sidestep the issue entirely — they read ρ_r* directly from the final value, no threshold needed.
+
+**How to apply:** (i) Paper 2's methodology section should explicitly call out this metric caveat — additional argument for the plateau estimator as headline over the v1 critical-time inversion. (ii) Paper 3's empirical evidence MUST use either the plateau observable or absolute-threshold critical times, not relative-threshold. (iii) For any future empirical work on JEPA training dynamics, verify that the chosen "critical time" definition is robust to training-budget limitations BEFORE drawing ordering conclusions — re-run with absolute thresholds at minimum.
+
 ## jepa-rho-recovery paper 2: headline pivoted to plateau estimator (pure-trajectory)
 
 **Decision date:** 2026-05-20 (session 86)
