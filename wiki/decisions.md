@@ -4,6 +4,14 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## jepa-rho-recovery paper 2: headline pivoted to plateau estimator (pure-trajectory)
+
+**Decision date:** 2026-05-20 (session 86)
+
+**Why:** The session-67 → session-85 paper outline carried a structural inconsistency between abstract and §5. The abstract claimed an estimator "computable from the training trajectory alone," but Thm 5.1 (critical-time inversion, $\hat\rho_r = (L / (\lambda_r^* \tilde t_r^* \epsilon^{1/L}))^{1/(2L-2)}$) requires $\lambda_r^*$ as input, which can only come from sample covariances. With covariances available, direct generalised-eigenvalue regression solves the recovery problem in one eigen-decomposition at $O_p(n^{-1/2}/\text{gap})$ rate — strictly better than the trajectory-based estimator's $O_p(n^{-1/2}/\text{gap}) + O(\epsilon^{1/L}|\log\epsilon|)$. The paper was a hybrid estimator that lost the only horserace that mattered. An identifiability audit on the Bernoulli ODE $\dot\sigma_r = \lambda_r^*\sigma_r^{3-1/L} - \mu_r\sigma_r^3$ showed two structurally independent observables on the positive branch: the **plateau** $\sigma_r^\infty = (\rho_r^*)^L$ (depending only on the ratio, no covariance needed) and **early-time slope** ($\mu_r$ term subleading, identifies $\lambda_r^*$ alone). Joint identifiability of $(\lambda_r^*, \mu_r)$ from a single trajectory follows by combination. On the negative branch, $\lambda_r^*$ is recoverable from late-time power-law decay but $\mu_r$ is dominated by the $\lambda^*$ term throughout the trajectory by factor $|\rho_r^*|\epsilon^{-1/L}$, making trajectory-only $\mu_r$ recovery rate-suboptimal vs direct covariance.
+
+**How to apply:** Paper 2's headline is now Thm 5.1′ (plateau estimator, pure-trajectory rate $O(\epsilon^{1/L}|\log\epsilon|)$) + Thm 5.2 (joint identifiability of $(\lambda_r^*, \mu_r)$ on positive branch). The v1 critical-time inversion is retained as a "fast variant" corollary (one critical-time hit beats waiting for asymptotic convergence) but is not the load-bearing claim. The negative-branch story is reframed from "obstruction" (session-85 framing) to "rate-suboptimality" — the trajectory contains $\mu_r$ information in its subleading correction, but at $\Omega(1)$ effective error vs covariance's $O_p(n^{-1/2})$. **Do not pitch paper 2 as a competitor to covariance regression on sample efficiency** — it loses that race in the linear case. Pitch it as a *structural identifiability theorem*: trajectory is a sufficient statistic for the positive-branch spectrum. This framing is what justifies the non-linear extension (paper 3, LeWM/SIGReg spinoff) where covariance-in-input-space is not available.
+
 ## jepa-rho-recovery: Path C promotion of all 4 CriticalTime named sorries to axioms
 
 **Decision date:** 2026-05-20 (session 85)
