@@ -4,6 +4,43 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Simplicial paper.tex: block-style `\paragraph` via `\@startsection` redefinition
+
+**Decision date:** 2026-05-19 (session 83+)
+
+**Why:** When the Bubeck-style §1 restructure replaced subsections with `\paragraph{...}` run-in headers (e.g. `\paragraph{The problem.}`, `\paragraph{Main result.}`), the LaTeX default rendering of `\paragraph` is a bold lead-in inline with the following text — so `The problem.` looked like the first words of the paragraph body rather than a heading. User initially misdiagnosed as a subsection issue ("subsections showing up as plain short sentences"); the actual offender was `\paragraph`. Subsections under amsart's run-in style were fine.
+
+**How to apply:** Preamble carries a redefinition of `\paragraph` to block style via `\@startsection`:
+
+```latex
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {1.0ex \@plus .2ex \@minus .1ex}%
+  {0.3ex \@plus .1ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+```
+
+This puts paragraph headers on their own line with bold sentence-case titles. Do not load `titlesec` under amsart — `\@secnumpunct` conflict will error every `\section{...}`. If porting to another amsart paper with Bubeck-style `\paragraph` headers, copy the `\makeatletter ... \makeatother` block from the simplicial preamble verbatim. Diagnostic shortcut for future occurrences: extract `pdftotext -layout paper.pdf` and search for the paragraph title — if it appears with no preceding newline, the default run-in style is active.
+
+---
+
+## Simplicial: post-Nick follow-up threads (optimality + sparse) deferred until Nick replies on restructured .tex
+
+**Decision date:** 2026-05-19 (session 83+)
+
+**Why:** During the Bubeck-style restructure of `simplicial-latent-geometry/my_theorems/paper.tex`, David flagged interest in two threads currently scaffolded as partial / open-problem content but explicitly chose to send the restructured version to Nick first.
+
+**Threads to revisit after Nick replies:**
+
+1. **Fill-pair optimality (§5.3, τ_ff thread).** τ_f is not low-degree optimal — τ_ff (pure-fill pairs sharing 2 vertices) strictly beats it (SNR ratio ≈ 1.64 deep regime, ≈ 23 at d=5). Currently stated as a Proposition with closed-form mean+variance; full BB24-style low-degree optimality proof deemed separate-paper-grade (see decisions.md "simplicial paper: LMSY low-degree polynomial analysis is future work"). Local working note `fourier_setup.md` §C3–C4 has partial groundwork. Estimated cost if pursued: ~4–6 weeks paper math + months Lean.
+
+2. **Sparse regime / LMSY-style (§5.2).** Conditional sparse threshold stated; real blocker is rigorously proving geomCov(p,d) = Θ(|log p|/d) decay rate. This is Track A of OQ-16, never closed. Without it sparse-regime statements remain heuristic. Aristotle has not previously made progress on this. Estimated cost: weeks.
+
+**Implication:** Don't pre-empt Nick's reply by starting either thread. After his response, surface these as a coauthor decision item — separate paper? joint? venue?
+
+---
+
 ## CompCert promotion is honest *only* when the hypothesis is materially deeper than the lemma's own content
 
 **Decision date:** 2026-05-19 (session 81)

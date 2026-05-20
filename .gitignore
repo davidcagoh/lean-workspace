@@ -38,6 +38,7 @@ qna.pdf
 # Wiki — running state kept local; pedagogical files are tracked
 wiki/INDEX.md
 wiki/session-log.md
+wiki/session-log-archive*.md
 
 # Local planning notes — not part of the public artifact
 website-brief.md
