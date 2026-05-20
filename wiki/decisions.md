@@ -4,6 +4,22 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## jepa-rho-recovery: Path C promotion of all 4 CriticalTime named sorries to axioms
+
+**Decision date:** 2026-05-20 (session 85)
+
+**Why:** Aristotle round-1 dispatches on the 3-way bernoulli split (`5fbe03d3` `bernoulli_exact_solution_exists`, `f00f9f44` `bernoulli_gronwall_sandwich`, `d9780bba` `bernoulli_exact_laurent`) all returned `COMPLETE_WITH_ERRORS` with no progress on the target sorries; two actively regressed the triangle assembly by adding new sorries. These four named sorries (the three pieces + `purified_laurent_bound`) are research-level ODE/Laurent results — Picard-Lindelöf existence on a locally-Lipschitz Bernoulli RHS, Grönwall ODE-comparison sandwich, Littwin 2024 Thm 4.5 (partial-fraction Laurent) × 2 (the second variant with full error tracking for the envelope sharpening from `ε^{-(L-2)/L}` to `|log ε|`). They are exactly the kind of cited-external-result the CompCert-style honest-promotion discipline (decisions.md, session 81) is for: published or textbook math whose Lean formalisation would be 500–1000 lines per piece and yield no new research value. Refining-and-redispatching to Aristotle was the alternative; rejected because Aristotle's track record on standalone ODE existence/comparison lemmas is poor, and round-2 budget is better spent elsewhere.
+
+**How to apply:** All 4 axioms in `JepaRhoRecovery/CriticalTime.lean` carry explicit paper citations in their docstrings (Picard-Lindelöf; Grönwall; Littwin 2024 Thm 4.5). When citing the moonshot externally, name the axioms upfront — they are the load-bearing analytic content and should appear in the paper's "axiom appendix" so reviewers can see the formalisation boundary. Do not promote any future lemma to an axiom without (a) failed Aristotle attempt and (b) a published-paper citation that justifies the assumption.
+
+## jepa-rho-recovery: statement-honesty audit — reachability hypotheses required on all hitting-time axioms
+
+**Decision date:** 2026-05-20 (session 85)
+
+**Why:** Audit of the 4 CriticalTime axioms found a latent vacuity: `hittingTime f θ t_max` defaults to the sentinel `t_max + 1` when `f` never reaches `θ` on `[0, t_max]`. Without a reachability hypothesis, an axiom asserting `|hittingTime f − Expr| ≤ K · ε^{α}` is trivially refutable by any `f` that does not cross the threshold — the LHS becomes `|t_max + 1 − Expr|`, which is Ω(1) for generic Expr. This violates the spinoff's vacuity-discipline invariant (jepa-rho-recovery/CLAUDE.md): every hypothesis must be non-trivially constraining; every existential witness must be positive; no `True` placeholders. The discovered gap was structural, not cosmetic — the original axiom statements were false as written.
+
+**How to apply:** All 4 axioms now carry, for each trajectory function `f` mentioned: (i) `ContinuousOn f (Set.Icc 0 t_max)`, (ii) `∀ t ∈ Set.Ioo 0 t_max, DifferentiableAt ℝ f t` (the `deriv f t = …` clause is meaningless without this), and (iii) `hittingTime f (p·ρ^L) t_max < t_max` (forces the hitting time into the interior). `bernoulli_exact_solution_exists` additionally takes a coarse `t_max`-sufficiency hypothesis `(2L)/(λ·ε^{(2L-1)/L}) ≤ t_max` so the existence axiom's conclusion can return the reachability witness. For any future axiom on hitting times, add the analogous reachability hypothesis at statement time — do not defer.
+
 ## Simplicial paper.tex: block-style `\paragraph` via `\@startsection` redefinition
 
 **Decision date:** 2026-05-19 (session 83+)
