@@ -879,3 +879,27 @@ Chose (C): keeps both `Inversion.lean` untouched (Aristotle-verified, sorry-free
 **Implication:**
 - Pattern: when Aristotle falsifies a stated hypothesis with a counterexample, prefer hypothesis tightening over conclusion weakening when the conclusion is paper-headline-load-bearing. Push the load onto the bridge layer; verify on dispatch.
 - Pattern: for parallel multi-job dispatches of ODE bridge lemmas, pre-commit to Path C promotion. Total axiom count is bounded by dispatch count + existing axioms; trades a small axiom-debt increment for guaranteed headline-level progress per session. Combined with existing 4 axioms, worst-case ceiling is 7 named axioms — still well below paper-1's named-sorry count at any historical point.
+
+## Inversion-path → paper-2 appendix; plateau-path is the headline (session 89)
+**Decision date:** 2026-05-21
+**Why:** With the session-88 plateau bridges closed, the moonshot headline can be stated *axiom-free* via the plateau path (`plateau_path_recovery_pos`). The inversion path still works but inherits the `purified_laurent_bound` named axiom on the headline. User asked "what do we lose from not doing A [inversion-path assembly]?" — concrete answer: zero headline impact, narrative connection to paper-1's hitting-time machinery becomes implicit instead of explicit. User confirmed: "we could defer it to the appendix in paper-2."
+**Implication:**
+- `signed_recovery_pos_magnitude_jepa` + `Inversion.lean` + `purified_laurent_bound` retained in codebase as appendix material, not deleted.
+- Paper-2 headline statement is now: trajectory-only ρ-recovery (no covariance input, no JEPA-window hypothesis bundle, 0 named axioms). Cleaner identifiability story for the abstract.
+- Future inversion-path work can be a paper-2 appendix or a paper-3 follow-up; not on critical path.
+
+## Matrix Bernstein as named axiom; future Mathlib derivation deferred (session 89)
+**Decision date:** 2026-05-21
+**Why:** The probabilistic shape of paper-2 §3 needs `Pr[‖Σ̂_n − Σ‖_F ≤ O(√(d log(d/ν)/n))] ≥ 1 − ν`. This is Tropp 2015 Thm 1.6.2 — a well-established external result, but not in Mathlib in plug-in form. User explicitly asked for the probabilistic wrapper: "without it I feel the paper's impact is incomplete." Two options: (a) port Tropp's matrix-MGF proof onto Mathlib's matrix exponential infrastructure (estimated >1 sprint, paper-3 scope), or (b) state as named axiom with full citation. Chose (b).
+**Implication:**
+- Named axiom count grows 4 → 5 (`matrix_bernstein_subgaussian` in `JepaRhoRecovery/Concentration.lean`).
+- The probabilistic lift theorem (`plateau_path_finite_sample_rate_pos_high_prob`) is itself axiom-free — Bernstein is passed in via the good-event hypothesis, not invoked inside. Clean isolation.
+- Future work bullet: port Tropp 2015 to Mathlib. Acceptable paper-2 framing: "with matrix Bernstein concentration (Tropp 2015, axiomatized in Lean) and the deterministic plateau rate (sorry-free), Theorem 3.3 holds." Standard mathematical practice — axiomatize well-cited external results, focus formalization effort on the genuinely new content.
+
+## Algorithm + experiment scope locked in planning doc; quasi-static smoke test is critical path (session 89)
+**Decision date:** 2026-05-21
+**Why:** User asked "do I have a working algorithm that takes a dataset and uses JEPA to recover ρ?" — honest answer is no, we have a mathematical proof, not deployable code. Drafted `experiments/ALGORITHM_AND_EXPERIMENT_PLAN.md` with pseudocode + theorem crosswalk + experiment tiers + library structure. The single biggest unknown is whether standard JEPA training (real `lr`, finite-precision, real init) actually satisfies the quasi-static hypothesis well enough for the Bernoulli ODE to describe the diagonal trajectories. If it doesn't, the paper has to narrow its scope.
+**Implication:**
+- Next session should run a focused 1-day Python smoke test (`d=10, L=2`, synthetic spectrum) to either de-risk or red-flag the quasi-static assumption. Do this **before** investing in full `plateau_recover/` library packaging.
+- If quasi-static fails at standard `lr`: paper has to caveat ("for sufficiently small `lr` regime") or develop a non-quasi-static variant in Layer 1.1.
+- Paper-2 abstract framing locked in §7 of the plan doc: "we build on early JEPA theoretical work and present `plateau_recover`, an algorithm that recovers ρ_r* from trajectory observations, with Lean-verified proofs and an open-source NumPy/PyTorch implementation."
