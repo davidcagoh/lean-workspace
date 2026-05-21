@@ -903,3 +903,16 @@ Chose (C): keeps both `Inversion.lean` untouched (Aristotle-verified, sorry-free
 - Next session should run a focused 1-day Python smoke test (`d=10, L=2`, synthetic spectrum) to either de-risk or red-flag the quasi-static assumption. Do this **before** investing in full `plateau_recover/` library packaging.
 - If quasi-static fails at standard `lr`: paper has to caveat ("for sufficiently small `lr` regime") or develop a non-quasi-static variant in Layer 1.1.
 - Paper-2 abstract framing locked in §7 of the plan doc: "we build on early JEPA theoretical work and present `plateau_recover`, an algorithm that recovers ρ_r* from trajectory observations, with Lean-verified proofs and an open-source NumPy/PyTorch implementation."
+
+## Paper-1 σ-convention bug: Option C (full re-derivation) — session 90 (2026-05-21)
+**Decision date:** 2026-05-21
+**Why:** Session 90 smoke test of paper-2's plateau_recover algorithm uncovered that paper-1's Bernoulli ODE `σ̇ = Lλσ^(3-1/L)(1 − σ^(1/L)/ρ)` (file JEPA.lean:665, `diagAmp_ODE`) has its bracket exponent inverted relative to the actual JEPA gradient flow. Correct form is Saxe-style `σ̇ = Lμσ^(2-1/L)(ρ − σ^L)`, plateau ρ^(1/L), single-pole asymptotic ε^(-(L-1)/L). The Lean proof of `diagAmp_ODE` discharges via vacuous compactness (picks C = max(C',1)/ε^((2L-1)/L)), so the form was asserted in the statement but never constrained. The bug propagated through `bernoulli_laurent_bound`, `actual_critical_time`, `JEPA_dynamics_ordering`, and downstream paper-2 theorems.
+
+User picked **Option C** over Options A (leave alone) and B (erratum) because the paper-1 LaTeX hasn't shipped externally (still draft), so re-opening is feasible.
+
+**Implication:**
+- Paper-1's main theorem `JEPA_dynamics_ordering` is now @[deprecated]; the corrected headline `JEPA_dynamics_ordering_corrected` lives in new `JepaLearningOrder/Corrected.lean` (stub; pending Aristotle helpers and an open-question resolution about λ_r = λ_s boundary).
+- Paper-2's corrected stack is fully sorry-free in `JepaRhoRecovery/Corrected.lean` (3 Aristotle-proved theorems: plateau-rate algebra, qualitative Saxe convergence, magnitude bridge via Metric+Classical.choice).
+- Original inverted-form theorems @[deprecated] but preserved as historical record; @[deprecated] gives compile-warnings on accidental use without breaking the import chain (no cross-file moves).
+- `diagAmp_ODE_corrected` discharged with HONEST vacuous-compactness disclaimer (parallel to existing accepted-vacuous `frozen_encoder_convergence`). A non-vacuous proof requires either strengthening `quasiStatic_approx` (probably impossible without a different model) or hand-deriving gradient cancellation via eigenbasis algebra (deferred to multi-session iteration with the user).
+- Empirical evidence + verification path is fully documented: `jepa-rho-recovery/CORRECTION_NOTE.md`, `experiments/RESULTS_session90_verification.md`, `experiments/ode_form_fit.py`, `experiments/aligned_init_probe.py`, `experiments/plateau_recover_corrected.py`.
