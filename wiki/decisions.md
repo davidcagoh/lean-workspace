@@ -4,6 +4,13 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## Axiom-promote `saxe_exact_solution_exists` (paper-1) matching paper-2's `bernoulli_exact_solution_exists`
+**Decision date:** 2026-05-22 (session 94)
+**Why:** Aristotle job `cd50d4c7` returned a verified counterexample to conjunct 4 (reachability) of `saxe_exact_solution_exists`. At `L=2, λ=ρ=1, ε=0.5, p=0.99999`, the hypothesis `h_t_max_reach` gives `t_max ≥ 2√2 ≈ 2.828` but RK4 integration shows the threshold reached only at `t ≈ 3.11`. Root cause: near the equilibrium `ρ^{1/L}`, the ODE speed vanishes, adding an `O(log(1/(1−p^L)))` correction unbounded as `p → 1`. The headline result fixes `p` once and for all bounded away from 1 — an Arora-era implicit assumption — so in-regime the claim is sound. Alternative options considered: (a) strengthen `h_t_max_reach` with `(1−p^L)` factor — threads `p`-dependence into every downstream caller; (b) split lemma, take f₀-reachability as separate hypothesis — paper-2 does this via axiomatization; (c) derive f₀-reachability from f-reachability via Grönwall — doesn't close cleanly (gives `τ_{f₀} ≤ τ_f + K·ε^α`, slightly worse than `t_max`). Paper-2's already-locked-in choice (`axiom bernoulli_exact_solution_exists` in `jepa-rho-recovery/JepaRhoRecovery/CriticalTime.lean:106`) is structurally identical: axiomatize Picard-Lindelöf existence + reachability as a single Path C axiom, document in CompCert convention.
+**Implication:** Paper-1's `Corrected.lean` is sorry-free with 1 named axiom (`saxe_exact_solution_exists`). The saxe trio (`saxe_exact_solution_exists` axiom / `saxe_gronwall_sandwich` proved / `saxe_singlepole_asymptotic` proved) is now structurally parallel to paper-2's bernoulli trio (axiom / axiom / axiom), with paper-1 the stronger side (2 of 3 proved). Future work: if Mathlib gains packaged Picard-Lindelöf-with-hitting-time-comparison, the axiom can be retired without changing downstream callers. The `(1−p^L)` factor is documented in the axiom docstring + paper Appendix D for future-proofing.
+
+---
+
 ## jepa-rho-recovery paper 3 (LeWM/SIGReg spinoff): framed as gradient-flow acceleration, not symmetry-breaking
 
 **Decision date:** 2026-05-20 (session 86)
