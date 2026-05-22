@@ -1,0 +1,193 @@
+// Tier 3a (combined) — all four SSB headline theorems on one canvas.
+// Three tiers: DEFINITIONS at bottom, LEMMAS in middle, THEOREMS at top.
+// Shared definitions appear once and fan out to multiple consumers.
+//
+// Visual stories to spot:
+//   T1 — has an unused hypothesis (isProvable, red dashed edge)
+//   T2 — only cross-file proof-step edge in SSB (weighted_sum_mono → successProb_mono)
+//   T3 — uses NO lemma; reaches definitions directly. Two dead helpers off to the side.
+//   T4 — no Defs dependencies; entirely self-contained. Dead Defs near-duplicate visible.
+
+digraph SSB_Combined_BuildUp {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.35, ranksep=1.1,
+         fontname="Helvetica", splines=true, ordering=out];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10,
+         margin="0.10,0.06"];
+  edge  [arrowsize=0.55];
+
+  // ═════════ Tier labels (invisible left column) ═════════
+  { rank=same;
+    tier_def    [shape=plaintext,
+                 label=<<FONT POINT-SIZE="11" COLOR="#666666"><B>DEFINITIONS</B></FONT>>];
+  }
+  { rank=same;
+    tier_lemma  [shape=plaintext,
+                 label=<<FONT POINT-SIZE="11" COLOR="#666666"><B>LEMMAS</B></FONT>>];
+  }
+  { rank=same;
+    tier_thm    [shape=plaintext,
+                 label=<<FONT POINT-SIZE="11" COLOR="#666666"><B>THEOREMS</B></FONT>>];
+  }
+  tier_def -> tier_lemma -> tier_thm [style=invis];
+
+  // ═════════ DEFINITIONS row ═════════
+  { rank=same;
+    tier_def;
+
+    // T1-specific defs
+    maxAndBranch [label=<<B>max AND-branch</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">maxAndBranch t ≤ b</FONT>>,
+                  fillcolor="#cfe2f3", color="#1f4e79"];
+    proofDepth   [label=<<B>proof depth</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">proofDepth t ≤ d</FONT>>,
+                  fillcolor="#cfe2f3", color="#1f4e79"];
+    isProvable   [label=<<B>tree is provable</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">isProvable t = true</FONT><BR/><FONT POINT-SIZE="7" COLOR="#cc6666"><I>⚠ unused in T1</I></FONT>>,
+                  fillcolor="#fff8f0", color="#cc6666",
+                  style="rounded,filled,dashed"];
+
+    // Shared defs
+    AOTree       [label=<<B>AND-OR hypertree</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">AOTree α</FONT>>,
+                  shape=hexagon, fillcolor="#cfe2f3", color="#1f4e79"];
+    successProb  [label=<<B>success probability</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">successProb π t nid</FONT>>,
+                  fillcolor="#cfe2f3", color="#1f4e79"];
+
+    // T2-specific
+    weightedSum  [label=<<B>weighted-sum monotonicity</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">NNReal.weighted_sum_mono</FONT>>,
+                  fillcolor="#cfe2f3", color="#1f4e79"];
+    PolicyDom    [label=<<B>policy domination</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">PolicyDominates (T2 struct)</FONT>>,
+                  shape=hexagon, fillcolor="#fff2cc", color="#996600"];
+
+    // T3-specific
+    hasAndNode   [label=<<B>has AND-node of branching b</B><BR/><FONT POINT-SIZE="8" COLOR="#666666">hasAndNodeOfBranching (T3 def)</FONT>>,
+                  shape=hexagon, fillcolor="#fff2cc", color="#996600"];
+
+    // T4 "external" stand-in
+    mathlibOnly  [label=<<B>Mathlib only</B><BR/><FONT POINT-SIZE="8">Fin · NNReal · Finset</FONT>>,
+                  shape=note, fillcolor="#f5f5f5", color="#999999", fontsize=9];
+
+    // Dead Defs lemmas (deemphasized, off to the right)
+    deadProdLe   [label=<<B>NNReal.prod_le_pow_of_le</B><BR/><FONT POINT-SIZE="7" COLOR="#cc6666"><I>⚠ used only by a dead T3 helper</I></FONT>>,
+                  fillcolor="#ffffff", color="#cc6666",
+                  style="rounded,filled,dashed", fontsize=8];
+    deadSumProd  [label=<<B>sum_prod_erase_le_one</B><BR/><FONT POINT-SIZE="7" COLOR="#cc6666"><I>⚠ dead — T4 reinvents</I></FONT>>,
+                  fillcolor="#ffffff", color="#cc6666",
+                  style="rounded,filled,dashed", fontsize=8];
+  }
+
+  // ═════════ LEMMAS row ═════════
+  { rank=same;
+    tier_lemma;
+
+    // T1's lemma
+    lemma_t1 [label=<<B>Lemma 1.1</B><BR/><FONT POINT-SIZE="9">sp(π,t,0) ≥ (pmin/b)^d</FONT><BR/><FONT POINT-SIZE="7" COLOR="#666666">successProb_lower_bound</FONT>>,
+              fillcolor="#fff2cc", color="#996600", fontsize=10];
+
+    // T2's lemma
+    lemma_t2 [label=<<B>Lemma 2.1</B><BR/><FONT POINT-SIZE="9">π ≼ π'  ⇒  sp(π) ≤ sp(π')</FONT><BR/><FONT POINT-SIZE="7" COLOR="#666666">successProb_mono</FONT>>,
+              fillcolor="#fff2cc", color="#996600", fontsize=10];
+
+    // T3 has no live lemma — dead helpers placed here
+    dead_t3_eq [label=<<B>AND-node sp = product over children</B><BR/><FONT POINT-SIZE="7" COLOR="#cc6666"><I>⚠ T3 dead helper</I></FONT>>,
+                fillcolor="#ffffff", color="#cc6666",
+                style="rounded,filled,dashed", fontsize=8];
+    dead_t3_le [label=<<B>AND-node sp ≤ c^n</B><BR/><FONT POINT-SIZE="7" COLOR="#cc6666"><I>⚠ T3 dead helper</I></FONT>>,
+                fillcolor="#ffffff", color="#cc6666",
+                style="rounded,filled,dashed", fontsize=8];
+
+    // T4's lemma (the reinvention)
+    lemma_t4 [label=<<B>sum-prod-erase ≤ 1</B><BR/><FONT POINT-SIZE="9">∑ᵢ ∏_{j≠i} qⱼ ≤ 1</FONT><BR/><FONT POINT-SIZE="7" COLOR="#666666">sum_prod_erase_le_one' (T4)</FONT>>,
+              fillcolor="#fff2cc", color="#996600", fontsize=10];
+  }
+
+  // ═════════ THEOREMS row ═════════
+  { rank=same;
+    tier_thm;
+
+    thm_t1 [label=<<B>Theorem 1</B><BR/><FONT POINT-SIZE="11">1 / sp(π,t,0)  ≤  (1/pmin)^d · b^d</FONT><BR/><FONT POINT-SIZE="9"><I>hitting-time upper bound</I></FONT>>,
+            fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+            fontsize=11, width=2.5, height=0.9];
+
+    thm_t2 [label=<<B>Theorem 2</B><BR/><FONT POINT-SIZE="11">1 / sp(π',t,0)  ≤  1 / sp(π,t,0)</FONT><BR/><FONT POINT-SIZE="9"><I>policy improvement reduces hitting time</I></FONT>>,
+            fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+            fontsize=11, width=2.7, height=0.9];
+
+    thm_t3 [label=<<B>Theorem 3</B><BR/><FONT POINT-SIZE="11">1 / sp(π,t,0)  ≥  (1/(1−ε))^b</FONT><BR/><FONT POINT-SIZE="9"><I>AND-branching lower bound</I></FONT>>,
+            fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+            fontsize=11, width=2.5, height=0.9];
+
+    thm_t4 [label=<<B>Theorem 4</B><BR/><FONT POINT-SIZE="11">∑ᵢ 1/qᵢ  ≤  ∏ᵢ 1/qᵢ</FONT><BR/><FONT POINT-SIZE="9"><I>sequential ≤ parallel</I></FONT>>,
+            fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+            fontsize=11, width=2.5, height=0.9];
+  }
+
+  // ═════════ Definitional edges (blue, thin) — defs → lemmas ═════════
+  edge [color="#1f4e79", penwidth=1.2, arrowsize=0.55];
+
+  // T1's lemma
+  AOTree       -> lemma_t1;
+  successProb  -> lemma_t1;
+  maxAndBranch -> lemma_t1;
+  proofDepth   -> lemma_t1;
+
+  // T2's lemma
+  AOTree      -> lemma_t2;
+  successProb -> lemma_t2;
+  edge [color="#996600", penwidth=1.2];
+  PolicyDom   -> lemma_t2;
+
+  // T3's theorem (no lemma intermediary)
+  edge [color="#1f4e79", penwidth=1.2];
+  AOTree      -> thm_t3;
+  successProb -> thm_t3;
+  edge [color="#996600", penwidth=1.2];
+  hasAndNode  -> thm_t3;
+
+  // T4: Mathlib only → T4's lemma
+  edge [color="#999999", penwidth=1.0, style=dashed];
+  mathlibOnly -> lemma_t4;
+
+  // ═════════ Unused-hypothesis edge (red dashed) ═════════
+  edge [color="#cc6666", penwidth=1.0, style=dashed];
+  isProvable -> thm_t1 [label="unused", fontsize=8, fontcolor="#cc6666"];
+
+  // ═════════ Dead-helper internal edge ═════════
+  edge [color="#cc6666", penwidth=0.8, style=dashed];
+  dead_t3_eq -> dead_t3_le [label="uses", fontsize=7, fontcolor="#cc6666"];
+
+  // ═════════ Proof-step edges (red, thick) — lemmas → theorems ═════════
+  edge [color="#990000", penwidth=2.4, style=solid];
+  lemma_t1 -> thm_t1 [label=" applied", fontsize=9, fontcolor="#990000"];
+  lemma_t2 -> thm_t2 [label=" applied", fontsize=9, fontcolor="#990000"];
+  lemma_t4 -> thm_t4 [label=" applied", fontsize=9, fontcolor="#990000"];
+
+  // ═════════ Cross-file proof step (T2 only — the unique-in-SSB one) ═════════
+  weightedSum -> lemma_t2 [label="  applied (cross-file!)", fontsize=9, fontcolor="#990000"];
+
+  // ═════════ Legend ═════════
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="3" CELLPADDING="3"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>SSB math build-up (all 4 theorems)</B></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9">read bottom → top</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from Defs.lean</FONT></TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from a Theorem*.lean</FONT></TD></TR>
+      <TR><TD BGCOLOR="#f5f5f5" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">external (Mathlib)</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#990000"><B>━━</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">proof-step (lemma applied)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#1f4e79"><B>──</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">definitional dep</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#cc6666">┄┄</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">unused / dead</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9"><B>Things to spot:</B></FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">• T1's unused isProvable hypothesis</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">• T2's unique cross-file proof step</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">• T3 reaches definitions directly; two dead helpers float in lemma tier</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">• T4 uses no Defs; near-duplicate sits dead</FONT></TD></TR>
+    </TABLE>
+  >];
+}

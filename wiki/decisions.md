@@ -939,3 +939,17 @@ User picked **Option C** over Options A (leave alone) and B (erratum) because th
 - Paper-1's `Corrected.lean` now uses the SAME statement-honesty vocabulary as paper-2's `CriticalTime.lean`. If/when paper-2 is Lake-depended on paper-1 (currently disallowed by paper-2's CLAUDE.md), the statements would compose without translation.
 - Paper-2 is completely unaffected: its `Corrected.lean` is structurally immune (qualitative convergence + per-ε T extraction), its `CriticalTime.lean` already had the discipline. Paper-2 build stays at 0 sorry / 5 named axioms.
 - If `cd50d4c7` and/or `4d237506` come back as further disproofs/evasions, escalate to named-axiom promotion matching paper-2's pattern exactly (paper-2 used Aristotle COMPLETE_WITH_ERRORS as the trigger to axiom-promote on 2026-05-20; same path available here).
+
+
+## Graph-audit framework as written protocol, not maintained script (session 93)
+**Decision date:** 2026-05-22
+**Why:** Built `stochastic-proofs-handbook/scripts/graph_audit.py` to automate the tier-1 import graph + tier-3b god-module zoom for all 4 projects, validated against the manually-produced audits, then deleted it. Three reasons: (1) at 3-4 projects audited a few times a year, per-run savings (~15 min/project) don't justify maintenance overhead. (2) Greedy modularity auto-clustering on `JEPA.lean` produced *technically more modular* but *less actionable* partitions than judgment-driven clustering — the algorithm optimizes intra/inter edge ratio without caring about LOC balance or topical readability. (3) The visualizations were ~90% scriptable but the *interpretation* (which findings are real, which are intentional staging artifacts per session log) is irreducibly human. User picked **delete script + write `wiki/graph-audit-strategy.md` protocol** modeled after `aristotle-strategy.md`, over (a) ship script as v1 with documented limitations, (b) add manual-override JSON config, (c) defer.
+
+**Implication:**
+- `wiki/graph-audit-strategy.md` is the durable home for the audit methodology — when to trigger, what to extract, encoding conventions, reading order, structure-vs-intent caveat. Contains inline shell + Python snippets (the parsing/cluster-counting code) so future runs are 30 minutes of focused work, not hour-plus of re-derivation.
+- `wiki/audits/<project>/` holds the produced artifacts as worked examples + ground-truth references the strategy doc points at.
+- `wiki/audits/_methodology/` holds the per-tier encoding details extracted from the tier-specific READMEs we wrote during development.
+- Threshold for revisiting automation explicitly recorded in the strategy doc: ≥ 10 projects or monthly cadence. Until then, written protocol beats code.
+- Tier 1 + Tier 3b is the *minimum* workflow for editing-pain triage. Tier 3a (per-theorem build-up) is a *separate optional* code-quality pass — catches dead lemmas / unused hypotheses / math-vs-import mismatches, which are distinct from editing pain. Don't conflate the two.
+- Per-project organization (not per-tier) chosen for `wiki/audits/` after producing both — finding everything for one project in one place beats finding all tier-1s together.
+- General methodological learning for the workspace: at our scale, **automation cost should not be assumed positive** — durable written protocol with inline snippets is often the right shape, matching what `aristotle-strategy.md` does for proof submission.

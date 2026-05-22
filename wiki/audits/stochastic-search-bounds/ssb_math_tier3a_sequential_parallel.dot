@@ -1,0 +1,80 @@
+// Tier 3a — sequential_le_parallel (Theorem 4)
+// Striking: ZERO Defs nodes feeding up. T4 is structurally self-contained.
+
+digraph SSB_T4_BuildUp {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.5, ranksep=0.95, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11,
+         margin="0.12,0.07"];
+  edge  [arrowsize=0.7];
+
+  { rank=same;
+    tier_def    [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>DEFINITIONS</B></FONT>>];
+  }
+  { rank=same;
+    tier_lemma  [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>LEMMA</B></FONT>>];
+  }
+  { rank=same;
+    tier_thm    [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>THEOREM</B></FONT>>];
+  }
+  tier_def -> tier_lemma -> tier_thm [style=invis];
+
+  // ───── Definitions row: only Mathlib primitives (no Defs.lean!) ─────
+  { rank=same;
+    mathlib_box [label=<<B>Mathlib only</B><BR/><FONT POINT-SIZE="9">Fin · NNReal · Finset (sum, prod)</FONT><BR/><FONT POINT-SIZE="9" COLOR="#666666">no symbol from Defs.lean is used</FONT>>,
+                 shape=note, fillcolor="#f5f5f5", color="#999999",
+                 style="filled", fontsize=10];
+
+    dead_defs_lemma [label=<<B>sum-prod-erase ≤ 1  (n ≥ 2, qᵢ ≤ ½)</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">Defs.sum_prod_erase_le_one</FONT><BR/><FONT POINT-SIZE="8" COLOR="#cc6666"><I>⚠ dead — T4 reinvents the same lemma as sum_prod_erase_le_one'</I></FONT>>,
+                     fillcolor="#ffffff", color="#cc6666",
+                     style="rounded,filled,dashed", fontsize=10];
+
+    tier_def;
+  }
+
+  // ───── Lemma row (T4's reinvented version) ─────
+  { rank=same;
+    lemma_spe [label=<<B>sum-prod-erase ≤ 1  (T4's reinvention)</B><BR/><FONT POINT-SIZE="10">∑ᵢ ∏_{j≠i} qⱼ  ≤  1</FONT><BR/><FONT POINT-SIZE="9" COLOR="#666666">sum_prod_erase_le_one'</FONT>>,
+               fillcolor="#fff2cc", color="#996600", fontsize=11];
+    tier_lemma;
+  }
+
+  // ───── Theorem row ─────
+  { rank=same;
+    thm_main [label=<<B>Theorem 4: sequential ≤ parallel</B><BR/><FONT POINT-SIZE="11">∑ᵢ 1/qᵢ  ≤  ∏ᵢ 1/qᵢ   (for n ≥ 2, qᵢ ≤ ½)</FONT><BR/><FONT POINT-SIZE="9" COLOR="#666666">sequential_le_parallel</FONT>>,
+              fillcolor="#fff2cc", color="#996600", penwidth=3,
+              fontsize=13, width=3.6, height=1.0];
+    tier_thm;
+  }
+
+  // ───── Mathlib → lemma (definitional, light gray) ─────
+  edge [color="#999999", penwidth=1.0, style=dashed];
+  mathlib_box -> lemma_spe;
+
+  // ───── Lemma → theorem (proof step) ─────
+  edge [color="#990000", penwidth=2.8, style=solid];
+  lemma_spe   -> thm_main [label="  applied in proof", fontsize=10, fontcolor="#990000"];
+
+  // ───── Legend ─────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="3" CELLPADDING="3"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Per-theorem build-up</B></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9">read bottom → top</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from Theorem4.lean</FONT></TD></TR>
+      <TR><TD BGCOLOR="#f5f5f5" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">external (Mathlib)</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#990000"><B>━━</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">proof-step (lemma applied)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#999999">┄┄</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">Mathlib dep</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#cc6666">┄┄</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">dead code</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" COLSPAN="2"><FONT POINT-SIZE="9"><B>Striking:</B> no Defs.lean<BR/>symbol is used. Yet T4<BR/>imports Defs anyway, and<BR/>Defs has a near-duplicate<BR/>of T4's lemma sitting dead.</FONT></TD></TR>
+    </TABLE>
+  >];
+}

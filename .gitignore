@@ -1,8 +1,9 @@
 # Lean proof projects — each has its own git repo
-jepa-learning-order/
-jepa-rho-recovery/
-simplicial-latent-geometry/
-stochastic-search-bounds/
+# (leading `/` anchors to repo root so wiki/audits/<project>/ artifacts aren't matched)
+/jepa-learning-order/
+/jepa-rho-recovery/
+/simplicial-latent-geometry/
+/stochastic-search-bounds/
 
 # Shared Mathlib/Lake package cache — large, not tracked
 .lean-packages/

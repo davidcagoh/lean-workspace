@@ -1,0 +1,136 @@
+digraph JEPA_RhoRecovery_Import {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.4, ranksep=0.8, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge  [color="#666666", arrowsize=0.7];
+
+  // Foundation (real foundation here — not a stub like learning-order's Basic)
+  Basic [label="Basic.lean\n125 LOC",
+         fillcolor="#cfe2f3", color="#1f4e79", penwidth=5,
+         width=1.0, height=0.7];
+
+  // Theorem-cluster / helper files (single-topic each)
+  // Border thickness ∝ fan-in (excluding umbrella):
+  //   Inversion: 4 | SignedODE: 3 | SampleNoise: 3 | DiagonalODE: 2
+  //   PlateauEstimator: 2 | QuasiStatic: 2 | CriticalTime: 1 | MixedOrdering: 1
+  //   FiniteSample: 1 | NegBranchHelpers: 1 | EarlySlopeGronwall: 1
+
+  Inversion        [label="Inversion\n265 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=3,
+                    width=0.9, height=0.6];
+  SignedODE        [label="SignedODE\n396 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+                    width=1.0, height=0.65];
+  DiagonalODE      [label="DiagonalODE\n681 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=2,
+                    width=1.25, height=0.85];
+  CriticalTime     [label="CriticalTime\n626 LOC\n(2 sub-clusters)",
+                    fillcolor="#fff2cc", color="#996600", penwidth=1.5,
+                    width=1.2, height=0.8];
+  PlateauEstimator [label="PlateauEstimator\n567 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=2,
+                    width=1.15, height=0.75];
+  QuasiStatic      [label="QuasiStatic\n153 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=2,
+                    width=0.8, height=0.55];
+  SampleNoise      [label="SampleNoise\n143 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+                    width=0.8, height=0.55];
+  FiniteSample     [label="FiniteSample\n274 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=1.5,
+                    width=0.9, height=0.6];
+  MixedOrdering    [label="MixedOrdering\n171 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=1.5,
+                    width=0.85, height=0.55];
+
+  // Helpers (named *Helpers, single-cluster)
+  NegBranchHelpers    [label="NegBranchHelpers\n176 LOC",
+                       fillcolor="#efefef", color="#666666", penwidth=1.5,
+                       width=0.85, height=0.55];
+  EarlySlopeGronwall  [label="EarlySlopeGronwall\n327 LOC",
+                       fillcolor="#efefef", color="#666666", penwidth=1.5,
+                       width=0.95, height=0.6];
+
+  // Synthesis (assemble many siblings)
+  SignedRecovery   [label="SignedRecovery\n798 LOC\n(headline)",
+                    fillcolor="#fff2cc", color="#996600", penwidth=1.5,
+                    width=1.4, height=0.9];
+  Main             [label="Main\n332 LOC",
+                    fillcolor="#fff2cc", color="#996600", penwidth=1,
+                    width=0.95, height=0.6];
+
+  // Deprecation artifact (Corrected) and staged placeholder (Concentration)
+  Corrected     [label="Corrected\n302 LOC\n(deprecation policy)",
+                 fillcolor="#fff2cc", color="#996600", penwidth=1,
+                 width=1.0, height=0.7];
+  Concentration [label="Concentration\n79 LOC\n(staged — paper 3)",
+                 fillcolor="#ffffff", color="#999999",
+                 style="rounded,filled,dashed",
+                 width=0.9, height=0.6, fontsize=9];
+
+  // ───────── Edges (importer → imported) ─────────
+  // Level 1: everything imports Basic
+  Corrected         -> Basic;
+  CriticalTime      -> Basic;
+  DiagonalODE       -> Basic;
+  Inversion         -> Basic;
+  PlateauEstimator  -> Basic;
+  QuasiStatic       -> Basic;
+  SampleNoise       -> Basic;
+  SignedODE         -> Basic;
+
+  // Level 2: things importing other helpers/theorems
+  MixedOrdering    -> Basic;
+  MixedOrdering    -> SignedODE;
+  MixedOrdering    -> Inversion;
+
+  Concentration    -> Basic;
+  Concentration    -> SampleNoise;
+
+  FiniteSample     -> Basic;
+  FiniteSample     -> SampleNoise;
+  FiniteSample     -> Inversion;
+  FiniteSample     -> PlateauEstimator;
+
+  // Level 3: synthesis
+  SignedRecovery   -> Basic;
+  SignedRecovery   -> QuasiStatic;
+  SignedRecovery   -> Inversion;
+  SignedRecovery   -> SignedODE;
+  SignedRecovery   -> DiagonalODE;
+  SignedRecovery   -> CriticalTime;
+  SignedRecovery   -> NegBranchHelpers;
+  SignedRecovery   -> EarlySlopeGronwall;
+
+  Main             -> Basic;
+  Main             -> QuasiStatic;
+  Main             -> DiagonalODE;
+  Main             -> Inversion;
+  Main             -> SignedODE;
+  Main             -> SignedRecovery;
+  Main             -> PlateauEstimator;
+  Main             -> MixedOrdering;
+  Main             -> SampleNoise;
+  Main             -> FiniteSample;
+
+  // ───────── Legend ─────────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="4"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Legend</B></TD></TR>
+      <TR><TD BGCOLOR="#f4cccc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">god-module (multi-cluster)</TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">foundation (heavy fan-in)</TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">synthesis (headline / glue)</TD></TR>
+      <TR><TD BGCOLOR="#efefef" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">helper (single-cluster lemmas)</TD></TR>
+      <TR><TD BGCOLOR="#ffffff" WIDTH="22" HEIGHT="14"><FONT POINT-SIZE="10">┄┄</FONT></TD>
+          <TD ALIGN="LEFT">orphan / stub (check intent)</TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="10">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">node size ∝ LOC</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">border thickness ∝ fan-in<BR/>(downstream invalidation cost)</FONT></TD></TR>
+    </TABLE>
+  >];
+}

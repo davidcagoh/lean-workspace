@@ -1,0 +1,99 @@
+// Tier 3a (per-theorem proof tree) — hitting_time_upper_bound (Theorem 1)
+// Minimal-direct edges: a node connects only to its DIRECT dependencies.
+// Transitive dependencies (e.g. theorem indirectly using AOTree via the lemma)
+// are implied by following the chain — not drawn explicitly.
+
+digraph SSB_T1_BuildUp {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.5, ranksep=0.95, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11,
+         margin="0.12,0.07"];
+  edge  [arrowsize=0.7];
+
+  // ───── Tier labels on the left (invisible-edge column) ─────
+  { rank=same;
+    tier_def    [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>DEFINITIONS</B></FONT>>];
+  }
+  { rank=same;
+    tier_lemma  [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>LEMMA</B></FONT>>];
+  }
+  { rank=same;
+    tier_thm    [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>THEOREM</B></FONT>>];
+  }
+  tier_def -> tier_lemma -> tier_thm [style=invis];
+
+  // ───── Bottom: definitions (blue, from Defs.lean) ─────
+  { rank=same;
+    AOTree [label=<<B>AND-OR hypertree</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">AOTree α</FONT>>,
+            shape=hexagon, fillcolor="#cfe2f3", color="#1f4e79", fontsize=10];
+
+    successProb [label=<<B>success probability under policy π</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">successProb π t nid</FONT>>,
+                 fillcolor="#cfe2f3", color="#1f4e79", fontsize=10];
+
+    maxAndBranch [label=<<B>max AND-branching factor</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">maxAndBranch t ≤ b</FONT>>,
+                  fillcolor="#cfe2f3", color="#1f4e79", fontsize=10];
+
+    proofDepth [label=<<B>shallowest proof depth</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">proofDepth t ≤ d</FONT>>,
+                fillcolor="#cfe2f3", color="#1f4e79", fontsize=10];
+
+    isProvable [label=<<B>tree is provable</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">isProvable t = true</FONT><BR/><FONT POINT-SIZE="8" COLOR="#cc6666"><I>⚠ declared but unused in proof</I></FONT>>,
+                fillcolor="#fff8f0", color="#cc6666",
+                style="rounded,filled,dashed", fontsize=10];
+
+    tier_def;
+  }
+
+  // ───── Middle: lemma (yellow, from Theorem1.lean) ─────
+  { rank=same;
+    lemma_sp_lb [label=<<B>Lemma 1.1: sp lower bound</B><BR/><FONT POINT-SIZE="10">sp(π,t,0) ≥ (pmin / b)^d</FONT><BR/><FONT POINT-SIZE="9" COLOR="#666666">successProb_lower_bound</FONT>>,
+                 fillcolor="#fff2cc", color="#996600", fontsize=11];
+    tier_lemma;
+  }
+
+  // ───── Top: theorem (yellow, prominent) ─────
+  { rank=same;
+    thm_main [label=<<B>Theorem 1: hitting-time upper bound</B><BR/><FONT POINT-SIZE="11">1 / sp(π,t,0)  ≤  (1/pmin)^d · b^d</FONT><BR/><FONT POINT-SIZE="9" COLOR="#666666">hitting_time_upper_bound</FONT>>,
+              fillcolor="#fff2cc", color="#996600", penwidth=3,
+              fontsize=13, width=3.6, height=1.0];
+    tier_thm;
+  }
+
+  // ───── Edges: definitions → lemma (the lemma's direct deps) ─────
+  edge [color="#1f4e79", penwidth=1.4];
+  AOTree       -> lemma_sp_lb;
+  successProb  -> lemma_sp_lb;
+  maxAndBranch -> lemma_sp_lb;
+  proofDepth   -> lemma_sp_lb;
+
+  // ───── Edges: directly into theorem (only what's NOT transitively reachable) ─────
+  // The lemma already gives the theorem: AOTree, successProb, maxAndBranch, proofDepth.
+  // isProvable does NOT appear in the lemma — it's a direct (but unused) theorem dep.
+  edge [color="#cc6666", penwidth=1.0, style=dashed];
+  isProvable   -> thm_main [label="unused", fontsize=8, fontcolor="#cc6666"];
+
+  // ───── Edge: lemma → theorem (the actual proof step) ─────
+  edge [color="#990000", penwidth=2.8, style=solid];
+  lemma_sp_lb  -> thm_main [label="  applied in proof", fontsize=10, fontcolor="#990000"];
+
+  // ───── Legend ─────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="3" CELLPADDING="3"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Per-theorem build-up</B></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9">read bottom → top</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9">edges = <B>direct</B> dependencies only<BR/>(transitive deps follow the chain)</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from Defs.lean</FONT></TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from Theorem1.lean</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#990000"><B>━━</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">proof-step (lemma applied)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#1f4e79"><B>──</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">definitional dep</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#cc6666">┄┄</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">declared but unused</FONT></TD></TR>
+    </TABLE>
+  >];
+}

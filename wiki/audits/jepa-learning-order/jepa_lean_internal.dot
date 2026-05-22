@@ -1,0 +1,272 @@
+digraph JEPA_Internal {
+  rankdir=LR;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.15, ranksep=1.1,
+         fontname="Helvetica", splines=true, compound=true,
+         ratio="0.65", newrank=true];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica",
+         fontsize=9, margin="0.06,0.04", height=0.35];
+  edge  [arrowsize=0.45, penwidth=0.6];
+
+  subgraph cluster_Core {
+    label=<<B>Core (definitions + operators)<BR/>~110 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#1f4e79";
+    fontname="Helvetica"; fontsize=10; fontcolor="#1f4e79";
+    margin=8;
+    node [fillcolor="#cfe2f3", color="#1f4e79"];
+    matFrobNorm [label="matFrobNorm"];
+    JEPAData [label="JEPAData"];
+    regressionOperator [label="regressionOperator"];
+    JEPALoss [label="JEPALoss"];
+    gradV [label="gradV"];
+    gradWbar [label="gradWbar"];
+    GenEigenpair [label="GenEigenpair"];
+    GenEigenbasis [label="GenEigenbasis"];
+    dualBasis [label="dualBasis"];
+    projectedCovariance [label="projectedCovariance"];
+    diagAmplitude [label="diagAmplitude"];
+    offDiagAmplitude [label="offDiagAmplitude"];
+    preconditioner [label="preconditioner"];
+  }
+  subgraph cluster_QuasiStatic {
+    label=<<B>QuasiStatic<BR/>~235 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#38761d";
+    fontname="Helvetica"; fontsize=10; fontcolor="#38761d";
+    margin=8;
+    node [fillcolor="#d9ead3", color="#38761d"];
+    gradient_projection [label="gradient_projection"];
+    BalancedInit [label="BalancedInit"];
+    quasiStaticDecoder [label="quasiStaticDecoder"];
+    quasiStatic_approx [label="quasiStatic_approx"];
+  }
+  subgraph cluster_CriticalTime {
+    label=<<B>CriticalTime<BR/>~90 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#996600";
+    fontname="Helvetica"; fontsize=10; fontcolor="#996600";
+    margin=8;
+    node [fillcolor="#fff2cc", color="#996600"];
+    critical_time_formula [label="critical_time_formula"];
+    critical_time_ordering [label="critical_time_ordering"];
+  }
+  subgraph cluster_Bernoulli {
+    label=<<B>Bernoulli<BR/>~195 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#b45f06";
+    fontname="Helvetica"; fontsize=10; fontcolor="#b45f06";
+    margin=8;
+    node [fillcolor="#fce5cd", color="#b45f06"];
+    hittingTime [label="hittingTime"];
+    bernoulli_partial_fractions [label="bernoulli_partial_fractions"];
+    exists_const_of_hasDerivAt_const [label="exists_const_of_hasDerivAt_const"];
+    rpow_div_pow_eq [label="rpow_div_pow_eq"];
+    bernoulli_antideriv_hasDerivAt [label="bernoulli_antideriv_hasDerivAt"];
+    jepa_bernoulli_solution_WRONG [label="jepa_bernoulli_solution_WRONG\n⚠ WRONG (archived)", style="rounded,filled,dashed", color="#cc6666", fontsize=8];
+    jepa_bernoulli_solution [label="jepa_bernoulli_solution"];
+    jepa_critical_time_diag [label="jepa_critical_time_diag"];
+  }
+  subgraph cluster_DiagAmpODE {
+    label=<<B>DiagAmpODE<BR/>~250 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#990000";
+    fontname="Helvetica"; fontsize=10; fontcolor="#990000";
+    margin=8;
+    node [fillcolor="#f4cccc", color="#990000"];
+    diagAmp_ODE [label="diagAmp_ODE"];
+    bernoulli_laurent_bound [label="bernoulli_laurent_bound"];
+    actual_critical_time [label="actual_critical_time"];
+  }
+  subgraph cluster_FrobeniusHelpers {
+    label=<<B>FrobeniusHelpers<BR/>~210 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#741b47";
+    fontname="Helvetica"; fontsize=10; fontcolor="#741b47";
+    margin=8;
+    node [fillcolor="#ead1dc", color="#741b47"];
+    cauchy_schwarz_frob [label="cauchy_schwarz_frob"];
+    hasDerivAt_sum_sq [label="hasDerivAt_sum_sq"];
+    hasDerivAt_matFrobNorm_of_ne_zero [label="hasDerivAt_matFrobNorm_of_ne_zero"];
+    matrix_isUnit_det_of_frob_lower_bound [label="matrix_isUnit_det_of_frob_lower_bound"];
+    quasiStatic_mul_cancel [label="quasiStatic_mul_cancel"];
+    wbarSigma_posDef [label="wbarSigma_posDef"];
+    frob_contraction_bound [label="frob_contraction_bound"];
+    gradV_eq_delta_mul_A [label="gradV_eq_delta_mul_A"];
+    uniform_frob_contraction [label="uniform_frob_contraction"];
+  }
+  subgraph cluster_EncoderConvergence {
+    label=<<B>EncoderConvergence<BR/>~378 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#351c75";
+    fontname="Helvetica"; fontsize=10; fontcolor="#351c75";
+    margin=8;
+    node [fillcolor="#d9d2e9", color="#351c75"];
+    contraction_ode_structure [label="contraction_ode_structure"];
+    matFrobNorm_sub_le [label="matFrobNorm_sub_le"];
+    frozen_contraction_frob_bound [label="frozen_contraction_frob_bound"];
+    exp_neg_log_eq_rpow [label="exp_neg_log_eq_rpow"];
+    eps_pow_mul_le [label="eps_pow_mul_le"];
+    frozen_tracking_continuousOn [label="frozen_tracking_continuousOn"];
+    frozen_encoder_convergence [label="frozen_encoder_convergence"];
+  }
+  subgraph cluster_OffDiagFinal {
+    label=<<B>OffDiagFinal<BR/>~494 LOC</B>>;
+    labelloc="t"; labeljust="l";
+    style="rounded,filled"; fillcolor="#ffffff"; color="#7f6000";
+    fontname="Helvetica"; fontsize=10; fontcolor="#7f6000";
+    margin=8;
+    node [fillcolor="#ffe599", color="#7f6000"];
+    offDiag_ODE [label="offDiag_ODE"];
+    preconditioner_integral_bounded [label="preconditioner_integral_bounded"];
+    preconditioner_integral_diverges_L1 [label="preconditioner_integral_diverges_L1"];
+    offDiag_bound [label="offDiag_bound", penwidth=2, fontsize=10];
+    sinAngle [label="sinAngle"];
+    JEPA_rho_ordering [label="JEPA_rho_ordering", penwidth=3, fontsize=11, fontcolor="#7f6000"];
+  }
+
+  // Within-cluster edges (light gray, thin)
+  JEPALoss -> gradV [color="#cccccc", penwidth=0.5];
+  GenEigenbasis -> GenEigenpair [color="#cccccc", penwidth=0.5];
+  diagAmplitude -> dualBasis [color="#cccccc", penwidth=0.5];
+  offDiagAmplitude -> dualBasis [color="#cccccc", penwidth=0.5];
+  preconditioner -> GenEigenpair [color="#cccccc", penwidth=0.5];
+  quasiStatic_approx -> quasiStaticDecoder [color="#cccccc", penwidth=0.5];
+  critical_time_ordering -> critical_time_formula [color="#cccccc", penwidth=0.5];
+  bernoulli_antideriv_hasDerivAt -> bernoulli_partial_fractions [color="#cccccc", penwidth=0.5];
+  bernoulli_antideriv_hasDerivAt -> jepa_bernoulli_solution [color="#cccccc", penwidth=0.5];
+  jepa_bernoulli_solution -> exists_const_of_hasDerivAt_const [color="#cccccc", penwidth=0.5];
+  jepa_bernoulli_solution -> bernoulli_antideriv_hasDerivAt [color="#cccccc", penwidth=0.5];
+  jepa_critical_time_diag -> hittingTime [color="#cccccc", penwidth=0.5];
+  bernoulli_laurent_bound -> diagAmp_ODE [color="#cccccc", penwidth=0.5];
+  actual_critical_time -> bernoulli_laurent_bound [color="#cccccc", penwidth=0.5];
+  uniform_frob_contraction -> wbarSigma_posDef [color="#cccccc", penwidth=0.5];
+  frozen_encoder_convergence -> frozen_contraction_frob_bound [color="#cccccc", penwidth=0.5];
+  frozen_encoder_convergence -> frozen_tracking_continuousOn [color="#cccccc", penwidth=0.5];
+  frozen_encoder_convergence -> matFrobNorm_sub_le [color="#cccccc", penwidth=0.5];
+  sinAngle -> preconditioner_integral_diverges_L1 [color="#cccccc", penwidth=0.5];
+  JEPA_rho_ordering -> preconditioner_integral_diverges_L1 [color="#cccccc", penwidth=0.5];
+  JEPA_rho_ordering -> offDiag_bound [color="#cccccc", penwidth=0.5];
+  JEPA_rho_ordering -> sinAngle [color="#cccccc", penwidth=0.5];
+
+  // Into Core (light blue, medium)
+  gradient_projection -> gradWbar [color="#7ba6c9", penwidth=0.7];
+  quasiStatic_approx -> offDiagAmplitude [color="#7ba6c9", penwidth=0.7];
+  quasiStatic_approx -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  quasiStatic_approx -> gradV [color="#7ba6c9", penwidth=0.7];
+  critical_time_formula -> projectedCovariance [color="#7ba6c9", penwidth=0.7];
+  critical_time_ordering -> projectedCovariance [color="#7ba6c9", penwidth=0.7];
+  jepa_critical_time_diag -> diagAmplitude [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> projectedCovariance [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> offDiagAmplitude [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> diagAmplitude [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> dualBasis [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> gradWbar [color="#7ba6c9", penwidth=0.7];
+  diagAmp_ODE -> gradV [color="#7ba6c9", penwidth=0.7];
+  actual_critical_time -> projectedCovariance [color="#7ba6c9", penwidth=0.7];
+  actual_critical_time -> diagAmplitude [color="#7ba6c9", penwidth=0.7];
+  cauchy_schwarz_frob -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  hasDerivAt_sum_sq -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  hasDerivAt_matFrobNorm_of_ne_zero -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  matrix_isUnit_det_of_frob_lower_bound -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  wbarSigma_posDef -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  frob_contraction_bound -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  frob_contraction_bound -> gradV [color="#7ba6c9", penwidth=0.7];
+  gradV_eq_delta_mul_A -> gradV [color="#7ba6c9", penwidth=0.7];
+  uniform_frob_contraction -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  contraction_ode_structure -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  contraction_ode_structure -> gradV [color="#7ba6c9", penwidth=0.7];
+  matFrobNorm_sub_le -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  frozen_contraction_frob_bound -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  eps_pow_mul_le -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  frozen_tracking_continuousOn -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  frozen_tracking_continuousOn -> gradV [color="#7ba6c9", penwidth=0.7];
+  frozen_encoder_convergence -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  frozen_encoder_convergence -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  frozen_encoder_convergence -> dualBasis [color="#7ba6c9", penwidth=0.7];
+  frozen_encoder_convergence -> gradV [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> offDiagAmplitude [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> diagAmplitude [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> GenEigenpair [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> dualBasis [color="#7ba6c9", penwidth=0.7];
+  offDiag_ODE -> gradWbar [color="#7ba6c9", penwidth=0.7];
+  preconditioner_integral_bounded -> projectedCovariance [color="#7ba6c9", penwidth=0.7];
+  preconditioner_integral_bounded -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  preconditioner_integral_diverges_L1 -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  offDiag_bound -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  sinAngle -> offDiagAmplitude [color="#7ba6c9", penwidth=0.7];
+  sinAngle -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  sinAngle -> diagAmplitude [color="#7ba6c9", penwidth=0.7];
+  JEPA_rho_ordering -> projectedCovariance [color="#7ba6c9", penwidth=0.7];
+  JEPA_rho_ordering -> offDiagAmplitude [color="#7ba6c9", penwidth=0.7];
+  JEPA_rho_ordering -> preconditioner [color="#7ba6c9", penwidth=0.7];
+  JEPA_rho_ordering -> diagAmplitude [color="#7ba6c9", penwidth=0.7];
+  JEPA_rho_ordering -> matFrobNorm [color="#7ba6c9", penwidth=0.7];
+  JEPA_rho_ordering -> gradV [color="#7ba6c9", penwidth=0.7];
+
+  // Cross-cluster, non-Core (dark, thicker — the "real" coupling)
+  jepa_critical_time_diag -> offDiag_ODE [color="#444444", penwidth=1.3];
+  diagAmp_ODE -> jepa_critical_time_diag [color="#444444", penwidth=1.3];
+  diagAmp_ODE -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  diagAmp_ODE -> offDiag_ODE [color="#444444", penwidth=1.3];
+  bernoulli_laurent_bound -> hittingTime [color="#444444", penwidth=1.3];
+  actual_critical_time -> contraction_ode_structure [color="#444444", penwidth=1.3];
+  actual_critical_time -> hittingTime [color="#444444", penwidth=1.3];
+  gradV_eq_delta_mul_A -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  uniform_frob_contraction -> JEPA_rho_ordering [color="#444444", penwidth=1.3];
+  contraction_ode_structure -> matrix_isUnit_det_of_frob_lower_bound [color="#444444", penwidth=1.3];
+  contraction_ode_structure -> hasDerivAt_matFrobNorm_of_ne_zero [color="#444444", penwidth=1.3];
+  contraction_ode_structure -> uniform_frob_contraction [color="#444444", penwidth=1.3];
+  contraction_ode_structure -> gradV_eq_delta_mul_A [color="#444444", penwidth=1.3];
+  contraction_ode_structure -> cauchy_schwarz_frob [color="#444444", penwidth=1.3];
+  contraction_ode_structure -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  frozen_contraction_frob_bound -> wbarSigma_posDef [color="#444444", penwidth=1.3];
+  frozen_tracking_continuousOn -> hasDerivAt_matFrobNorm_of_ne_zero [color="#444444", penwidth=1.3];
+  frozen_tracking_continuousOn -> gradV_eq_delta_mul_A [color="#444444", penwidth=1.3];
+  frozen_tracking_continuousOn -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  frozen_tracking_continuousOn -> JEPA_rho_ordering [color="#444444", penwidth=1.3];
+  frozen_encoder_convergence -> matrix_isUnit_det_of_frob_lower_bound [color="#444444", penwidth=1.3];
+  frozen_encoder_convergence -> hasDerivAt_matFrobNorm_of_ne_zero [color="#444444", penwidth=1.3];
+  frozen_encoder_convergence -> gradV_eq_delta_mul_A [color="#444444", penwidth=1.3];
+  frozen_encoder_convergence -> gradient_projection [color="#444444", penwidth=1.3];
+  frozen_encoder_convergence -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  offDiag_ODE -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  sinAngle -> critical_time_ordering [color="#444444", penwidth=1.3];
+  JEPA_rho_ordering -> frozen_encoder_convergence [color="#444444", penwidth=1.3];
+  JEPA_rho_ordering -> contraction_ode_structure [color="#444444", penwidth=1.3];
+  JEPA_rho_ordering -> critical_time_ordering [color="#444444", penwidth=1.3];
+  JEPA_rho_ordering -> quasiStaticDecoder [color="#444444", penwidth=1.3];
+  JEPA_rho_ordering -> quasiStatic_approx [color="#444444", penwidth=1.3];
+  JEPA_rho_ordering -> BalancedInit [color="#444444", penwidth=1.3];
+
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="3" CELLPADDING="3"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>JEPA.lean internal math graph</B></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9">52 declarations · 112 internal edges</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9"><B>Edges</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9" COLOR="#cccccc">━━</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">within sub-cluster (22 edges)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9" COLOR="#7ba6c9">━━</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">into Core (68 edges — the foundation pull)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9" COLOR="#444444"><B>━━</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">between non-Core clusters (22 edges)</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9"><B>Biggest non-Core couplings:</B></FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">EncoderConvergence → FrobeniusHelpers (11)</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">OffDiagFinal → QuasiStatic (4)</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">EncoderConvergence → QuasiStatic (4)</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">DiagAmpODE → Bernoulli (3)</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9"><B>Read:</B></FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">Edges flow theorem → defs.</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">If Core split out, the blue</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="8">edges all become imports.</FONT></TD></TR>
+    </TABLE>
+  >];
+}
+

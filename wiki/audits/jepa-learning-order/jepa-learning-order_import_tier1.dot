@@ -1,0 +1,95 @@
+digraph JEPA_LearningOrder_Import {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.5, ranksep=0.9, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge  [color="#666666", arrowsize=0.7];
+
+  // Foundations
+  Lemmas [label="Lemmas.lean\n498 LOC",
+          fillcolor="#cfe2f3", color="#1f4e79", penwidth=4,
+          width=1.0, height=0.7];
+  Basic  [label="Basic.lean\n1 LOC (stub)",
+          fillcolor="#ffffff", color="#999999", style="rounded,filled,dashed",
+          width=0.6, height=0.4, fontsize=9];
+
+  // Orphan
+  GronwallIntegral [label="GronwallIntegral.lean\n136 LOC (unused)",
+                    fillcolor="#ffffff", color="#999999",
+                    style="rounded,filled,dashed",
+                    width=0.7, height=0.5, fontsize=10];
+
+  // GOD MODULE
+  JEPA [label="JEPA.lean\n2002 LOC ⚠\n(4 internal clusters)",
+        fillcolor="#f4cccc", color="#990000", penwidth=4,
+        width=2.5, height=1.4, fontsize=13];
+
+  // Helpers
+  OffDiagHelpers       [label="OffDiagHelpers\n37 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=2.5,
+                        width=0.6, height=0.4, fontsize=10];
+  PDLowerHelpers       [label="PDLowerHelpers\n194 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=2,
+                        width=0.7, height=0.5, fontsize=10];
+  LaurentHelpers       [label="LaurentHelpers\n65 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=1.5,
+                        width=0.6, height=0.4, fontsize=10];
+  SaxeAsymptoticHelpers[label="SaxeAsymptoticHelpers\n363 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=1.5,
+                        width=0.9, height=0.6, fontsize=10];
+
+  // Synthesis
+  BootstrapLemmas [label="BootstrapLemmas\n552 LOC",
+                   fillcolor="#fff2cc", color="#996600", penwidth=1.5,
+                   width=1.1, height=0.7];
+  MainTheorem     [label="MainTheorem\n300 LOC",
+                   fillcolor="#fff2cc", color="#996600", penwidth=1,
+                   width=0.8, height=0.6];
+  Corrected       [label="Corrected.lean\n894 LOC\n(headline, hardened)",
+                   fillcolor="#fff2cc", color="#996600", penwidth=1,
+                   width=1.4, height=0.8];
+
+  // (umbrella omitted — it imports everything; would add noise without information)
+
+  // Edges (import direction: importer → imported, drawn upward since rankdir=BT)
+  OffDiagHelpers       -> Lemmas;
+  JEPA                 -> Lemmas;
+  JEPA                 -> OffDiagHelpers;
+  PDLowerHelpers       -> Lemmas;
+  PDLowerHelpers       -> JEPA;
+  LaurentHelpers       -> JEPA;
+  SaxeAsymptoticHelpers-> JEPA;
+  BootstrapLemmas      -> Lemmas;
+  BootstrapLemmas      -> OffDiagHelpers;
+  BootstrapLemmas      -> JEPA;
+  BootstrapLemmas      -> PDLowerHelpers;
+  Corrected            -> JEPA;
+  Corrected            -> Lemmas;
+  Corrected            -> SaxeAsymptoticHelpers;
+  MainTheorem          -> Lemmas;
+  MainTheorem          -> OffDiagHelpers;
+  MainTheorem          -> JEPA;
+  MainTheorem          -> PDLowerHelpers;
+  MainTheorem          -> BootstrapLemmas;
+  MainTheorem          -> LaurentHelpers;
+
+  // ───────── Legend (single HTML-label node for tight, controllable spacing) ─────────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="4"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Legend</B></TD></TR>
+      <TR><TD BGCOLOR="#f4cccc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">god-module (multi-cluster)</TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">foundation (heavy fan-in)</TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">synthesis (headline / glue)</TD></TR>
+      <TR><TD BGCOLOR="#efefef" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">helper (single-cluster lemmas)</TD></TR>
+      <TR><TD BGCOLOR="#ffffff" WIDTH="22" HEIGHT="14"><FONT POINT-SIZE="10">┄┄</FONT></TD>
+          <TD ALIGN="LEFT">orphan / stub (check intent)</TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="10">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">node size ∝ LOC</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">border thickness ∝ fan-in<BR/>(downstream invalidation cost)</FONT></TD></TR>
+    </TABLE>
+  >];
+}

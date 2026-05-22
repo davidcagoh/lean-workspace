@@ -1,0 +1,87 @@
+// Tier 3a — and_branching_lower_bound (Theorem 3)
+// Shortest tree: theorem uses NO lemma. Two T3 helpers are dead-code.
+
+digraph SSB_T3_BuildUp {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.5, ranksep=0.95, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11,
+         margin="0.12,0.07"];
+  edge  [arrowsize=0.7];
+
+  { rank=same;
+    tier_def    [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>DEFINITIONS</B></FONT>>];
+  }
+  { rank=same;
+    tier_lemma  [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>LEMMA</B></FONT>>];
+  }
+  { rank=same;
+    tier_thm    [shape=plaintext, label=<<FONT POINT-SIZE="10" COLOR="#666666"><B>THEOREM</B></FONT>>];
+  }
+  tier_def -> tier_lemma -> tier_thm [style=invis];
+
+  // ───── Definitions row ─────
+  { rank=same;
+    AOTree [label=<<B>AND-OR hypertree</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">AOTree α</FONT>>,
+            shape=hexagon, fillcolor="#cfe2f3", color="#1f4e79", fontsize=10];
+
+    successProb [label=<<B>success probability under policy π</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">successProb π t nid</FONT>>,
+                 fillcolor="#cfe2f3", color="#1f4e79", fontsize=10];
+
+    hasAndNode [label=<<B>contains an AND node of branching b</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">hasAndNodeOfBranching b t (T3 predicate)</FONT>>,
+                shape=hexagon, fillcolor="#fff2cc", color="#996600", fontsize=10];
+
+    tier_def;
+  }
+
+  // ───── Lemma row — dead helpers (not load-bearing for the headline theorem) ─────
+  { rank=same;
+    dead_eq [label=<<B>AND-node success = product over children</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">successProb_andNode_eq</FONT><BR/><FONT POINT-SIZE="8" COLOR="#cc6666"><I>⚠ documented helper but not invoked</I></FONT>>,
+             fillcolor="#ffffff", color="#cc6666",
+             style="rounded,filled,dashed", fontsize=10];
+
+    dead_le [label=<<B>AND-node success ≤ c^n if each child ≤ c</B><BR/><FONT POINT-SIZE="9" COLOR="#666666">andNode_successProb_le</FONT><BR/><FONT POINT-SIZE="8" COLOR="#cc6666"><I>⚠ documented helper but not invoked</I></FONT>>,
+             fillcolor="#ffffff", color="#cc6666",
+             style="rounded,filled,dashed", fontsize=10];
+
+    tier_lemma;
+  }
+
+  // ───── Theorem row ─────
+  { rank=same;
+    thm_main [label=<<B>Theorem 3: AND-branching lower bound</B><BR/><FONT POINT-SIZE="11">sp(π,t,nid) ≤ (1−ε)^b   ⇒   1 / sp(π,t,0) ≥ (1/(1−ε))^b</FONT><BR/><FONT POINT-SIZE="9" COLOR="#666666">and_branching_lower_bound</FONT>>,
+              fillcolor="#fff2cc", color="#996600", penwidth=3,
+              fontsize=13, width=4.0, height=1.0];
+    tier_thm;
+  }
+
+  // ───── Dead helper internal edge (le uses eq) ─────
+  edge [color="#cc6666", penwidth=0.9, style=dashed];
+  dead_eq -> dead_le [label="uses (but le itself unused)", fontsize=8, fontcolor="#cc6666"];
+
+  // ───── Definitional deps directly into theorem (no lemma applied) ─────
+  edge [color="#1f4e79", penwidth=1.4, style=solid];
+  AOTree      -> thm_main;
+  successProb -> thm_main;
+  hasAndNode  -> thm_main [color="#996600"];
+
+  // ───── Legend ─────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="3" CELLPADDING="3"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Per-theorem build-up</B></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="9">read bottom → top</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from Defs.lean</FONT></TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="18" HEIGHT="12"></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">from Theorem3.lean</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#1f4e79"><B>──</B></FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">definitional dep</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="10" COLOR="#cc6666">┄┄</FONT></TD>
+          <TD ALIGN="LEFT"><FONT POINT-SIZE="9">dead code</FONT></TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="9">────────────</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" COLSPAN="2"><FONT POINT-SIZE="9"><B>Striking:</B> theorem uses no<BR/>lemma at all — the hypothesis<BR/><I>hpmax</I> is invoked directly.<BR/>Two declared helpers are dead.</FONT></TD></TR>
+    </TABLE>
+  >];
+}
