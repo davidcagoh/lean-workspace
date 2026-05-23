@@ -4,6 +4,26 @@ Design choices already locked in. Read before changing anything architectural.
 
 ---
 
+## audits/ layout: per-refactor approach-evaluation reports at root, per-project worked examples in subdirs
+
+**Decision date:** 2026-05-23 (session 96)
+
+**Why:** After the JEPA-LO split (session 95) produced both per-project artifacts and a methodology-evaluation report, the report was originally nested under `audits/jepa-learning-order/`. When the simplicial split followed in session 96 with its own evaluation report, two patterns competed: (a) keep each report under its project subdir, (b) promote evaluation reports to `audits/` root. Option (b) won because the evaluation reports form a meta-arc — "how is the methodology performing across refactors?" — that should be readable end-to-end without descending into per-project trees. Per-project subdirs hold raw audit artifacts (DOTs, SVGs, decl tables, pre-execution recommendations); root-level `REPORT-YYYY-MM-DD-<refactor>.md` files hold methodology critique that informs strategy-doc evolution.
+
+**Implication:** Future graph-audit refactors should follow this convention. Pre-execution recommendation → `audits/<project>/README.md`. Post-execution evaluation → `audits/REPORT-YYYY-MM-DD-<project>-split.md`. The strategy doc (`wiki/graph-audit-strategy.md`) links to root-level reports for "validated on N real-world refactors" claims; per-project subdirs are linked from the strategy doc's "Worked examples" table. `audits/README.md` indexes both. Do not move historical reports back into project subdirs even if their relative-path linkage looks tidier — the meta-arc readability is what's load-bearing.
+
+---
+
+## Graph-audit framework: validated on two real-world refactors; extraction script ready for promotion
+
+**Decision date:** 2026-05-23 (session 96)
+
+**Why:** JEPA-LO split (2002 LOC, 6 files, session 95) and simplicial split (5606 LOC, 15 files, session 96) both held the framework's structural predictions (cluster identity, mandatory merges, sub-package layout) within useful precision. The pre-registered ≥ 8-edge merge rule was load-bearing in both — 11-edge bond on JEPA-LO, 16-edge bond on simplicial — and both correctly prevented partition mistakes. **Structural confidence is genuinely high.** What did NOT generalize across scale was the extraction tooling: simplicial surfaced 8 distinct corner cases (regex misses, `'`-boundary bug, `private` cross-file invisibility, comment-only false edges, `open X in` placement, namespace wrapping, classical-open inference, decl-size blindness in cluster predictor) that required ~5 script iterations and ~30 minutes of build-fail-iterate to resolve. The battle-tested script lives at `audits/simplicial-latent-geometry/split_simplicial.py`.
+
+**Implication:** If a third god-module split candidate arises (likely `TorusIntegrals.lean` 1834 LOC, next in queue), promote the script to `stochastic-proofs-handbook/scripts/split_god_module.py` with all 8 fixes pre-applied — this overturns the session-93 "don't maintain a script" decision, justified by the new evidence that the corner-case catalog has stabilized. Until that third candidate, the inline `/tmp` approach is fine and the strategy doc's "Extraction-script pitfalls" section serves as the pre-flight checklist.
+
+---
+
 ## Axiom-promote `saxe_exact_solution_exists` (paper-1) matching paper-2's `bernoulli_exact_solution_exists`
 **Decision date:** 2026-05-22 (session 94)
 **Why:** Aristotle job `cd50d4c7` returned a verified counterexample to conjunct 4 (reachability) of `saxe_exact_solution_exists`. At `L=2, λ=ρ=1, ε=0.5, p=0.99999`, the hypothesis `h_t_max_reach` gives `t_max ≥ 2√2 ≈ 2.828` but RK4 integration shows the threshold reached only at `t ≈ 3.11`. Root cause: near the equilibrium `ρ^{1/L}`, the ODE speed vanishes, adding an `O(log(1/(1−p^L)))` correction unbounded as `p → 1`. The headline result fixes `p` once and for all bounded away from 1 — an Arora-era implicit assumption — so in-regime the claim is sound. Alternative options considered: (a) strengthen `h_t_max_reach` with `(1−p^L)` factor — threads `p`-dependence into every downstream caller; (b) split lemma, take f₀-reachability as separate hypothesis — paper-2 does this via axiomatization; (c) derive f₀-reachability from f-reachability via Grönwall — doesn't close cleanly (gives `τ_{f₀} ≤ τ_f + K·ε^α`, slightly worse than `t_max`). Paper-2's already-locked-in choice (`axiom bernoulli_exact_solution_exists` in `jepa-rho-recovery/JepaRhoRecovery/CriticalTime.lean:106`) is structurally identical: axiomatize Picard-Lindelöf existence + reachability as a single Path C axiom, document in CompCert convention.
