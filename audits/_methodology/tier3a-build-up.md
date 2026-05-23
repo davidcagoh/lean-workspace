@@ -50,4 +50,4 @@ Then drill into individual theorems for legibility:
 
 ## Caveat — read `session-log.md` before acting
 
-The structural "dead" / "unused" findings are *facts*. Whether to remove them depends on intent (deliberate placeholder for paper-3 work? deprecation-policy artifact? archived `_WRONG` variant?). See top-level README of `wiki/audits/`.
+The structural "dead" / "unused" findings are *facts*. Whether to remove them depends on intent (deliberate placeholder for paper-3 work? deprecation-policy artifact? archived `_WRONG` variant?). See top-level README of `audits/`.

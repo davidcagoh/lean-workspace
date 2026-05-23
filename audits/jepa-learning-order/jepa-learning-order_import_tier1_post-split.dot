@@ -1,0 +1,157 @@
+digraph JEPA_LearningOrder_Import_PostSplit {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.5, ranksep=0.9, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge  [color="#666666", arrowsize=0.7];
+
+  // ─── Foundations ───
+  Lemmas [label="Lemmas.lean\n498 LOC",
+          fillcolor="#cfe2f3", color="#1f4e79", penwidth=4,
+          width=1.0, height=0.7];
+  Basic  [label="Basic.lean\n1 LOC (stub)",
+          fillcolor="#ffffff", color="#999999", style="rounded,filled,dashed",
+          width=0.6, height=0.4, fontsize=9];
+
+  // ─── Orphans ───
+  GronwallIntegral [label="GronwallIntegral.lean\n136 LOC (unused)",
+                    fillcolor="#ffffff", color="#999999",
+                    style="rounded,filled,dashed",
+                    width=0.7, height=0.5, fontsize=10];
+  CounterexampleVerification
+                   [label="CounterexampleVerification\n84 LOC",
+                    fillcolor="#ffffff", color="#999999",
+                    style="rounded,filled,dashed",
+                    width=0.8, height=0.5, fontsize=10];
+
+  // ─── New JEPA sub-modules (session 95 split) ───
+  subgraph cluster_jepa {
+    label="JEPA/  (session 95 split of former 2002-LOC monolith)";
+    fontname="Helvetica";
+    fontsize=11;
+    color="#999999";
+    style="rounded,dashed";
+
+    JEPA_Core         [label="JEPA/Core.lean\n129 LOC",
+                       fillcolor="#cfe2f3", color="#1f4e79", penwidth=3,
+                       width=0.7, height=0.5];
+    JEPA_QuasiStatic  [label="JEPA/QuasiStatic.lean\n245 LOC",
+                       fillcolor="#efefef", color="#666666", penwidth=2,
+                       width=0.9, height=0.5];
+    JEPA_Bernoulli    [label="JEPA/Bernoulli.lean\n310 LOC",
+                       fillcolor="#efefef", color="#666666", penwidth=1.5,
+                       width=0.9, height=0.5];
+    JEPA_DiagAmpODE   [label="JEPA/DiagAmpODE.lean\n278 LOC\n(2 sorries quarantined)",
+                       fillcolor="#efefef", color="#666666", penwidth=1.5,
+                       width=1.0, height=0.6];
+    JEPA_EncoderHelpers[label="JEPA/EncoderHelpers.lean\n606 LOC\n(11-edge bond merge)",
+                       fillcolor="#efefef", color="#666666", penwidth=1.5,
+                       width=1.3, height=0.7];
+    JEPA_OffDiagFinal [label="JEPA/OffDiagFinal.lean\n539 LOC\n(headline JEPA_rho_ordering)",
+                       fillcolor="#fff2cc", color="#996600", penwidth=2,
+                       width=1.3, height=0.8];
+  }
+
+  // ─── Backwards-compat shim ───
+  JEPA_shim [label="JEPA.lean\n20 LOC (re-export shim)",
+             fillcolor="#ffffff", color="#666666",
+             style="rounded,filled,dashed",
+             width=1.0, height=0.5, fontsize=10];
+
+  // ─── Helpers ───
+  OffDiagHelpers       [label="OffDiagHelpers\n37 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=2.5,
+                        width=0.6, height=0.4, fontsize=10];
+  PDLowerHelpers       [label="PDLowerHelpers\n194 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=2,
+                        width=0.7, height=0.5, fontsize=10];
+  LaurentHelpers       [label="LaurentHelpers\n65 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=1.5,
+                        width=0.6, height=0.4, fontsize=10];
+  SaxeAsymptoticHelpers[label="SaxeAsymptoticHelpers\n363 LOC",
+                        fillcolor="#efefef", color="#666666", penwidth=1.5,
+                        width=0.9, height=0.6, fontsize=10];
+
+  // ─── Synthesis ───
+  BootstrapLemmas [label="BootstrapLemmas\n552 LOC",
+                   fillcolor="#fff2cc", color="#996600", penwidth=1.5,
+                   width=1.1, height=0.7];
+  MainTheorem     [label="MainTheorem\n300 LOC",
+                   fillcolor="#fff2cc", color="#996600", penwidth=1,
+                   width=0.8, height=0.6];
+  Corrected       [label="Corrected.lean\n1066 LOC\n(headline, hardened)",
+                   fillcolor="#fff2cc", color="#996600", penwidth=1,
+                   width=1.5, height=0.9];
+
+  // ─── Edges (importer → imported, drawn upward since rankdir=BT) ───
+  // Foundation → Mathlib (Lemmas has no intra-project imports)
+
+  // JEPA sub-modules — internal DAG
+  JEPA_Core            -> Lemmas;
+  JEPA_QuasiStatic     -> Lemmas;
+  JEPA_QuasiStatic     -> JEPA_Core;
+  JEPA_Bernoulli       -> Lemmas;
+  JEPA_Bernoulli       -> JEPA_Core;
+  JEPA_Bernoulli       -> JEPA_QuasiStatic;
+  JEPA_DiagAmpODE      -> Lemmas;
+  JEPA_DiagAmpODE      -> JEPA_Core;
+  JEPA_DiagAmpODE      -> JEPA_QuasiStatic;
+  JEPA_DiagAmpODE      -> JEPA_Bernoulli;
+  JEPA_EncoderHelpers  -> Lemmas;
+  JEPA_EncoderHelpers  -> OffDiagHelpers;
+  JEPA_EncoderHelpers  -> JEPA_Core;
+  JEPA_EncoderHelpers  -> JEPA_QuasiStatic;
+  JEPA_OffDiagFinal    -> Lemmas;
+  JEPA_OffDiagFinal    -> OffDiagHelpers;
+  JEPA_OffDiagFinal    -> JEPA_Core;
+  JEPA_OffDiagFinal    -> JEPA_QuasiStatic;
+  JEPA_OffDiagFinal    -> JEPA_Bernoulli;
+  JEPA_OffDiagFinal    -> JEPA_DiagAmpODE;
+  JEPA_OffDiagFinal    -> JEPA_EncoderHelpers;
+
+  // Shim re-exports
+  JEPA_shim -> JEPA_Core            [style=dashed, color="#bbbbbb"];
+  JEPA_shim -> JEPA_QuasiStatic     [style=dashed, color="#bbbbbb"];
+  JEPA_shim -> JEPA_Bernoulli       [style=dashed, color="#bbbbbb"];
+  JEPA_shim -> JEPA_DiagAmpODE      [style=dashed, color="#bbbbbb"];
+  JEPA_shim -> JEPA_EncoderHelpers  [style=dashed, color="#bbbbbb"];
+  JEPA_shim -> JEPA_OffDiagFinal    [style=dashed, color="#bbbbbb"];
+
+  // External importers (still importing the shim — backwards-compat artifact)
+  OffDiagHelpers       -> Lemmas;
+  PDLowerHelpers       -> Lemmas;
+  PDLowerHelpers       -> JEPA_shim;
+  LaurentHelpers       -> JEPA_shim;
+  SaxeAsymptoticHelpers-> JEPA_shim;
+  BootstrapLemmas      -> Lemmas;
+  BootstrapLemmas      -> OffDiagHelpers;
+  BootstrapLemmas      -> JEPA_shim;
+  BootstrapLemmas      -> PDLowerHelpers;
+  Corrected            -> JEPA_shim;
+  Corrected            -> Lemmas;
+  Corrected            -> SaxeAsymptoticHelpers;
+  MainTheorem          -> Lemmas;
+  MainTheorem          -> OffDiagHelpers;
+  MainTheorem          -> JEPA_shim;
+  MainTheorem          -> PDLowerHelpers;
+  MainTheorem          -> BootstrapLemmas;
+  MainTheorem          -> LaurentHelpers;
+
+  // ───────── Legend ─────────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="4"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Legend (post-split)</B></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">foundation (heavy fan-in)</TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">synthesis (headline / glue)</TD></TR>
+      <TR><TD BGCOLOR="#efefef" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">helper (single-cluster lemmas)</TD></TR>
+      <TR><TD BGCOLOR="#ffffff" WIDTH="22" HEIGHT="14"><FONT POINT-SIZE="10">┄┄</FONT></TD>
+          <TD ALIGN="LEFT">orphan / stub / shim</TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="10">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10"><B>No god-module (red) node.</B><BR/>Largest active file: EncoderHelpers 606 LOC.<BR/>Corrected.lean 1066 LOC stays large<BR/>intentionally (deprecation siblings).</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">node size ∝ LOC<BR/>border thickness ∝ fan-in</FONT></TD></TR>
+    </TABLE>
+  >];
+}

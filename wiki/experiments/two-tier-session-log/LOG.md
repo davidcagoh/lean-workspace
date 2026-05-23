@@ -50,3 +50,7 @@ Only one prior two-tier entry exists (session 94), so this pickup is a degenerat
 The protocol-required initial expansion is arguably noise — it's not a "I needed to know this to do my work" signal, it's "the experiment design told me to expand." Honest signal: **0 organic expansions** this pickup. Strong evidence that the summary-line discipline is working at least for this session's pickup pattern. Need 2 more sessions to confirm.
 
 **Running tally going into session 96:** 1 protocol expansion + 0 organic = 1 total expansion across 1 measured pickup. On track for ≤3-total adopt threshold.
+
+**Extension addendum (2026-05-23, same session 95):** user requested a post-split audit re-run + before/after report. Required reading `audits/jepa-learning-order/README.md` and `wiki/graph-audit-strategy.md` (both flat/non-experimental docs — no `<details>` expansions). Did NOT need to expand session 94's `<details>` again — the summary line still carried sufficient state. Total organic expansions across the extended session 95 work: still **0**. The session-log entry's summary line was extended to include the audit re-run + report work; the body got 3 new bullets. Wrap-time cost: marginally higher (the entry now describes two related but distinct work-streams), but the summary line still compresses cleanly.
+
+If session 96 inherits this pattern (multi-stream session collapsed into one entry), the summary lines may need to grow toward ~2 sentences instead of 1 long clause. Watch for this.

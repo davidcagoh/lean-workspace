@@ -11,6 +11,7 @@ This is the workspace root for all Lean 4 / Aristotle projects. Each subdirector
 ```
 lean-workspace/
 ├── wiki/                        # Workspace-wide state (read this first every session)
+├── audits/                      # Graph-audit artifacts per project (worked examples + reports)
 ├── .lean-packages/              # Shared Mathlib/Lake cache (~7.7 GB) — do not delete
 ├── scripts/                     # Shared scripts
 ├── stochastic-proofs-handbook/  # Cross-project patterns, workflow, repo roles

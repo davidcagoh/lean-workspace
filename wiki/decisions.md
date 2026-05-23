@@ -954,9 +954,9 @@ User picked **Option C** over Options A (leave alone) and B (erratum) because th
 
 **Implication:**
 - `wiki/graph-audit-strategy.md` is the durable home for the audit methodology — when to trigger, what to extract, encoding conventions, reading order, structure-vs-intent caveat. Contains inline shell + Python snippets (the parsing/cluster-counting code) so future runs are 30 minutes of focused work, not hour-plus of re-derivation.
-- `wiki/audits/<project>/` holds the produced artifacts as worked examples + ground-truth references the strategy doc points at.
-- `wiki/audits/_methodology/` holds the per-tier encoding details extracted from the tier-specific READMEs we wrote during development.
+- `audits/<project>/` holds the produced artifacts as worked examples + ground-truth references the strategy doc points at.
+- `audits/_methodology/` holds the per-tier encoding details extracted from the tier-specific READMEs we wrote during development.
 - Threshold for revisiting automation explicitly recorded in the strategy doc: ≥ 10 projects or monthly cadence. Until then, written protocol beats code.
 - Tier 1 + Tier 3b is the *minimum* workflow for editing-pain triage. Tier 3a (per-theorem build-up) is a *separate optional* code-quality pass — catches dead lemmas / unused hypotheses / math-vs-import mismatches, which are distinct from editing pain. Don't conflate the two.
-- Per-project organization (not per-tier) chosen for `wiki/audits/` after producing both — finding everything for one project in one place beats finding all tier-1s together.
+- Per-project organization (not per-tier) chosen for `audits/` after producing both — finding everything for one project in one place beats finding all tier-1s together.
 - General methodological learning for the workspace: at our scale, **automation cost should not be assumed positive** — durable written protocol with inline snippets is often the right shape, matching what `aristotle-strategy.md` does for proof submission.

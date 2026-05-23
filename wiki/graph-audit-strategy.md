@@ -2,7 +2,7 @@
 
 Everything learned about diagnosing file-partition health in our Lean projects. The audit's purpose is **reducing editing pain** on large `.lean` files; secondary uses (catching dead code, unused hypotheses) are a separate optional pass.
 
-Worked examples live in [`wiki/audits/`](audits/). When in doubt, look at the SSB renders — that project's tier 1 graph is the reference shape we aim for.
+Worked examples live in [`audits/`](../audits/). When in doubt, look at the SSB renders — that project's tier 1 graph is the reference shape we aim for.
 
 ---
 
@@ -56,7 +56,7 @@ dot -Tsvg foo.dot -o foo.svg
 dot -Tpng -Gdpi=140 foo.dot -o foo.png
 ```
 
-Stash under `wiki/audits/<project>/<project>_import_tier1.{dot,svg,png}`.
+Stash under `audits/<project>/<project>_import_tier1.{dot,svg,png}`.
 
 ### Tier 1 encoding
 
@@ -71,14 +71,15 @@ Stash under `wiki/audits/<project>/<project>_import_tier1.{dot,svg,png}`.
 | Dashed border | Orphan or stub (verify intent before acting) |
 | Layout | `rankdir=BT`, foundations at top, terminals at bottom, exclude umbrella file |
 
-The legend block we use is at the bottom of each [`tier1` DOT file](audits/stochastic-search-bounds/stochastic-search-bounds_import_tier1.dot) — copy-paste as a template.
+The legend block we use is at the bottom of each [`tier1` DOT file](../audits/stochastic-search-bounds/stochastic-search-bounds_import_tier1.dot) — copy-paste as a template.
 
 ### Tier 1 reading order
 
 1. **Are any nodes red?** That's a god-module. Tier 3b time.
 2. **Are border thicknesses concentrated on one or two nodes?** Those are your fan-in hubs. Editing them invalidates the world — keep them small and stable.
 3. **Any dashed nodes?** Check the session log before acting — orphans are often intentional (staged future work, deprecation siblings).
-4. **What's the depth?** Long chains (≥ 5 levels) cascade rebuilds. SSB has depth 3 (target), JEPA-LO has depth 5.
+4. **What's the depth?** Long chains (≥ 5 levels) cascade rebuilds. SSB has depth 3 (target), JEPA-LO was 5 pre-split, 9 post-split.
+5. **Did a recent split add a re-export shim?** If so, the shim shows as a dashed node with high fan-in — a structural artifact, not a real coupling hub. **Always schedule a follow-up to migrate downstream importers off the shim** to narrowest-needed sub-module imports. Until then, the tier-1 graph overstates coupling. (Lesson from the JEPA.lean split, session 95 — see [`audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md`](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md).)
 
 ---
 
@@ -141,7 +142,7 @@ Then **assign clusters by hand**. Look for:
 
 > **Lesson learned (the hard way):** automated community detection (greedy modularity) is *worse* than judgment-driven clustering at our scale. The algorithm optimizes intra/inter edge ratio without caring about cluster size, topical readability, or split-target LOC. Use the data to inform your judgment; don't outsource the judgment.
 
-Once clusters are assigned, build the [cluster-summary DOT](audits/jepa-learning-order/jepa_cluster_summary.dot) by hand. Edge weights are cross-cluster edge counts (one number per cluster pair) — compute with:
+Once clusters are assigned, build the [cluster-summary DOT](../audits/jepa-learning-order/jepa_cluster_summary.dot) by hand. Edge weights are cross-cluster edge counts (one number per cluster pair) — compute with:
 
 ```python
 # Continuing from the snippet above
@@ -197,9 +198,9 @@ The audit surfaces structural *facts* (god-modules, orphans, fan-in hotspots). W
 
 | Project | Tier 1 | Tier 3a | Tier 3b | Action |
 |---|---|---|---|---|
-| [stochastic-search-bounds](audits/stochastic-search-bounds/) | ✓ Reference shape | ✓ All 4 theorems | n/a (no god-modules) | None needed at file level; tier 3a found 4 dead lemmas + unused hyp + 4 unjustified imports for paper-submission cleanup |
-| [jepa-rho-recovery](audits/jepa-rho-recovery/) | ✓ Intermediate | not run | n/a (largest 798 LOC just under threshold) | None at file level |
-| [jepa-learning-order](audits/jepa-learning-order/) | ⚠ `JEPA.lean` 2002 LOC | not run | ✓ 8-cluster manual partition | **Split `JEPA.lean`** into 6 files per the recommendation; merge FrobeniusHelpers + EncoderConvergence (11-edge bond) |
+| [stochastic-search-bounds](../audits/stochastic-search-bounds/) | ✓ Reference shape | ✓ All 4 theorems | n/a (no god-modules) | None needed at file level; tier 3a found 4 dead lemmas + unused hyp + 4 unjustified imports for paper-submission cleanup |
+| [jepa-rho-recovery](../audits/jepa-rho-recovery/) | ✓ Intermediate | not run | n/a (largest 798 LOC just under threshold) | None at file level |
+| [jepa-learning-order](../audits/jepa-learning-order/) | ⚠ `JEPA.lean` 2002 LOC → ✓ post-split largest 606 LOC | not run | ✓ 8-cluster manual partition | **Split executed session 95** ([report](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md)) — audit predictions held within ~10%; 11-edge bond respected; build green |
 
 ---
 
