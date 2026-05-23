@@ -1,0 +1,122 @@
+digraph Simplicial_ClusterSummary {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.6, ranksep=1.0, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];
+  edge  [color="#666666", arrowsize=0.7];
+
+  // ─── Foundation tier ───
+  Types          [label="Types\n303 LOC, 19 decls",
+                  fillcolor="#cfe2f3", color="#1f4e79", penwidth=4,
+                  width=1.3, height=0.7];
+  MeasureScaffold[label="MeasureScaffold\n464 LOC, 17 decls",
+                  fillcolor="#cfe2f3", color="#1f4e79", penwidth=3,
+                  width=1.4, height=0.8];
+  BetaIncomplete [label="BetaIncomplete\n243 LOC, 13 decls\n(resolves OQ-6 fwd-ref)",
+                  fillcolor="#efefef", color="#666666", penwidth=2,
+                  width=1.4, height=0.8];
+
+  // ─── DeepRegime ───
+  subgraph cluster_deep {
+    label="DeepRegime/  (low-r, original Čech)";
+    fontname="Helvetica"; fontsize=10; color="#999999"; style="rounded,dashed";
+
+    DeepIntegrals [label="DeepIntegrals\n430 LOC, 13 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=2,
+                   width=1.4, height=0.7];
+    DeepCentered  [label="DeepCentered\n536 LOC, 3 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=2,
+                   width=1.4, height=0.7];
+    GeometricCov  [label="GeometricCov\n762 LOC, 8 decls\n(headline closed form)",
+                   fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+                   width=1.5, height=0.85];
+  }
+
+  // ─── MidRegime ───
+  subgraph cluster_mid {
+    label="MidRegime/  (r in (1/3, 1/2], Rips refactor)";
+    fontname="Helvetica"; fontsize=10; color="#999999"; style="rounded,dashed";
+
+    MidScaffold   [label="MidScaffold\n195 LOC, 6 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=1.5,
+                   width=1.3, height=0.6];
+    FreeIntegrals [label="FreeIntegrals\n474 LOC, 16 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=2,
+                   width=1.4, height=0.7];
+    GeomCovFree   [label="GeomCovFree\n156 LOC, 3 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=1.5,
+                   width=1.3, height=0.6];
+  }
+
+  // ─── Independence ───
+  subgraph cluster_indep {
+    label="Independence/  (vertex/edge sharing, indep covariance)";
+    fontname="Helvetica"; fontsize=10; color="#999999"; style="rounded,dashed";
+
+    TriangleIndicators[label="TriangleIndicators\n373 LOC, 7 decls",
+                       fillcolor="#efefef", color="#666666", penwidth=2,
+                       width=1.4, height=0.7];
+    VertexIndep   [label="VertexIndep\n162 LOC, 6 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=1.5,
+                   width=1.3, height=0.6];
+    EdgeSharing   [label="EdgeSharing\n453 LOC, 6 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=2,
+                   width=1.4, height=0.7];
+  }
+
+  // ─── Detection ───
+  subgraph cluster_det {
+    label="Detection/  (Chebyshev + Paley-Zygmund + phase transition)";
+    fontname="Helvetica"; fontsize=10; color="#999999"; style="rounded,dashed";
+
+    SecondMoment  [label="SecondMoment\n293 LOC, 4 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=1.5,
+                   width=1.3, height=0.6];
+    PaleyZygmund  [label="PaleyZygmund\n301 LOC, 3 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=1.5,
+                   width=1.3, height=0.6];
+    Chebyshev     [label="Chebyshev\n189 LOC, 3 decls",
+                   fillcolor="#efefef", color="#666666", penwidth=1.5,
+                   width=1.3, height=0.6];
+    Headline      [label="Headline\n250 LOC, 5 decls\n(phase_transition)",
+                   fillcolor="#fff2cc", color="#996600", penwidth=2,
+                   width=1.4, height=0.7];
+  }
+
+  // ─── Edges (only ≥4 cross-cluster shown; foundation edges suppressed) ───
+  // Bond ≥ 8 (mandatory merge by audit rule)
+  DeepCentered -> DeepIntegrals [penwidth=5, color="#cc0000", label="16 ⚠", fontsize=10, fontcolor="#cc0000"];
+
+  // 4-7 edge couplings (non-foundation)
+  SecondMoment -> GeometricCov  [penwidth=2.5, color="#444444", label="7"];
+  EdgeSharing  -> TriangleIndicators [penwidth=2, color="#444444", label="5"];
+  SecondMoment -> EdgeSharing   [penwidth=2, color="#444444", label="5"];
+  Headline     -> GeometricCov  [penwidth=2, color="#444444", label="5"];
+  GeometricCov -> DeepCentered  [penwidth=1.5, color="#888888", label="4"];
+  TriangleIndicators -> GeometricCov [penwidth=1.5, color="#888888", label="4"];
+  PaleyZygmund -> GeometricCov  [penwidth=1.5, color="#888888", label="4"];
+
+  // Foundation pointers (uniform expected pattern, all ≥ 6 — shown thin/blue)
+  DeepIntegrals      -> Types [style=dashed, color="#7ba6c9"];
+  TriangleIndicators -> Types [style=dashed, color="#7ba6c9"];
+  EdgeSharing        -> Types [style=dashed, color="#7ba6c9"];
+  GeometricCov       -> Types [style=dashed, color="#7ba6c9"];
+  FreeIntegrals      -> Types [style=dashed, color="#7ba6c9"];
+  SecondMoment       -> MeasureScaffold [style=dashed, color="#7ba6c9"];
+
+  // ───────── Legend ─────────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="4"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Cluster summary — SimplicialDetection.lean (5606 LOC)</B></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">foundation</TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">headline-bearing</TD></TR>
+      <TR><TD BGCOLOR="#efefef" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">helper cluster</TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="10">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10"><B>16 candidate sub-files</B> grouped into 4 sub-packages.<BR/><B>1 mandatory merge: DeepCentered+DeepIntegrals (16-edge bond).</B><BR/>All other inter-cluster edges &le; 7, partition-safe.<BR/>Foundation edges (dashed blue) are the expected pattern.</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">edge weight = # cross-cluster math edges (only ≥4 drawn).<BR/>node size ∝ LOC</FONT></TD></TR>
+    </TABLE>
+  >];
+}

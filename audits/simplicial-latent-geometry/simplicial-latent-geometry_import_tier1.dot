@@ -1,0 +1,80 @@
+digraph SimplicialLatentGeometry_Import_Tier1 {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.5, ranksep=0.9, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge  [color="#666666", arrowsize=0.7];
+
+  // ─── Foundation ───
+  Core_Statistic [label="Core/Statistic.lean\n83 LOC",
+                  fillcolor="#cfe2f3", color="#1f4e79", penwidth=3.5,
+                  width=1.0, height=0.6];
+
+  // ─── Core ───
+  Core_Detection [label="Core/Detection.lean\n669 LOC",
+                  fillcolor="#efefef", color="#666666", penwidth=2,
+                  width=1.1, height=0.7];
+
+  // ─── Geometry typeclass + instances ───
+  subgraph cluster_geom {
+    label="Geometry/  (typeclass + per-geometry instances)";
+    fontname="Helvetica"; fontsize=11; color="#999999"; style="rounded,dashed";
+
+    Geometry_Common  [label="Geometry/Common.lean\n177 LOC",
+                      fillcolor="#efefef", color="#666666", penwidth=2.5,
+                      width=1.0, height=0.6];
+    Geometry_Sphere  [label="Geometry/Sphere.lean\n881 LOC ⚠",
+                      fillcolor="#f4cccc", color="#cc0000", penwidth=2,
+                      style="rounded,filled,dashed",
+                      width=1.1, height=0.7];
+    Geometry_TorusLInf[label="Geometry/TorusLInf.lean\n50 LOC",
+                      fillcolor="#ffffff", color="#999999",
+                      style="rounded,filled,dashed",
+                      width=1.0, height=0.55, fontsize=10];
+  }
+
+  // ─── Main file + helpers ───
+  TorusIntegrals [label="TorusIntegrals.lean\n1834 LOC ⚠",
+                  fillcolor="#f4cccc", color="#cc0000", penwidth=2,
+                  width=1.3, height=0.85];
+  DisjointTriangles [label="DisjointTriangles.lean\n73 LOC",
+                  fillcolor="#efefef", color="#666666", penwidth=1.5,
+                  width=0.9, height=0.5];
+
+  // ─── God-module ───
+  SimplicialDetection [label="SimplicialDetection.lean\n5606 LOC ⚠⚠\n132 decls, 530 intra-file edges\n(7× JEPA.lean pre-split)",
+                  fillcolor="#f4cccc", color="#cc0000", penwidth=3,
+                  width=2.0, height=1.1];
+
+  // ─── Edges (importer → imported) ───
+  Core_Detection      -> Core_Statistic;
+  Geometry_Common     -> Core_Statistic;
+  Geometry_Sphere     -> Geometry_Common;
+  Geometry_TorusLInf  -> Geometry_Common;
+
+  SimplicialDetection -> Core_Statistic;
+  SimplicialDetection -> Core_Detection;
+  SimplicialDetection -> DisjointTriangles;
+  SimplicialDetection -> TorusIntegrals;
+
+  // ⚠ Anomalous reverse edge: leaf imports the god-module
+  Geometry_TorusLInf  -> SimplicialDetection [color="#cc0000", penwidth=2, label="anomaly", fontcolor="#cc0000", fontsize=9];
+
+  // ───────── Legend ─────────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="4"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Legend</B></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">foundation (fan-in ≥ 3)</TD></TR>
+      <TR><TD BGCOLOR="#f4cccc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">god-module (LOC ≥ 800)</TD></TR>
+      <TR><TD BGCOLOR="#efefef" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">helper</TD></TR>
+      <TR><TD BGCOLOR="#ffffff" WIDTH="22" HEIGHT="14"><FONT POINT-SIZE="10">┄┄</FONT></TD>
+          <TD ALIGN="LEFT">orphan / leaf (fan-in 0 — verify intent)</TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="10">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10"><B>3 god-modules: SimplicialDetection (5606), TorusIntegrals (1834), Sphere (881).</B><BR/>Depth: 4 (Core/Statistic → Core/Detection → SimplicialDetection → TorusLInf).<BR/>Fan-in concentration: Core/Statistic (3 importers).<BR/>Sphere is a fan-in-0 leaf — Paper-2 work-in-progress per OQ-18.<BR/>TorusLInf 50 LOC importing SimplicialDetection = A5-cycle (known, see OQ-18).</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10">node size ∝ LOC<BR/>border thickness ∝ fan-in</FONT></TD></TR>
+    </TABLE>
+  >];
+}
