@@ -145,3 +145,42 @@ The two methodological gaps surfaced (chain-depth blindness; shim creates false 
 ---
 
 *Artifacts produced this session: post-split tier-1 DOT/SVG/PNG, this report. Pre-split artifacts are preserved unchanged. The Lean refactor (6-file split + shim) committed in [`jepa-learning-order @ 46d6eb8`](https://github.com/davidcagoh/lean-workspace/commit/46d6eb8) (note: separate sub-repo).*
+
+---
+
+## Coda — shim-importer migration (follow-up, same session)
+
+The session-95 split left all 6 external importers (`LaurentHelpers`, `PDLowerHelpers`, `SaxeAsymptoticHelpers`, `BootstrapLemmas`, `MainTheorem`, `Corrected`) still pointing at the `JepaLearningOrder.JEPA` shim — Finding 2 above. Per-importer symbol usage was audited and each migrated to the narrowest-needed sub-module set.
+
+![post-migration tier-1](jepa-learning-order_import_tier1_post-migration.svg)
+
+Source: [`jepa-learning-order_import_tier1_post-migration.dot`](jepa-learning-order_import_tier1_post-migration.dot).
+
+| Importer | Old | New | Wins |
+|---|---|---|---|
+| `LaurentHelpers` | shim | `JEPA.Core` | drops 5 sub-modules from transitive set |
+| `PDLowerHelpers` | shim | `JEPA.Core` | drops 5 sub-modules |
+| `SaxeAsymptoticHelpers` | shim | `JEPA.Bernoulli` | drops 3 sub-modules |
+| `Corrected` | shim | `JEPA.DiagAmpODE` + `JEPA.EncoderHelpers` | drops `OffDiagFinal` (avoids pulling the headline theorem chain into a deprecation-sibling file) |
+| `BootstrapLemmas` | shim | `JEPA.OffDiagFinal` | drops shim indirection only (uses symbols from across the package) |
+| `MainTheorem` | shim | `JEPA.OffDiagFinal` | drops shim indirection only |
+
+**Post-migration metrics:**
+
+| Metric | Post-split | Post-migration | Δ |
+|---|---|---|---|
+| Depth (longest import chain) | 9 | **8** | −1 (shim no longer in any internal chain) |
+| Shim fan-in (internal importers) | 6 | **0** | −6 (umbrella `JepaLearningOrder.lean` is the only remaining importer) |
+| `JEPA/Core` fan-in (revealed) | masked by shim | **6** (was already 5 internally; +1 each from `LaurentHelpers` & `PDLowerHelpers`) | true coupling now visible |
+| Build | 8044 ✓ | **8044 ✓** | no change (no proof bodies touched) |
+
+The shim is now vestigial — kept as a single-file convenience meta-export for the top-level umbrella and any hypothetical external consumer that imports `JepaLearningOrder.JEPA` historically, but no internal code depends on it. Deletion would require removing one line from `JepaLearningOrder.lean` and is a one-line follow-up if a future audit prefers the cleaner picture.
+
+Depth dropped only by 1 (9 → 8) because the internal sub-module DAG has intrinsic depth 6 (`Lemmas → Core → QuasiStatic → Bernoulli → DiagAmpODE → OffDiagFinal`) and the downstream synthesis chain (`OffDiagFinal → BootstrapLemmas → MainTheorem`) adds 2 more. The shim was contributing exactly +1. Pre-split depth was 5 because the entire JEPA monolith collapsed into a single node; the post-split depth of 8 is the price of a flatter, more navigable file structure, and is unavoidable without merging sub-modules back together.
+
+**Strategy-doc updates landing alongside this migration** (`wiki/graph-audit-strategy.md`):
+- Tier-1 reading order item 4: explicit "recompute depth, flag if grew by ≥ 2" instruction with shim-migration as the standard remedy.
+- Structure-vs-intent caveat block: new bullet for counterexample/disproof documentation files (with `CounterexampleVerification.lean` as the worked example).
+- Framework status line: **validated on one real-world refactor**, with this report as the citation.
+
+`CounterexampleVerification.lean` header tagged with `**Intentional orphan**` per the strategy-doc caveat — re-audits should skip it.

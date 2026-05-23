@@ -2,6 +2,8 @@
 
 Everything learned about diagnosing file-partition health in our Lean projects. The audit's purpose is **reducing editing pain** on large `.lean` files; secondary uses (catching dead code, unused hypotheses) are a separate optional pass.
 
+**Status: validated on one real-world refactor** — the `JEPA.lean` 2002-LOC god-module split (session 95, [report](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md)). The 6-file partition was predicted within 10% on every LOC measurable and the ≥ 8-edge merge rule prevented a real partition mistake.
+
 Worked examples live in [`audits/`](../audits/). When in doubt, look at the SSB renders — that project's tier 1 graph is the reference shape we aim for.
 
 ---
@@ -78,7 +80,7 @@ The legend block we use is at the bottom of each [`tier1` DOT file](../audits/st
 1. **Are any nodes red?** That's a god-module. Tier 3b time.
 2. **Are border thicknesses concentrated on one or two nodes?** Those are your fan-in hubs. Editing them invalidates the world — keep them small and stable.
 3. **Any dashed nodes?** Check the session log before acting — orphans are often intentional (staged future work, deprecation siblings).
-4. **What's the depth?** Long chains (≥ 5 levels) cascade rebuilds. SSB has depth 3 (target), JEPA-LO was 5 pre-split, 9 post-split.
+4. **What's the depth?** Long chains (≥ 5 levels) cascade rebuilds. SSB has depth 3 (target), JEPA-LO was 5 pre-split, 9 post-split. **After any god-module split, recompute depth and flag if it grew by ≥ 2 levels** — a shim-based migration almost always deepens the chain, and the fix (importer migration off the shim) belongs in the same audit cycle, not a "someday" backlog.
 5. **Did a recent split add a re-export shim?** If so, the shim shows as a dashed node with high fan-in — a structural artifact, not a real coupling hub. **Always schedule a follow-up to migrate downstream importers off the shim** to narrowest-needed sub-module imports. Until then, the tier-1 graph overstates coupling. (Lesson from the JEPA.lean split, session 95 — see [`audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md`](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md).)
 
 ---
@@ -189,6 +191,7 @@ The audit surfaces structural *facts* (god-modules, orphans, fan-in hotspots). W
 - **Staged future work** (e.g. `Concentration.lean` in rho-recovery — orphan by design, holds an axiom for paper-3).
 - **Deprecation policy** (e.g. `Corrected.lean` in both JEPA projects — over the 800-LOC threshold but intentional: corrected siblings live alongside `@[deprecated]` originals to avoid breaking import chains).
 - **Archived wrong variants** (e.g. `jepa_bernoulli_solution_WRONG` — kept as a teaching artifact, not to be acted on).
+- **Counterexample / disproof documentation** (e.g. `CounterexampleVerification.lean` in jepa-learning-order — orphan by design, documents an RK4 disproof of `saxe_exact_solution_exists`). Tag the file's header comment with `**Intentional orphan** — see <session-ref>` so re-audits don't re-flag.
 
 **Always read `wiki/session-log.md` before acting on a tier-1 or tier-3b finding.** A red node may be a deliberate choice the structural view can't see.
 
