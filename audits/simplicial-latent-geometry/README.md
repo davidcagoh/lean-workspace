@@ -1,6 +1,6 @@
 # simplicial-latent-geometry — graph audit
 
-> Audit date: 2026-05-23 (session 96). Protocol: [`wiki/graph-audit-strategy.md`](../../wiki/graph-audit-strategy.md). Framework status: validated on the JEPA-LO refactor ([report](../jepa-learning-order/REPORT-2026-05-23-jepa-split.md)).
+> Audit date: 2026-05-23 (session 96). Protocol: [`wiki/graph-audit-strategy.md`](../../wiki/graph-audit-strategy.md). Framework status: validated on the JEPA-LO refactor ([report](../REPORT-2026-05-23-jepa-split.md)). Parallel approach-evaluation report for this simplicial split: [`../REPORT-2026-05-23-simplicial-split.md`](../REPORT-2026-05-23-simplicial-split.md) (written after split execution).
 
 ---
 

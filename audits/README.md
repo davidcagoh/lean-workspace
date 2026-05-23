@@ -1,16 +1,26 @@
 # Graph audits
 
-Per-project import-graph and math-graph audit artifacts (the worked examples). For the methodology — when to audit, what commands to run, how to read the output — see [`../graph-audit-strategy.md`](../graph-audit-strategy.md).
+Per-project import-graph and math-graph audit artifacts (the worked examples), plus **approach-evaluation reports** at this root tracking how the methodology performed on each executed refactor. For the methodology itself — when to audit, what commands to run, how to read the output — see [`../wiki/graph-audit-strategy.md`](../wiki/graph-audit-strategy.md).
 
-## Layout
+## Approach-evaluation reports (root level)
 
-Organized **by project**. Each project folder contains all of its audit artifacts (tier 1 imports, tier 3a build-ups, tier 3b god-module zooms — whichever apply).
+These capture **how the audit framework actually performed** on a real refactor: predictions vs. actuals, what the audit caught, what it missed, what the methodology should learn. Kept separate from per-project artifacts so the meta-evaluation arc is readable end-to-end.
+
+| Report | Subject | Outcome |
+|---|---|---|
+| [`REPORT-2026-05-23-jepa-split.md`](REPORT-2026-05-23-jepa-split.md) | `JEPA.lean` 2002 LOC → 6-file split | Predictions ≤10% off; 11-edge bond respected; two methodology gaps fed back into strategy doc (depth blindness, shim false fan-in). Both gaps closed in shim-migration coda. |
+| [`REPORT-2026-05-23-simplicial-split.md`](REPORT-2026-05-23-simplicial-split.md) | `SimplicialDetection.lean` 5606 LOC → 15-file split | Generated session 96; same-report format. |
+
+## Per-project worked examples
+
+Organized **by project**. Each folder holds tier-1 / tier-3a / tier-3b artifacts and a pre-split recommendation README.
 
 | Project | Folder | Status |
 |---|---|---|
 | stochastic-search-bounds | [`stochastic-search-bounds/`](stochastic-search-bounds/) | tier 1 + tier 3a (all four theorems) |
-| jepa-learning-order | [`jepa-learning-order/`](jepa-learning-order/) | tier 1 + tier 3b on `JEPA.lean` |
+| jepa-learning-order | [`jepa-learning-order/`](jepa-learning-order/) | tier 1 + tier 3b on `JEPA.lean` — **split executed** |
 | jepa-rho-recovery | [`jepa-rho-recovery/`](jepa-rho-recovery/) | tier 1 only |
+| simplicial-latent-geometry | [`simplicial-latent-geometry/`](simplicial-latent-geometry/) | tier 1 + tier 3b on `SimplicialDetection.lean` — **split executed (session 96)** |
 
 Methodology docs (what each tier is, how to read it, encoding conventions) live in [`_methodology/`](_methodology/).
 
@@ -44,6 +54,6 @@ This is ~90% scriptable — see `_methodology/` for the parser approach used.
 
 Structural facts (orphans, dead lemmas, unjustified imports) are facts. Whether to act on them depends on intent: staged future work, deprecation policy, archived `_WRONG` variants. **Always read `wiki/session-log.md` before acting on a finding.**
 
-## Why this lives in `wiki/`, not `stochastic-proofs-handbook/`
+## Why `audits/` lives at the workspace root
 
-The handbook is for shared **scripts**; results live in the wiki. When the audit becomes automated (a `graph_audit.py` script in the handbook), it will write results back into these per-project folders.
+Audits are operational artifacts (like `scripts/`), not pedagogical wiki content. Promoted from `wiki/audits/` to workspace-root `audits/` in session 95 once the framework was validated and started accumulating per-refactor reports.

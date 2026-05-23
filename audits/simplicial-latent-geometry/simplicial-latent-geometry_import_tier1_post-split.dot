@@ -1,0 +1,169 @@
+digraph SimplicialLatentGeometry_Import_PostSplit {
+  rankdir=BT;
+  graph [bgcolor="#fafafa", pad=0.5, nodesep=0.4, ranksep=0.8, fontname="Helvetica"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];
+  edge  [color="#666666", arrowsize=0.6];
+
+  // ─── Foundations (pre-existing) ───
+  Core_Statistic [label="Core/Statistic.lean\n83 LOC",
+                  fillcolor="#cfe2f3", color="#1f4e79", penwidth=3.5,
+                  width=0.9, height=0.5];
+  Core_Detection_old [label="Core/Detection.lean\n669 LOC",
+                      fillcolor="#efefef", color="#666666", penwidth=2,
+                      width=1.0, height=0.6];
+  DisjointTriangles  [label="DisjointTriangles\n73 LOC",
+                      fillcolor="#efefef", color="#666666", penwidth=1.5,
+                      width=0.8, height=0.4];
+  TorusIntegrals [label="TorusIntegrals.lean\n1834 LOC ⚠\n(untouched — separate audit target)",
+                  fillcolor="#f4cccc", color="#cc0000", penwidth=2,
+                  width=1.5, height=0.8];
+
+  // ─── New Detection/ subtree ───
+  subgraph cluster_det_core {
+    label="Detection/Core/  (foundation)";
+    fontname="Helvetica"; fontsize=10; color="#1f4e79"; style="rounded,dashed";
+    Det_Core_Types [label="Core/Types\n418 LOC",
+                    fillcolor="#cfe2f3", color="#1f4e79", penwidth=3.5,
+                    width=1.0, height=0.6];
+    Det_Core_Meas  [label="Core/MeasureScaffold\n610 LOC",
+                    fillcolor="#cfe2f3", color="#1f4e79", penwidth=2.5,
+                    width=1.1, height=0.65];
+    Det_Core_Beta  [label="Core/BetaIncomplete\n354 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.6];
+  }
+
+  subgraph cluster_det_deep {
+    label="Detection/DeepRegime/  (low-r Čech)";
+    fontname="Helvetica"; fontsize=10; color="#666666"; style="rounded,dashed";
+    Det_Deep_IM    [label="DeepRegime/IntegralsAndMoments\n720 LOC\n(16-edge bond merge)",
+                    fillcolor="#efefef", color="#666666", penwidth=2,
+                    width=1.4, height=0.75];
+    Det_Deep_GCov  [label="DeepRegime/GeometricCov\n1035 LOC ⚠\n(headline closed form)",
+                    fillcolor="#f4cccc", color="#cc0000", penwidth=2.5,
+                    width=1.5, height=0.85];
+  }
+
+  subgraph cluster_det_mid {
+    label="Detection/MidRegime/  (r∈(1/3,1/2], Rips refactor)";
+    fontname="Helvetica"; fontsize=10; color="#666666"; style="rounded,dashed";
+    Det_Mid_Scaf   [label="MidRegime/Scaffold\n196 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.5];
+    Det_Mid_FI     [label="MidRegime/FreeIntegrals\n518 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=2,
+                    width=1.1, height=0.6];
+    Det_Mid_GCF    [label="MidRegime/GeomCovFree\n160 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.5];
+  }
+
+  subgraph cluster_det_indep {
+    label="Detection/Independence/  (covariance + indep)";
+    fontname="Helvetica"; fontsize=10; color="#666666"; style="rounded,dashed";
+    Det_Ind_TI     [label="TriangleIndicators\n332 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=2,
+                    width=1.1, height=0.6];
+    Det_Ind_VI     [label="VertexIndep\n248 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.5];
+    Det_Ind_ES     [label="EdgeSharing\n461 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=2,
+                    width=1.1, height=0.6];
+  }
+
+  subgraph cluster_det_pt {
+    label="Detection/PhaseTransition/  (detection chain)";
+    fontname="Helvetica"; fontsize=10; color="#996600"; style="rounded,dashed";
+    Det_PT_SM      [label="SecondMoment\n362 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.5];
+    Det_PT_PZ      [label="PaleyZygmund\n264 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.5];
+    Det_PT_Cheb    [label="Chebyshev\n163 LOC",
+                    fillcolor="#efefef", color="#666666", penwidth=1.5,
+                    width=1.0, height=0.5];
+    Det_PT_Head    [label="Headline\n317 LOC\n(phase_transition)",
+                    fillcolor="#fff2cc", color="#996600", penwidth=2.5,
+                    width=1.2, height=0.6];
+  }
+
+  // ─── Geometry (typeclass + instances) ───
+  Geom_Common  [label="Geometry/Common.lean\n177 LOC",
+                fillcolor="#efefef", color="#666666", penwidth=2,
+                width=1.0, height=0.55];
+  Geom_Sphere  [label="Geometry/Sphere.lean\n881 LOC ⚠\n(orphan — Paper-2 WIP)",
+                fillcolor="#f4cccc", color="#cc0000", penwidth=1.5,
+                style="rounded,filled,dashed",
+                width=1.2, height=0.7];
+  Geom_TorusLInf[label="Geometry/TorusLInf.lean\n51 LOC\n(A5 cycle resolved)",
+                fillcolor="#ffffff", color="#666666",
+                style="rounded,filled,dashed",
+                width=1.0, height=0.55, fontsize=10];
+
+  // ─── Vestigial shim ───
+  SD_shim [label="SimplicialDetection.lean\n41 LOC\n(vestigial shim)",
+           fillcolor="#ffffff", color="#999999",
+           style="rounded,filled,dashed",
+           width=1.2, height=0.55, fontsize=10];
+
+  // ─── Edges ───
+  Det_Core_Types -> Core_Statistic;
+  Det_Core_Meas  -> Det_Core_Types;
+  Det_Core_Beta  -> Det_Core_Types;
+
+  Det_Deep_IM    -> Det_Core_Types;
+  Det_Deep_IM    -> Det_Core_Meas;
+  Det_Deep_GCov  -> Det_Deep_IM;
+  Det_Deep_GCov  -> Det_Core_Meas;
+
+  Det_Mid_Scaf   -> Det_Core_Types;
+  Det_Mid_FI     -> Det_Core_Types;
+  Det_Mid_FI     -> Det_Mid_Scaf;
+  Det_Mid_GCF    -> Det_Deep_GCov;
+  Det_Mid_GCF    -> Det_Mid_FI;
+
+  Det_Ind_TI     -> Det_Core_Meas;
+  Det_Ind_VI     -> Det_Ind_TI;
+  Det_Ind_ES     -> Det_Ind_TI;
+  Det_Ind_ES     -> Det_Ind_VI;
+
+  Det_PT_Cheb    -> Det_Deep_GCov;
+  Det_PT_SM      -> Det_Ind_ES;
+  Det_PT_SM      -> Det_Deep_GCov;
+  Det_PT_PZ      -> Det_PT_SM;
+  Det_PT_PZ      -> Det_Ind_ES;
+  Det_PT_Head    -> Det_PT_PZ;
+  Det_PT_Head    -> Det_PT_Cheb;
+  Det_PT_Head    -> Det_Deep_GCov;
+
+  // Geometry
+  Core_Detection_old -> Core_Statistic;
+  Geom_Common  -> Core_Statistic;
+  Geom_Sphere  -> Geom_Common;
+  Geom_TorusLInf -> Geom_Common;
+  // ⚡ A5 cycle resolved: TorusLInf now points at narrowest sub-modules
+  Geom_TorusLInf -> Det_Core_Types  [color="#7ba6c9", label="A5 fix", fontsize=8, fontcolor="#1f4e79"];
+  Geom_TorusLInf -> Det_Deep_GCov   [color="#7ba6c9"];
+
+  // ───────── Legend ─────────
+  legend [shape=plaintext, label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="4"
+           COLOR="#bbbbbb" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Post-split tier-1 (session 96)</B></TD></TR>
+      <TR><TD BGCOLOR="#cfe2f3" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">foundation</TD></TR>
+      <TR><TD BGCOLOR="#fff2cc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">headline</TD></TR>
+      <TR><TD BGCOLOR="#efefef" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">helper</TD></TR>
+      <TR><TD BGCOLOR="#f4cccc" WIDTH="22" HEIGHT="14"></TD>
+          <TD ALIGN="LEFT">over 800 LOC</TD></TR>
+      <TR><TD BGCOLOR="#ffffff" WIDTH="22" HEIGHT="14"><FONT POINT-SIZE="10">┄┄</FONT></TD>
+          <TD ALIGN="LEFT">orphan / leaf / vestigial</TD></TR>
+      <TR><TD COLSPAN="2"><FONT POINT-SIZE="10">────────────</FONT></TD></TR>
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="10"><B>Was: 1 god-module 5606 LOC.<BR/>Now: 15 sub-modules, largest 1035.</B><BR/>3 red files remain: TorusIntegrals (separate audit),<BR/>Sphere (Paper-2 WIP, OK), GeometricCov (new ⚠ —<BR/>cechDoublySigned_triangle_integral 310-LOC decl<BR/>could split further; deferred).<BR/>A5 cycle resolved: TorusLInf → Core/Types + DeepRegime/GeometricCov.<BR/>SimplicialDetection.lean now 41-LOC vestigial shim.</FONT></TD></TR>
+    </TABLE>
+  >];
+}

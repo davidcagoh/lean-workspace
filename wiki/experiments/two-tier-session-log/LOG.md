@@ -17,6 +17,44 @@ Decision rule (from `DESIGN.md`): after 3 sessions, sum the
 
 <!-- Entries below this line; newest at top. Copy from TEMPLATE-entry.md. -->
 
+## Session 96 — 2026-05-23
+
+### At session start (predictions from `<summary>` lines only)
+
+**Methodology gap to flag up front:** I did NOT execute the protocol-required "predict from summary lines only" step at session start. I read INDEX.md + the audit-report path the user pointed me at, then jumped into work. The protocol step was effectively skipped. This is itself a data point: the experiment design requires opt-in discipline that a fresh agent will not naturally perform unless prompted by a hook or a strong CLAUDE.md instruction.
+
+Reconstructing what the prediction *would* have been (from the session 95 `<summary>` line read after the fact):
+
+| Prior session | One-line prediction | Would I have expanded? |
+|---|---|---|
+| 95 | Split + audit re-run — JEPA.lean 2002L → 6 sub-modules; shim preserves 7 importers; build 8038 → 8044 ✓; before/after report with two new findings (depth 5→9, false fan-in hub) fed into strategy doc; audits/ promoted to workspace sibling. | Yes — for the user's specific question on the report findings I needed the named findings + the migration follow-up status. Summary line lists "two new findings" but not which two. |
+
+### During session (expansion tracking)
+
+| Expanded session | Why | Was summary misleading? |
+|---|---|---|
+| 95 | Mid-session, user asked for recap of "what we've been doing these two sessions." Expanded to retrieve specific bullets for the user-facing recap. | No — summary was accurate but not detailed enough for a user-facing prose recap. Expected use case. |
+| 94 | Same recap prompt — same reason. | No. |
+
+### At wrap
+
+- **Expansion count this pickup:** 2 (both during the user-prompted recap, not during the actual work)
+- **Organic expansions during work:** 0 — the SimplicialDetection audit + JEPA shim-migration + strategy-doc updates did not require any `<details>` reading. Tier-1 / tier-3b / strategy-doc work runs off the strategy doc + INDEX, not session history.
+- **Wrap-time cost vs flat format:** equal (writing this entry).
+- **Summary-line behavior observed:** when the user asks "what did we do," the summary line is too compressed and `<details>` *will* get expanded. This is the expected user-facing use case and is fine — the experiment is about whether *I* expand to do *work*, not whether prose recaps are quick.
+
+### Notes
+
+**Methodology fix to propose:** if the experiment requires the session-start prediction step, it needs enforcement — a hook, a CLAUDE.md line, or a session-wrap-time reminder that the *next* agent must run the prediction step. Right now it's documented only in `DESIGN.md` which a fresh agent will not read unprompted. (I only knew the protocol existed because the user asked me to check on the experiment mid-session.)
+
+**Running tally going into session 97:** session 94 = 1 protocol expansion + 0 organic; session 95 = 0 expansions during pickup, 2 expansions during user recap; session 96 = 0 expansions during pickup, 2 expansions during user recap.
+
+Across 3 sessions: **0 organic work-driven expansions, 3 user-recap-driven expansions, 1 protocol expansion**. Per the decision rule that counts total expansions, we're at 6 — in the "tune" band (4-9). But disaggregating: the 0 organic-work expansions are the strongest signal that the summary discipline is sufficient for actual work. The user-recap expansions are out-of-scope for the original design (the experiment was about agent productivity, not user-facing recap quality).
+
+**Recommendation forming:** at session 97, run the protocol prediction step properly and one more pickup. If organic = 0 again, adopt the format and amend the decision rule to exclude user-recap expansions (they measure something different).
+
+---
+
 ## Session 95 — 2026-05-22
 
 ### At session start (predictions from `<summary>` lines only)

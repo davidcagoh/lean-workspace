@@ -2,7 +2,7 @@
 
 Everything learned about diagnosing file-partition health in our Lean projects. The audit's purpose is **reducing editing pain** on large `.lean` files; secondary uses (catching dead code, unused hypotheses) are a separate optional pass.
 
-**Status: validated on one real-world refactor** — the `JEPA.lean` 2002-LOC god-module split (session 95, [report](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md)). The 6-file partition was predicted within 10% on every LOC measurable and the ≥ 8-edge merge rule prevented a real partition mistake.
+**Status: validated on two real-world refactors** — the `JEPA.lean` 2002-LOC split (session 95, [report](../audits/REPORT-2026-05-23-jepa-split.md)) and the `SimplicialDetection.lean` 5606-LOC split (session 96, [report](../audits/REPORT-2026-05-23-simplicial-split.md)). Both pre-registered ≥ 8-edge merge rules held (11-edge and 16-edge bonds respectively); structural cluster identity matched in both cases; LOC predictions held within 10% on JEPA-LO and within ~25% on simplicial (the larger project surfaced a decl-size-blindness bias — see Finding 8 of the simplicial report). **Approach-evaluation reports** live at `audits/REPORT-*.md` (one per executed refactor) so the methodology critique stays separate from the per-project worked-example artifacts.
 
 Worked examples live in [`audits/`](../audits/). When in doubt, look at the SSB renders — that project's tier 1 graph is the reference shape we aim for.
 
@@ -81,7 +81,7 @@ The legend block we use is at the bottom of each [`tier1` DOT file](../audits/st
 2. **Are border thicknesses concentrated on one or two nodes?** Those are your fan-in hubs. Editing them invalidates the world — keep them small and stable.
 3. **Any dashed nodes?** Check the session log before acting — orphans are often intentional (staged future work, deprecation siblings).
 4. **What's the depth?** Long chains (≥ 5 levels) cascade rebuilds. SSB has depth 3 (target), JEPA-LO was 5 pre-split, 9 post-split. **After any god-module split, recompute depth and flag if it grew by ≥ 2 levels** — a shim-based migration almost always deepens the chain, and the fix (importer migration off the shim) belongs in the same audit cycle, not a "someday" backlog.
-5. **Did a recent split add a re-export shim?** If so, the shim shows as a dashed node with high fan-in — a structural artifact, not a real coupling hub. **Always schedule a follow-up to migrate downstream importers off the shim** to narrowest-needed sub-module imports. Until then, the tier-1 graph overstates coupling. (Lesson from the JEPA.lean split, session 95 — see [`audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md`](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md).)
+5. **Did a recent split add a re-export shim?** If so, the shim shows as a dashed node with high fan-in — a structural artifact, not a real coupling hub. **Always schedule a follow-up to migrate downstream importers off the shim** to narrowest-needed sub-module imports. Until then, the tier-1 graph overstates coupling. (Lesson from the JEPA.lean split, session 95 — see [`audits/REPORT-2026-05-23-jepa-split.md`](../audits/REPORT-2026-05-23-jepa-split.md).)
 
 ---
 
@@ -203,7 +203,25 @@ The audit surfaces structural *facts* (god-modules, orphans, fan-in hotspots). W
 |---|---|---|---|---|
 | [stochastic-search-bounds](../audits/stochastic-search-bounds/) | ✓ Reference shape | ✓ All 4 theorems | n/a (no god-modules) | None needed at file level; tier 3a found 4 dead lemmas + unused hyp + 4 unjustified imports for paper-submission cleanup |
 | [jepa-rho-recovery](../audits/jepa-rho-recovery/) | ✓ Intermediate | not run | n/a (largest 798 LOC just under threshold) | None at file level |
-| [jepa-learning-order](../audits/jepa-learning-order/) | ⚠ `JEPA.lean` 2002 LOC → ✓ post-split largest 606 LOC | not run | ✓ 8-cluster manual partition | **Split executed session 95** ([report](../audits/jepa-learning-order/REPORT-2026-05-23-jepa-split.md)) — audit predictions held within ~10%; 11-edge bond respected; build green |
+| [jepa-learning-order](../audits/jepa-learning-order/) | ⚠ `JEPA.lean` 2002 LOC → ✓ post-split largest 606 LOC | not run | ✓ 8-cluster manual partition | **Split executed session 95** ([report](../audits/REPORT-2026-05-23-jepa-split.md)) — audit predictions held within ~10%; 11-edge bond respected; build green |
+| [simplicial-latent-geometry](../audits/simplicial-latent-geometry/) | ⚠ `SimplicialDetection.lean` 5606 LOC → ⚠ post-split largest 1035 LOC (`GeometricCov.lean`) | not run | ✓ 16-cluster → 15-file manual partition | **Split executed session 96** ([report](../audits/REPORT-2026-05-23-simplicial-split.md)) — structural prediction matched; 16-edge bond respected; build green at 8047 jobs; 8 extraction-script gaps surfaced (now in "Extraction-script pitfalls" above) |
+
+---
+
+## Extraction-script pitfalls (catalogued from simplicial split, session 96)
+
+If you're using a Python script to extract decls into multiple files (necessary when clusters are non-contiguous in the source), watch for these. All eight were encountered in the simplicial split; see [`audits/REPORT-2026-05-23-simplicial-split.md`](../audits/REPORT-2026-05-23-simplicial-split.md) Findings 1–8 for the failure modes and surrounding context.
+
+1. **Decl regex must enumerate all keyword combinations.** `private noncomputable def` is a single declaration but requires *four* keywords in sequence; a permissive regex like `^(@\[.*?\]\s+)?(private|protected|noncomputable|opaque)*\s*(theorem|lemma|def|structure|class|abbrev|instance)\s+([A-Za-z_][A-Za-z_0-9'.]*)` catches all combinations. Counter-check: `grep -c` for declaration keywords should match parser count.
+2. **Apostrophe-ending identifiers need `(?<![A-Za-z0-9_'])foo'(?![A-Za-z0-9_'])`, not `\bfoo'\b`.** Python's `\w` excludes `'`; a word boundary requires a *transition*, but `'` and the following space are both non-word, so no boundary fires. This silently misses every dependency on a primed lemma.
+3. **`private` blocks cross-file references.** Decls originally private as file-internal helpers must be re-exported (drop the modifier) when extracted to a different file. Plan-time: count `private` decls in the god-module; if ≥ 5 cross-cluster references exist, budget for a visibility-mode change.
+4. **Strip comments before dependency analysis.** Doc comments routinely reference symbols defined later in the file. Naive edge detection then creates false back-edges from Foundation → Headline clusters, producing immediate build cycles. The strip pass must handle `/-…-/`, `/--…-/`, and `--` comments correctly.
+5. **`open X in <decl>` and `set_option X in <decl>` belong to the FOLLOWING decl.** The extractor's "scan backwards through doc comments to find effective start" pass must also rewind past these one-shot directives, attaching them to the next declaration. Otherwise the previous cluster ends with a dangling `open ... in` and the next decl loses the open it needs.
+6. **Do NOT add a fresh `namespace SimplicialLatentGeometry` wrapper if the original file had none.** Wrapping changes the qualified name of every decl; `unfold CechSample.hasFill` becomes `unfold SimplicialLatentGeometry.CechSample.hasFill` and proof tactics that rely on name resolution break.
+7. **File-level `open Classical` can change decidability inference and break downstream `decide`/`simp +decide` tactics.** If the original used per-decl `open Classical in`, preserve that pattern (via the Finding-5 effective-start fix) rather than promoting Classical to file scope.
+8. **Cluster-LOC predictions weighted by decl count miss single-large-decl files.** Compute predicted file size as `sum(hi - lo + 1 for each decl in cluster)`, not `decl_count × average`. Sub-divide any cluster where a single decl exceeds 25% of the cluster's predicted LOC.
+
+If you're about to attempt a third god-module split, consider promoting the inline script to `stochastic-proofs-handbook/scripts/split_god_module.py` with all eight fixes pre-applied. The accumulated debugging cost has crossed the breakeven point for script maintenance.
 
 ---
 

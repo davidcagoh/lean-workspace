@@ -19,9 +19,9 @@ We ran the full pipeline against `jepa-learning-order` in session 93, produced a
 
 ## Before: tier-1 snapshot (session 93)
 
-![pre-split tier-1](jepa-learning-order_import_tier1.svg)
+![pre-split tier-1](jepa-learning-order/jepa-learning-order_import_tier1.svg)
 
-Source: [`jepa-learning-order_import_tier1.dot`](jepa-learning-order_import_tier1.dot).
+Source: [`jepa-learning-order/jepa-learning-order_import_tier1.dot`](jepa-learning-order/jepa-learning-order_import_tier1.dot).
 
 | Metric | Value |
 |---|---|
@@ -36,7 +36,7 @@ The red node — `JEPA.lean` at 2002 LOC, 5× the 400-line "comfortable file" th
 
 ### Tier-3b zoom on the god-module (session 93)
 
-![pre-split cluster summary](jepa_cluster_summary.svg)
+![pre-split cluster summary](jepa-learning-order/jepa_cluster_summary.svg)
 
 After the Python decl-extraction pass: **52 declarations, 112 intra-file edges**. Manual clustering produced 8 candidate clusters, of which two pairs were flagged as merge candidates by the ≥ 8-edge rule:
 
@@ -49,9 +49,9 @@ Resulting 6-cluster recommendation: `Core` / `QuasiStatic` / `Bernoulli` (merged
 
 ## After: tier-1 snapshot (session 95)
 
-![post-split tier-1](jepa-learning-order_import_tier1_post-split.svg)
+![post-split tier-1](jepa-learning-order/jepa-learning-order_import_tier1_post-split.svg)
 
-Source: [`jepa-learning-order_import_tier1_post-split.dot`](jepa-learning-order_import_tier1_post-split.dot).
+Source: [`jepa-learning-order/jepa-learning-order_import_tier1_post-split.dot`](jepa-learning-order/jepa-learning-order_import_tier1_post-split.dot).
 
 | Metric | Value | Δ |
 |---|---|---|
@@ -152,9 +152,9 @@ The two methodological gaps surfaced (chain-depth blindness; shim creates false 
 
 The session-95 split left all 6 external importers (`LaurentHelpers`, `PDLowerHelpers`, `SaxeAsymptoticHelpers`, `BootstrapLemmas`, `MainTheorem`, `Corrected`) still pointing at the `JepaLearningOrder.JEPA` shim — Finding 2 above. Per-importer symbol usage was audited and each migrated to the narrowest-needed sub-module set.
 
-![post-migration tier-1](jepa-learning-order_import_tier1_post-migration.svg)
+![post-migration tier-1](jepa-learning-order/jepa-learning-order_import_tier1_post-migration.svg)
 
-Source: [`jepa-learning-order_import_tier1_post-migration.dot`](jepa-learning-order_import_tier1_post-migration.dot).
+Source: [`jepa-learning-order/jepa-learning-order_import_tier1_post-migration.dot`](jepa-learning-order/jepa-learning-order_import_tier1_post-migration.dot).
 
 | Importer | Old | New | Wins |
 |---|---|---|---|

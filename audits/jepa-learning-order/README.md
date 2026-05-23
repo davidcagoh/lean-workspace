@@ -1,6 +1,6 @@
 # jepa-learning-order audits
 
-The project that motivated the audit framework. `JEPA.lean` was 2002 LOC; **the recommended 6-file split was executed in session 95** — see [`REPORT-2026-05-23-jepa-split.md`](REPORT-2026-05-23-jepa-split.md) for the before/after analysis and audit-prediction accuracy.
+The project that motivated the audit framework. `JEPA.lean` was 2002 LOC; **the recommended 6-file split was executed in session 95** — see [`../REPORT-2026-05-23-jepa-split.md`](../REPORT-2026-05-23-jepa-split.md) for the before/after analysis, audit-prediction accuracy, and shim-importer migration coda. (Approach-evaluation reports live one level up at `audits/REPORT-*.md`.)
 
 **Quick status:** largest active file now 606 LOC (was 2002); audit-predicted LOC matched actual within ~10% across all 6 sub-modules; the audit-surfaced 11-edge bond between FrobeniusHelpers and EncoderConvergence was respected; build green at 8044 jobs (was 8038); sorry inventory unchanged.
 
