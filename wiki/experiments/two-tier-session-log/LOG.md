@@ -17,6 +17,42 @@ Decision rule (from `DESIGN.md`): after 3 sessions, sum the
 
 <!-- Entries below this line; newest at top. Copy from TEMPLATE-entry.md. -->
 
+## Session 97 — 2026-05-23
+
+### At session start (predictions from `<summary>` lines only)
+
+Did execute the protocol step this time — user opened with "check wiki whats next." Read INDEX.md status + Next Priorities + session-log.md top entry's summary line only. Did NOT expand session 96's `<details>` block at start.
+
+| Prior session | One-line prediction | "I'll expand if…" |
+|---|---|---|
+| 96 | Simplicial split (5606L→15 files) + parallel JEPA shim-migration; build 8029→8047 ✓; framework validated on 2 refactors; report at audits/ root. | Only if the user asks "how exactly did the split go" or "what were the 8 extraction-script findings." |
+| 95 | JEPA.lean split 2002L→6 sub-modules; before/after report at audits/jepa-learning-order/; depth 5→9 finding + shim fan-in finding fed into strategy doc. | Only if I need exact bond-edge counts or the specific 11-edge merge constraint. |
+
+### During session (expansion tracking)
+
+| Expanded session | Why | Was summary misleading? |
+|---|---|---|
+| — | No expansions. The OQ-6 cleanup + sub-tier-3b on `GeometricCov.lean` was entirely current-state work — driven by INDEX.md "Next Priorities" + reading the actual Lean source. Session 96's narrative was not load-bearing. | N/A |
+
+User mid-session asked me to double-check the "~14 active sorries from Rips refactor" claim. This required reading INDEX.md status row + grepping the source — NOT expanding any `<details>` block. Counted as zero expansions.
+
+### At wrap
+
+- **Expansion count this pickup:** 0 organic, 0 user-recap
+- **Wrap-time cost vs flat format:** equal
+- **Predictive accuracy:** the two summary lines I read carried enough state to skip expansion. N/A on % match since no expansion occurred to compare against.
+- **Summary-line quality this session (post-write):** the session-97 work is small + self-contained (one cleanup + one sub-split), summary compresses cleanly to one sentence. Will note for future: multi-stream sessions (like 95, 96) generate harder-to-compress summaries; single-stream sessions like 97 are easier.
+
+### Notes
+
+**Running tally going into session 98:** sessions 94/95/96/97 = 1+2+2+0 = 5 expansions across 4 measured pickups. The 4 user-recap expansions (sessions 94, 95, 96) dominate. Organic-only count: **1 expansion across 4 sessions**. Per the rolling decision rule, organic-only is well under the 0–3 adopt threshold.
+
+**INDEX-staleness finding (session-97-specific, not experiment-specific):** the INDEX status row's "~14 (Rips refactor)" sorry count was 0 in reality — stale since sessions 62/64/66/68/69 closed the Rips stubs progressively without anyone refreshing the row. This is an INDEX hygiene issue, not a session-log format issue. The two-tier format would not have caught it; only an automated sorry-count check would.
+
+**Recommendation update:** at session 98 (or once 5 organic-zero sessions accumulate), commit to adopting two-tier format permanently. Current data: organic expansions = 0/0/0 across sessions 95-97. The session 94 single-expansion was a protocol expansion (the experiment design itself required it). User-recap expansions are an expected use case and don't count against adopt.
+
+---
+
 ## Session 96 — 2026-05-23
 
 ### At session start (predictions from `<summary>` lines only)
