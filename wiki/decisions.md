@@ -980,3 +980,16 @@ User picked **Option C** over Options A (leave alone) and B (erratum) because th
 - Tier 1 + Tier 3b is the *minimum* workflow for editing-pain triage. Tier 3a (per-theorem build-up) is a *separate optional* code-quality pass — catches dead lemmas / unused hypotheses / math-vs-import mismatches, which are distinct from editing pain. Don't conflate the two.
 - Per-project organization (not per-tier) chosen for `audits/` after producing both — finding everything for one project in one place beats finding all tier-1s together.
 - General methodological learning for the workspace: at our scale, **automation cost should not be assumed positive** — durable written protocol with inline snippets is often the right shape, matching what `aristotle-strategy.md` does for proof submission.
+
+---
+
+## Reimagine paper-1 in place rather than apologize for it in paper-2
+**Decision date:** 2026-05-23 (session 98)
+**Why:** Paper-2's draft was carrying 4 explicit apologetic remarks for paper-1's σ-convention bug (Remark 1.2 ODE-form correction, Remark 3.2 vacuous quasi-static comparison, Remark 6.2 obstruction-framing comparison, Experiment 1 "pit vs paper-1" framing) plus an App. A axiom inventory that catalogued 4 axioms supporting deprecated paper-1 chains. User flagged this as gratuitous since paper-1 isn't frozen (still awaiting cs.LG endorsement); the right move is to fix paper-1 in place under Saxe form natively, then write paper-2 in the corrected world. Strategy doc at `wiki/reimagine-2026-05.md` lays out the 5-phase plan; Phase 0 audit at `audits/jepa-learning-order/REPORT-saxe-reimagine-2026-05.md` discovered that the Saxe-form math closure was already in the tree as `Corrected.lean`, compressing the reimagine from 8-12 sessions to 5-7.
+
+**Implication:**
+- Paper-1's `Corrected.lean` content moved into `JepaLearningOrder/JEPA/Saxe.lean` with `_corrected` suffix stripped; inverted-form chain deleted entirely (`MainTheorem.lean`, `LaurentHelpers.lean`, DiagAmpODE deprecated trio, Bernoulli inverted-form chain).
+- Paper-1 `paper.tex` abstract + §6 rewritten under Saxe form natively. Ordering hypothesis is now `μ_r ≥ μ_s` (not `λ_r ≥ λ_s`), threshold is `p·ρ^(1/L)` (not `p·ρ^L`), hitting-time asymptotic is single-pole `τ ~ ε^(-(L-1)/L) / (μρ(L-1))` (not a 2L-1-term Laurent series). Named axioms: 2 → 1.
+- Paper-2 `paper.tex` cleaned: 3 apologetic remarks dropped, Experiment 1 restructured as a Saxe-form sanity check, App. A axiom inventory rewritten 5 → 2.
+- Paper-2 Lean state is the one open follow-up (Phase 3′-B): the API wrappers `sign_identification_*_forward` still consume inverted-form signatures; re-deriving under Saxe form requires per-callsite refactor and was attempted + rolled back in session 98 (broke build). Estimated 1-2 sessions.
+- General principle: don't bend new work around old work that hasn't shipped. If a precursor paper is still mutable, fix it instead of apologizing for it. The apology framing accumulates technical debt — every future paper inherits the same defensive remarks unless the root cause is fixed.
